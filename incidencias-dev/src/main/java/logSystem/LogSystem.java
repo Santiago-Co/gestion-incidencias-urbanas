@@ -1,3 +1,5 @@
+package logSystem; 
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -60,8 +62,8 @@ public class LogSystem {
 
         String mensajeDecorado = String.format("METODO: %-20s | ACCION: %-10s | DETALLE: %s", 
                                                 nombreMetodo + "()", 
-                                                accion.toUpperCase(), 
-                                                detalle);
+                                                action.toUpperCase(), 
+                                                detail);
         logger.info(mensajeDecorado);
     }
 }
