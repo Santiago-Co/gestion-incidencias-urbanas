@@ -52,7 +52,6 @@ public class LogSystem {
      * It is automatically converted to uppercase for consistency.
      * @param detail A descriptive message explaining the context or specific data of the event.
      */
-    public static void flujo(String action, String detail)
     public static void logFlow(String action, String detail) {
         String nombreMetodo = StackWalker.getInstance()
                 .walk(frames -> frames.skip(1).findFirst())
