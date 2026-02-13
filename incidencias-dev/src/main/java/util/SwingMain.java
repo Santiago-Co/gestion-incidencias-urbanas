@@ -2,10 +2,11 @@ package util;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
-/*
-DESCOMENTAR AL ANIADIR LA FUNCIONALIDAD A PROBAR
+import incidencias.ui.TestLoginView;
+import incidencias.controller.TestLoginController;
+import incidencias.model.TestLoginModel;
+
 import javax.swing.BoxLayout;
-*/
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -20,32 +21,23 @@ public class SwingMain {
 
 	private JFrame frame;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() { //NOSONAR codigo autogenerado
+		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					SwingMain window = new SwingMain();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace(); //NOSONAR codigo autogenerado
+					e.printStackTrace();
 				}
 			}
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
 	public SwingMain() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frame = new JFrame();
 		frame.setTitle("Main");
@@ -53,33 +45,30 @@ public class SwingMain {
 		frame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		
 		
-		/************************ DECOMENTAR AL ANIADIR LA FUNCIONALIDAD A PROBAR ******************************
-
-		JButton btnEjecutarTkrun = new JButton("Ejecutar <nombre funcionalidad>");
-		btnEjecutarTkrun.addActionListener(new ActionListener() { //NOSONAR codigo autogenerado
+		JButton btnEjecutarConsultaIncidencias = new JButton("Ejecutar ConsultaIncidencias");
+		btnEjecutarConsultaIncidencias.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CarrerasController controller=new CarrerasController(new CarrerasModel(), new CarrerasView());
+				TestLoginController controller=new TestLoginController(new TestLoginView(), new TestLoginModel());
 				controller.initController();
 			}
 		});
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
-		frame.getContentPane().add(btnEjecutarTkrun);
-		*/
+		frame.getContentPane().add(btnEjecutarConsultaIncidencias);
 			
 		JButton btnInicializarBaseDeDatos = new JButton("Inicializar Base de Datos en Blanco");
-		btnInicializarBaseDeDatos.addActionListener(new ActionListener() { //NOSONAR codigo autogenerado
+		btnInicializarBaseDeDatos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Database db=new Database();
-				db.createDatabase(false);
+				db.createDatabase(true);
 			}
 		});
 		frame.getContentPane().add(btnInicializarBaseDeDatos);
 			
 		JButton btnCargarDatosIniciales = new JButton("Cargar Datos Iniciales para Pruebas");
-		btnCargarDatosIniciales.addActionListener(new ActionListener() { //NOSONAR codigo autogenerado
+		btnCargarDatosIniciales.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Database db=new Database();
-				db.createDatabase(false);
+				db.createDatabase(true);
 				db.loadDatabase();
 			}
 		});

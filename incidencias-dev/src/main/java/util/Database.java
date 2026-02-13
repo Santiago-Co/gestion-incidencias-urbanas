@@ -12,8 +12,8 @@ import org.apache.commons.dbutils.DbUtils;
 public class Database extends DbUtil {
 	//Localizacion de ficheros de configuracion y carga de bases de datos
 	private static final String APP_PROPERTIES = "src/main/resources/application.properties";
-	private static final String SQL_SCHEMA = "src/main/resources/schema.sql";
-	private static final String SQL_LOAD = "src/main/resources/data.sql";
+	private static final String SQL_SCHEMA = "src/main/resources/schemaConsultaIncidencias.sql";
+	private static final String SQL_LOAD = "src/main/resources/dataConsultaIncidencias.sql";
 	//parametros de la base de datos leidos de application.properties (base de datos local sin usuario/password)
 	private String driver;
 	private String url;
@@ -24,6 +24,7 @@ public class Database extends DbUtil {
 	 */
 	public Database() {
 		Properties prop = new Properties();
+		LogSystem.logFlow("CONFIG", "Cargando propiedades desde: " + APP_PROPERTIES);
 		try (FileInputStream fs = new FileInputStream(APP_PROPERTIES)) {
 			prop.load(fs);
 		} catch (IOException e) {
@@ -33,6 +34,7 @@ public class Database extends DbUtil {
 		url = prop.getProperty("datasource.url");
 		if (driver == null || url == null)
 			throw new ApplicationException("Configuracion de driver y/o url no encontrada en application.properties");
+		LogSystem.logFlow("DRIVER", "Cargando driver JDBC: " + driver);
 		DbUtils.loadDriver(driver);
 	}
 
@@ -48,6 +50,7 @@ public class Database extends DbUtil {
 		// actua como singleton si onlyOnce=true: solo la primera vez que se instancia 
 		// para mejorar rendimiento en pruebas
 		if (!databaseCreated || !onlyOnce) {
+			LogSystem.logFlow("CREATION", "Creando estructura de BD desde: " + SQL_SCHEMA);
 			executeScript(SQL_SCHEMA);
 			databaseCreated = true; // NOSONAR
 		}
@@ -58,6 +61,7 @@ public class Database extends DbUtil {
 	 * (si onlyOnce=true solo ejecutara el script la primera vez
 	 */
 	public void loadDatabase() {
+		LogSystem.logFlow("LOADING", "Insertando datos iniciales desde: " + SQL_LOAD);
 		executeScript(SQL_LOAD);
 	}
 	

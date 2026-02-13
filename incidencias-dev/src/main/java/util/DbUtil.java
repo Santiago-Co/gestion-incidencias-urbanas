@@ -44,6 +44,7 @@ public abstract class DbUtil {
 	 * Utiliza apache commons-dbutils para realizar el mapeo y el manejo del resto de aspectos de jdbc
 	 */
 	public <T> List<T> executeQueryPojo(Class<T> pojoClass, String sql, Object... params) {
+		LogSystem.logFlow("CONNECT", "Abriendo conexión a: " + getUrl());
 		Connection conn = null;
 		try {
 			conn = this.getConnection();
@@ -115,6 +116,7 @@ public abstract class DbUtil {
 	 *   y se ignoran los fallos en caso de que no exista la tabla (solo para drop)
 	 */
 	public void executeScript(String fileName) {
+		LogSystem.logFlow("SCRIPT", "Leyendo fichero SQL: " + fileName);
 		List<String> lines;
 		try {
 			lines = Files.readAllLines(Paths.get(fileName));

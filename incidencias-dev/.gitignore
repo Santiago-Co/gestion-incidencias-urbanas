@@ -3,3 +3,5 @@ target
 #sqlite databases
 *.db 
 
+/LogSystem.log
+/LogSystem.log.1
