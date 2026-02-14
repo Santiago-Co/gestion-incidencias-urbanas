@@ -5,7 +5,6 @@ import javax.swing.JFrame;
 import incidencias.ui.TestLoginView;
 import incidencias.controller.TestLoginController;
 import incidencias.model.TestLoginModel;
-
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -68,7 +67,7 @@ public class SwingMain {
 		btnCargarDatosIniciales.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Database db=new Database();
-				db.createDatabase(true);
+				db.createDatabase(false);
 				db.loadDatabase();
 			}
 		});

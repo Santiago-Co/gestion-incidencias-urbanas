@@ -1,6 +1,7 @@
 package incidencias.controller;
 
 import incidencias.model.UsuarioDTO;
+import incidencias.model.ConsultaIncidenciasModel;
 import incidencias.model.TestLoginModel;
 import util.LogSystem;
 import util.SwingUtil;
@@ -32,7 +33,7 @@ public class TestLoginController {
         
         UsuarioDTO usuario = loginModel.validarUsuario(id);
         
-        LogSystem.logFlow("LOGIN_SUCCESS", "Usuario identificado correctamente");
+        LogSystem.logFlow("LOGIN_SUCCESS", "Usuario identificado con id: " + usuario.getId());
         
         this.abrirConsultaIncidencias(usuario.getId());
         
@@ -42,11 +43,7 @@ public class TestLoginController {
     	
         loginView.dispose(); 
         ConsultaIncidenciasView appView = new ConsultaIncidenciasView();
-        /*
-        IncidenciaModel nextModel = new IncidenciaModel();
-        new IncidenciasController(nextView, nextModel, usuarioId);
-        */
-        appView.setVisible(true);
-        
+        ConsultaIncidenciasModel appModel = new ConsultaIncidenciasModel();
+        new ConsultaIncidenciasController(appView, appModel, usuarioId).initController();;
     }
 }
