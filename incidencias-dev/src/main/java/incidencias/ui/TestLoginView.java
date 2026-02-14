@@ -1,115 +1,177 @@
 package incidencias.ui;
 
 import javax.swing.*;
+import util.LogSystem;
 import java.awt.*;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.RoundRectangle2D;
 
-public class TestLoginView extends javax.swing.JFrame {
+
+public class TestLoginView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
-	private JLabel cambioCorreoL;
-	private JLabel correoL;
-	private JLabel contraseniaL;
-	private JTextField registrarDNITF;
-    private JTextField registrarCorreoTF;
-    private JTextField registrarContraseniaTF;
-    private JButton confirmarB;
-	
+	public static final String PLACEHOLDER_TEXT = "Pon aquí tu DNI o correo";
+    private static final Color PRIMARY_COLOR = new Color(79, 70, 229); 
+    private static final Color BG_COLOR = new Color(249, 250, 251); 
+
+    
+    private JTextField txtIdentificador;
+    private JButton btnIdentificar;
+    private JButton btnClose;
+
     public TestLoginView() {
+        setUndecorated(true);
         initComponents();
+        setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20));
+        setLocationRelativeTo(null);
     }
-                        
+
     private void initComponents() {
     	
+        JPanel mainPanel = new JPanel();
+        txtIdentificador = new JTextField();
+        btnIdentificar = new JButton();
+        btnClose = new JButton("x");
+
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    	
-        final JLabel tituloL = new JLabel("Debe registrarse para acceder al sistema");
-        tituloL.setFont(new Font("Segoe UI", 0, 20));
+        setBackground(BG_COLOR);
+
+        mainPanel.setBackground(Color.WHITE);
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 40, 30, 40));
+        mainPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+
         
-        final JLabel infoL = new JLabel("Indique su DNI o su email para identificarse");
-        infoL.setFont(new Font("Segoe UI", 0, 14));
+        final JLabel lblTitle = new JLabel("Bienvenido");
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        lblTitle.setForeground(new Color(31, 41, 55));
+        gbc.gridx = 0; gbc.gridy = 0;
+        gbc.insets = new Insets(0, 0, 10, 0);
+        mainPanel.add(lblTitle, gbc);
+
         
-        cambioCorreoL = new JLabel("Registrarme con mi email");
-        cambioCorreoL.setFont(new Font("Segoe UI", 0, 10));
-        cambioCorreoL.setForeground(Color.BLUE);
+        final JLabel lblInstruccion = new JLabel("Debe identificarse para acceder al sistema");
+        lblInstruccion.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        lblInstruccion.setForeground(new Color(107, 114, 128));
+        gbc.gridy = 1;
+        gbc.insets = new Insets(0, 0, 30, 0);
+        mainPanel.add(lblInstruccion, gbc);
+
         
-        correoL = new JLabel("Email:");
-        correoL.setFont(new Font("Segoe UI", 0, 14));
-        correoL.setVisible(false);
+        txtIdentificador.setText(PLACEHOLDER_TEXT);
+        styleTextFieldIdentificador(txtIdentificador);
+        gbc.gridy = 2;
+        gbc.insets = new Insets(0, 0, 20, 0);
+        mainPanel.add(txtIdentificador, gbc);
+
+
+        btnIdentificar.setText("Acceder al Sistema");
+        stylePrimaryButton(btnIdentificar);
+        gbc.gridy = 3;
+        mainPanel.add(btnIdentificar, gbc);
+
         
-        contraseniaL = new JLabel("Contraseña:");
-        contraseniaL.setFont(new Font("Segoe UI", 0, 14));
-        contraseniaL.setVisible(false);
-        
-        registrarDNITF = new JTextField("Introduzca su DNI");
-        registrarDNITF.setForeground(Color.GRAY);
-                
-        registrarCorreoTF = new JTextField();
-        registrarCorreoTF.setVisible(false);
-        
-        registrarContraseniaTF = new JTextField();
-        registrarContraseniaTF.setVisible(false);
-        
-        confirmarB = new JButton("Registrarse");
-                
-        GroupLayout layout = new GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(tituloL, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(registrarDNITF)
-                        .addComponent(correoL)
-                        .addComponent(registrarCorreoTF)
-                        .addComponent(contraseniaL)
-                        .addComponent(registrarContraseniaTF)
-                        .addComponent(infoL, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cambioCorreoL)
-                        .addComponent(confirmarB, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    )
-                    .addContainerGap()
-                )
-        );
-        layout.setVerticalGroup(
-        	layout.createParallelGroup(Alignment.LEADING)
-        		.addGroup(layout.createSequentialGroup()
-        			.addContainerGap()
-        			.addComponent(tituloL)
-        			.addGap(18)
-        			.addComponent(infoL)
-        			.addPreferredGap(ComponentPlacement.UNRELATED)
-        			.addComponent(registrarDNITF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-        			.addPreferredGap(ComponentPlacement.RELATED)
-        			.addComponent(cambioCorreoL)
-        			.addGap(18)
-        			.addComponent(correoL, GroupLayout.PREFERRED_SIZE, 12, GroupLayout.PREFERRED_SIZE)
-        			.addPreferredGap(ComponentPlacement.RELATED)
-        			.addComponent(registrarCorreoTF, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
-        			.addPreferredGap(ComponentPlacement.UNRELATED)
-        			.addComponent(contraseniaL)
-        			.addPreferredGap(ComponentPlacement.RELATED)
-        			.addComponent(registrarContraseniaTF, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
-        			.addGap(18)
-        			.addComponent(confirmarB)
-        			.addGap(20))
-        );
-        getContentPane().setLayout(layout);
+        styleCloseButton(btnClose);
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        topPanel.setBackground(Color.WHITE);
+        topPanel.add(btnClose);
+
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(topPanel, BorderLayout.NORTH);
+        getContentPane().add(mainPanel, BorderLayout.CENTER);
+
         pack();
     }
+
     
-    public JLabel getCambioCorreoL() {return this.cambioCorreoL;}
-    public JLabel getCorreoL() {return this.correoL;}
-    public JLabel getContraseniaL() {return this.contraseniaL;}
-    public JTextField getRegistrarDNITF() {return this.registrarDNITF;}
-    public String getDNI() {return this.registrarDNITF.getText();}
-    public JTextField getRegistrarCorreoTF() {return this.registrarCorreoTF;}
-    public String getCorreo() {return this.registrarCorreoTF.getText();}
-    public JTextField getRegistrarContraseniaTF() {return this.registrarContraseniaTF;}
-    public String getContrasenia() {return this.registrarContraseniaTF.getText();}
-    public JButton getBotonConfirmar() {return this.confirmarB;}
+    private void styleTextFieldIdentificador(JTextField tf) {
+    	
+        tf.setForeground(Color.GRAY);
+        tf.setPreferredSize(new Dimension(300, 45));
+        tf.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        tf.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(209, 213, 219), 1),
+            BorderFactory.createEmptyBorder(5, 15, 5, 15)));
+
+        tf.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (tf.getText().equals(PLACEHOLDER_TEXT)) {
+                    tf.setText("");
+                    tf.setForeground(Color.BLACK);
+                    tf.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(PRIMARY_COLOR, 2),
+                        BorderFactory.createEmptyBorder(4, 14, 4, 14)));
+                }
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (tf.getText().isEmpty()) {
+                    tf.setText(PLACEHOLDER_TEXT);
+                    tf.setForeground(Color.GRAY);
+                    tf.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(new Color(209, 213, 219), 1),
+                        BorderFactory.createEmptyBorder(5, 15, 5, 15)));
+                }
+            }
+        });
+    }
+
+    private void stylePrimaryButton(JButton btn) {
+    	
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btn.setBackground(PRIMARY_COLOR);
+        btn.setForeground(Color.WHITE);
+        btn.setFocusPainted(false);
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btn.setPreferredSize(new Dimension(300, 45));
+        btn.setBorder(null);
+
+        btn.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) { btn.setBackground(PRIMARY_COLOR.darker()); }
+            public void mouseExited(MouseEvent evt) { btn.setBackground(PRIMARY_COLOR); }
+        });
+    }
+
+    private void styleCloseButton(JButton btn) {
+    	
+        btn.setText("X");
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        btn.setForeground(new Color(150, 150, 150)); 
+
+
+        btn.setBorder(null);              
+        btn.setContentAreaFilled(false);  
+        btn.setBorderPainted(false);      
+        btn.setFocusPainted(false);       
+
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));     
+       
+        btn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent evt) {
+                btn.setForeground(Color.RED);
+            }
+            @Override
+            public void mouseExited(MouseEvent evt) {
+                btn.setForeground(new Color(150, 150, 150)); 
+            }
+        });
+        
+        btn.addActionListener(e -> {
+        	LogSystem.logFlow("EXIT", "Cerrando aplicación desde: Login");
+        	dispose();
+        });
+    }
+
+
+    public String getIdentificador() {
+        String texto = txtIdentificador.getText().trim();
+        return (PLACEHOLDER_TEXT.equals(texto)) ? "" : texto;
+    }
+
+    public JButton getBtnIdentificar() { return btnIdentificar; }
+    
+    public JButton getBtnClose() { return btnClose; }
     
 }
