@@ -8,6 +8,8 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import org.apache.commons.beanutils.PropertyUtils;
 
@@ -33,7 +35,7 @@ public class SwingUtil {
 		try {
 			consumer.run();
 		} catch (ApplicationException e) { // excepcion controlada de la que se puede recuperar la aplicacion
-			showMessage(e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
+			showMessage(e.getMessage(), "Informacion", JOptionPane.ERROR_MESSAGE);
 		} catch (RuntimeException e) { // resto de excepciones, ademas de la ventana informativa muestra el stacktrace
 			e.printStackTrace(); // NOSONAR
 			showMessage(e.toString(), "Excepcion no controlada", JOptionPane.ERROR_MESSAGE);
@@ -55,9 +57,34 @@ public class SwingUtil {
 	 * Ajusta todas las columnas de la tabla al tamanyo correspondiente al contenido del tablemodel
 	 */
 	public static void autoAdjustColumns(JTable table) {
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF); // si se usa ON la ultima columna se expandra en el panel
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		TableColumnAdjuster tca = new TableColumnAdjuster(table);
 		tca.adjustColumns();
+	}
+	
+	/**
+	 * Permite modificar los encabezados de la tabla y definir las propiedades de sus celdas
+	 */
+	public static void setTableStyle(JTable tabla, TableCellRenderer renderer, String[] headers) {
+		for(int i=0; i<tabla.getColumnCount(); i++) {
+			tabla.getColumnModel().getColumn(i).setHeaderValue(headers[i]);
+			tabla.getColumnModel().getColumn(i).setCellRenderer(renderer);
+		}
+	}
+	
+	/**
+	 * Permite modificar una columna de la tabla para que se muestre en formato TextArea y ajustar su tamaño
+	 * NOTA: este metodo esta pensado para dar formato a campos textuales descriptivos, de forma que su contenido
+	 * se muestre en varias lineas en lugar de una única línea. De este modo, el tamaño de la tabla y del resto
+	 * de columnas no impide vidsualizar el texto
+	 */
+	public static void setDescColumnStyle(JTable tabla, int colIdx, int colWidth) {
+		tabla.getColumnModel().getColumn(colIdx).setCellRenderer(new TextAreaRenderer());
+		TableColumn col = tabla.getColumnModel().getColumn(colIdx);
+        col.setMinWidth(colWidth);
+        col.setMaxWidth(colWidth);
+        col.setPreferredWidth(colWidth);
+        col.setResizable(false);
 	}
 
 	/** 
@@ -101,7 +128,10 @@ public class SwingUtil {
 		if (pojos == null) // solo las columnas (p.e. para inicializaciones)
 			return new DefaultTableModel(colProperties, 0);
 		else
-			tm = new DefaultTableModel(colProperties, pojos.size());
+			tm = new DefaultTableModel(colProperties, pojos.size()) {
+				@Override
+				public boolean isCellEditable(int row, int column) { return false; }
+			};
 		// carga cada uno de los valores de pojos usando PropertyUtils (de apache coommons beanutils)
 		for (int i = 0; i < pojos.size(); i++) {
 			for (int j = 0; j < colProperties.length; j++) {
@@ -148,5 +178,4 @@ public class SwingUtil {
 		}
 		return cm;
 	}	
-
 }

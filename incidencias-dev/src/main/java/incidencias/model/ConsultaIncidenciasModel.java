@@ -12,13 +12,13 @@ public class ConsultaIncidenciasModel {
     											     + "FROM usuario u JOIN incidencia i "
     											     + "ON u.id = i.idUsuario "
     											     + "WHERE u.id = ? "
-    											     + "ORDER BY fechaHora";
+    											     + "ORDER BY fechaHora DESC";
     
     public static final String SQL_FILTRA_INCIDENCIAS = "SELECT i.id, tipo, descripcion, fechaHora, estado "
 												      + "FROM usuario u JOIN incidencia i "
 												      + "ON u.id = i.idUsuario "
 												      + "WHERE u.id = ? and estado = ?"
-												      + "ORDER BY fechaHora";
+												      + "ORDER BY fechaHora DESC";
 
     public List<IncidenciaDTO> getListaIncidencias(int id) {
     	

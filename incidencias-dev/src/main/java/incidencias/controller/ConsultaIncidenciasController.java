@@ -1,9 +1,10 @@
 package incidencias.controller;
 
 import java.util.List;
-
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
-
 import incidencias.model.ConsultaIncidenciasModel;
 import incidencias.model.IncidenciaDTO;
 import incidencias.ui.ConsultaIncidenciasView;
@@ -15,6 +16,10 @@ public class ConsultaIncidenciasController {
     private ConsultaIncidenciasModel model;
 	
 	private int idUsuario;
+	
+	private static final String[] TITULOS_TABLA_INCIDENCIAS = {"ID", "Tipo", "Descripción", "Fecha/Hora", "Estado"};
+	private static final String[] TITULOS_TABLA_POJOS = new String[]{"id", "tipo", "descripcion", "fechaHora", "estado"};
+			
 
     public ConsultaIncidenciasController(ConsultaIncidenciasView l, ConsultaIncidenciasModel m, int id) {
         this.view = l;
@@ -25,7 +30,7 @@ public class ConsultaIncidenciasController {
     
     public void initView() {
     	
-    	listarIncidencias();
+    	SwingUtil.exceptionWrapper(() -> listarIncidencias());
     	
     	view.setVisible(true);
     }
@@ -33,23 +38,34 @@ public class ConsultaIncidenciasController {
     public void initController() {    
     	view.getListaFiltros().addActionListener(e -> {
     	    String filtro = (String) view.getListaFiltros().getSelectedItem();
-    		SwingUtil.exceptionWrapper(() -> filtrarIncidencias(filtro));
+    		if(filtro.equals("Todos los estados")) SwingUtil.exceptionWrapper(() -> listarIncidencias());
+    		else SwingUtil.exceptionWrapper(() -> filtrarIncidencias(filtro));
     	});
     }
 
     private void listarIncidencias() {
     	List<IncidenciaDTO> incidencias = model.getListaIncidencias(idUsuario);
-		TableModel tmodel = SwingUtil.getTableModelFromPojos(incidencias, new String[]{"id", "tipo", "descripcion", "fechaHora", "estado"});
-		view.getTablaIncidencias().setModel(tmodel);
-		SwingUtil.autoAdjustColumns(view.getTablaIncidencias());
+		TableModel tmodel = SwingUtil.getTableModelFromPojos(incidencias, TITULOS_TABLA_POJOS);
+		JTable tabla = view.getTablaIncidencias();
+		tabla.setModel(tmodel);
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		SwingUtil.setTableStyle(tabla, centerRenderer, TITULOS_TABLA_INCIDENCIAS);
+		SwingUtil.setDescColumnStyle(tabla, 2, 250);
+		SwingUtil.autoAdjustColumns(tabla);
     }
     
     private void filtrarIncidencias(String estado) {
     	
     	List<IncidenciaDTO> incidencias = model.filtraListaIncidencias(idUsuario, estado);
-		TableModel tmodel = SwingUtil.getTableModelFromPojos(incidencias, new String[]{"id", "tipo", "descripcion", "fechaHora", "estado"});
-		view.getTablaIncidencias().setModel(tmodel);
-		SwingUtil.autoAdjustColumns(view.getTablaIncidencias());
+		TableModel tmodel = SwingUtil.getTableModelFromPojos(incidencias, TITULOS_TABLA_POJOS);
+		JTable tabla = view.getTablaIncidencias();
+		tabla.setModel(tmodel);
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		SwingUtil.setTableStyle(tabla, centerRenderer, TITULOS_TABLA_INCIDENCIAS);
+		SwingUtil.setDescColumnStyle(tabla, 2, 250);
+		SwingUtil.autoAdjustColumns(tabla);
     }
     
 }

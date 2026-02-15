@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
 public class ConsultaIncidenciasView extends JFrame {
@@ -31,23 +30,9 @@ public class ConsultaIncidenciasView extends JFrame {
 
         JPanel mainPanel = new JPanel();
         cbFiltroEstado = new JComboBox<>(new String[]{
-                "Nueva", "Validada", "Asignada", "En proceso", "Resuelta", "Cerrada"
+                "Todos los estados", "Nueva", "Validada", "Asignada", "En proceso", "Resuelta", "Cerrada"
         });
-        tablaIncidencias = new JTable(
-                new Object[][]{
-                        {null, null, null, null, null},
-                        {null, null, null, null, null},
-                        {null, null, null, null, null},
-                        {null, null, null, null, null},
-                        {null, null, null, null, null},
-                        {null, null, null, null, null},
-                        {null, null, null, null, null},
-                        {null, null, null, null, null},
-                        {null, null, null, null, null},
-                        {null, null, null, null, null}
-                },
-                new String[]{"ID", "Tipo", "Descripción", "Fecha/Hora", "Estado"}
-        );
+        tablaIncidencias = new JTable();
         btnClose = new JButton("X");
         
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -120,13 +105,6 @@ public class ConsultaIncidenciasView extends JFrame {
         header.setFont(new Font("Segoe UI", Font.BOLD, 14));
         header.setBackground(new Color(243, 244, 246));
         header.setForeground(new Color(55, 65, 81));
-
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-
-        for (int i = 0; i < table.getColumnCount(); i++) {
-            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-        }
     }
 
     private void styleCloseButton(JButton btn) {
@@ -173,5 +151,5 @@ public class ConsultaIncidenciasView extends JFrame {
     public JComboBox<String> getListaFiltros() { return this.cbFiltroEstado; }
     
     public JTable getTablaIncidencias() { return this.tablaIncidencias; }
-    
+     
 }
