@@ -57,6 +57,16 @@ public class SwingMain {
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
 		frame.getContentPane().add(btnEjecutarConsultaIncidencias);
 			
+		JButton btnEjecutarPlanificacionIncidencias = new JButton("Ejecutar PlanificacionIncidencias");
+		btnEjecutarPlanificacionIncidencias.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TestLoginController controller=new TestLoginController(new TestLoginView(), new TestLoginModel());
+				controller.initController();
+			}
+		});
+		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+		frame.getContentPane().add(btnEjecutarPlanificacionIncidencias);
+		
 		JButton btnInicializarBaseDeDatos = new JButton("Inicializar Base de Datos en Blanco");
 		btnInicializarBaseDeDatos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

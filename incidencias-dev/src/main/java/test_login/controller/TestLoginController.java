@@ -1,6 +1,7 @@
 package test_login.controller;
 
 import incidencias.controller.ConsultaIncidenciasController;
+import incidencias.controller.PlanificacionIncidenciasController;
 import incidencias.model.ConsultaIncidenciasModel;
 import util.LogSystem;
 import util.swing.SwingUtil;
@@ -8,6 +9,8 @@ import incidencias.ui.ConsultaIncidenciasView;
 import test_login.model.TestLoginModel;
 import test_login.model.DTOs.UsuarioDTO;
 import test_login.ui.TestLoginView;
+import incidencias.ui.PlanificacionIncidenciasView;
+import incidencias.model.PlanificacionIncidenciasModel;
 
 public class TestLoginController {
     
@@ -37,7 +40,7 @@ public class TestLoginController {
         LogSystem.logFlow("LOGIN_SUCCESS", "Usuario identificado con id: " + usuario.getId());
         
         this.abrirConsultaIncidencias(usuario.getId());
-        
+        this.abrirPlanificacionIncidencias(usuario.getId());
     }
 
     private void abrirConsultaIncidencias(int usuarioId) {
@@ -46,5 +49,13 @@ public class TestLoginController {
         ConsultaIncidenciasView appView = new ConsultaIncidenciasView();
         ConsultaIncidenciasModel appModel = new ConsultaIncidenciasModel();
         new ConsultaIncidenciasController(appView, appModel, usuarioId).initController();;
+    }
+    
+    private void abrirPlanificacionIncidencias(int usuarioId) {
+    	
+        loginView.dispose(); 
+        PlanificacionIncidenciasView appView = new PlanificacionIncidenciasView();
+        PlanificacionIncidenciasModel appModel = new PlanificacionIncidenciasModel();
+        new PlanificacionIncidenciasController(appView, appModel, usuarioId).initController();
     }
 }
