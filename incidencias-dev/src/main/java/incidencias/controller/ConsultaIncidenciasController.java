@@ -6,9 +6,9 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import incidencias.model.ConsultaIncidenciasModel;
-import incidencias.model.IncidenciaDTO;
+import incidencias.model.DTOs.IncidenciaDTO;
 import incidencias.ui.ConsultaIncidenciasView;
-import util.SwingUtil;
+import util.swing.SwingUtil;
 
 public class ConsultaIncidenciasController {
     

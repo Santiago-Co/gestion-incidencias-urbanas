@@ -1,4 +1,4 @@
-package incidencias.model;
+package incidencias.model.DTOs;
 
 public class IncidenciaDTO {
 	

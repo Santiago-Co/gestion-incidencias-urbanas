@@ -1,4 +1,4 @@
-package util;
+package util.database;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,6 +17,10 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
+
+import exceptions.ApplicationException;
+import exceptions.UnexpectedException;
+import util.LogSystem;
 
 /**
  * Metodos de utilidad para simplificar las queries realizadas en las clases 

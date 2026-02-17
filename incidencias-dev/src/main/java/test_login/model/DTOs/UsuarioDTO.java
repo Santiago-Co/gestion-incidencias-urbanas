@@ -1,4 +1,4 @@
-package incidencias.model;
+package test_login.model.DTOs;
 
 public class UsuarioDTO {
 	

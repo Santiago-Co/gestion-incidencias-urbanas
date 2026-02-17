@@ -1,4 +1,4 @@
-package incidencias.ui;
+package test_login.ui;
 
 import javax.swing.*;
 import util.LogSystem;

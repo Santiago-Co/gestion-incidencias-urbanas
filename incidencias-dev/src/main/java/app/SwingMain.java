@@ -1,10 +1,13 @@
-package util;
+package app;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
-import incidencias.ui.TestLoginView;
-import incidencias.controller.TestLoginController;
-import incidencias.model.TestLoginModel;
+
+import test_login.controller.TestLoginController;
+import test_login.model.TestLoginModel;
+import test_login.ui.TestLoginView;
+import util.database.Database;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -67,7 +70,7 @@ public class SwingMain {
 		btnCargarDatosIniciales.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Database db=new Database();
-				db.createDatabase(false);
+				db.createDatabase(true);
 				db.loadDatabase();
 			}
 		});

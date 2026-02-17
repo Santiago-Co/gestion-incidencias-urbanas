@@ -1,4 +1,4 @@
-package util;
+package exceptions;
 
 /**
  * Excepcion producida por la aplicacion antes situaciones que no deberian ocurrir pero que son controladas

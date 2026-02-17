@@ -1,9 +1,12 @@
-package util;
+package util.database;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 import org.apache.commons.dbutils.DbUtils;
+
+import exceptions.ApplicationException;
+import util.LogSystem;
 
 /**
  * Encapsula los datos de acceso JDBC, lectura de la configuracion
@@ -12,8 +15,8 @@ import org.apache.commons.dbutils.DbUtils;
 public class Database extends DbUtil {
 	//Localizacion de ficheros de configuracion y carga de bases de datos
 	private static final String APP_PROPERTIES = "src/main/resources/application.properties";
-	private static final String SQL_SCHEMA = "src/main/resources/schemaConsultaIncidencias.sql";
-	private static final String SQL_LOAD = "src/main/resources/dataConsultaIncidencias.sql";
+	private static final String SQL_SCHEMA = "src/main/resources/test_db_scripts/schemaConsultaIncidencias.sql";
+	private static final String SQL_LOAD = "src/main/resources/test_db_scripts/dataConsultaIncidencias.sql";
 	//parametros de la base de datos leidos de application.properties (base de datos local sin usuario/password)
 	private String driver;
 	private String url;

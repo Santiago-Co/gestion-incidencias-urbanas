@@ -1,8 +1,10 @@
 package incidencias.model;
 
 import java.util.List;
-import util.Database;
+
+import incidencias.model.DTOs.IncidenciaDTO;
 import util.LogSystem;
+import util.database.Database;
 
 public class ConsultaIncidenciasModel {
 	    

@@ -1,12 +1,13 @@
-package incidencias.controller;
+package test_login.controller;
 
-import incidencias.model.UsuarioDTO;
+import incidencias.controller.ConsultaIncidenciasController;
 import incidencias.model.ConsultaIncidenciasModel;
-import incidencias.model.TestLoginModel;
 import util.LogSystem;
-import util.SwingUtil;
+import util.swing.SwingUtil;
 import incidencias.ui.ConsultaIncidenciasView;
-import incidencias.ui.TestLoginView;
+import test_login.model.TestLoginModel;
+import test_login.model.DTOs.UsuarioDTO;
+import test_login.ui.TestLoginView;
 
 public class TestLoginController {
     
