@@ -18,6 +18,7 @@ public class LoginController {
         this.view = view;
         this.model = model;
         this.initController();
+        this.view.setVisible(true);
     }
 
     public void initController() {
@@ -26,7 +27,10 @@ public class LoginController {
           
         Util.addCloseAction(view.getBtnClose(), "Login");
     }
-
+    /**
+    Utilizado para depurar evitando el tener que poner un DNI valido
+    private void intentarLogin() { this.abrirClasificarIncidencias(); }
+    */
     private void intentarLogin() {
         String id = view.getIdentificador();
         

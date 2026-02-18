@@ -11,8 +11,9 @@ public class ClasificarIncidenciasView extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private static final Color PRIMARY_COLOR = new Color(37, 99, 235);
-
-    private JTextField txtBusqueda;
+    private static final String MENSAJE_CONFIRMACION_INICIO = "¿Desea validar la incidencia: ";
+    private static final String MENSAJE_CONFIRMACION_FIN = "?";
+    
     private JTable tablaIncidencias;
     private JButton btnClose;
     private JButton btnValidar;
@@ -29,7 +30,14 @@ public class ClasificarIncidenciasView extends JFrame {
     private void initComponents() {
         String[] columnas = {"ID", "Tipo", "Descripción", "Fecha/Hora"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
-        tablaIncidencias = new JTable(modelo);
+        tablaIncidencias = new JTable(modelo) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+        	public boolean isCellEditable(int row, int col) {
+        		return col == 1; 
+        	}
+        };
         
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.setBackground(new Color(229, 231, 235));
@@ -126,8 +134,26 @@ public class ClasificarIncidenciasView extends JFrame {
             public void mouseDragged(MouseEvent e) { setLocation(e.getXOnScreen() - mouseX, e.getYOnScreen() - mouseY); }
         });
     }
-
-    public JTextField getTxtBusqueda() { return txtBusqueda; }
+    
+    public void mostrarError(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    
+    public void mostrarExito(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje, "Exito", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    public boolean confirmacionIncidencia(String idIncidencia) {
+    	int resultado = JOptionPane.showConfirmDialog(
+                this,
+                MENSAJE_CONFIRMACION_INICIO + idIncidencia + MENSAJE_CONFIRMACION_FIN,
+                "Confirmación",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE
+        );
+    	
+    	return resultado == JOptionPane.YES_OPTION;
+    }
 
     public JTable getTablaIncidencias() { return tablaIncidencias; }
 

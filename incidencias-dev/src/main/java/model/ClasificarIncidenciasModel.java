@@ -10,18 +10,17 @@ public class ClasificarIncidenciasModel {
 	    
     private Database db = new Database();
     
-    public static final String SQL_LISTA_INCIDENCIAS = "SELECT i.id, tipo, descripcion, fechaHora, estado "
-    											     + "FROM usuario u JOIN incidencia i "
-    											     + "ON u.id = i.idUsuario "
-    											     + "WHERE estado = Nueva"
-    											     + "ORDER BY fechaHora DESC";
+    /** Utilizada para los test de la historia
+    private String SQL_LISTA_INCIDENCIAS_TODO = "select * from incidencia";
+    */
+    /**Si no se pone as fechaRegistro para coincidir {@IncidenciaDTO} al mapearlo no se podria conseguir su 
+    getter y saldria con una hora null */
+    private String SQL_LISTA_INCIDENCIAS = "select id, tipo, descripcion, fecha_registro as fechaRegistro " 
+    		+ "from incidencia where estado = 'Nueva' order by fecha_registro";
     
-    public static final String SQL_FILTRA_INCIDENCIAS = "SELECT i.id, tipo, descripcion, fechaHora, estado "
-												      + "FROM usuario u JOIN incidencia i "
-												      + "ON u.id = i.idUsuario "
-												      + "WHERE u.id = ? and estado = ?"
-												      + "ORDER BY fechaHora DESC";
-
+    private String SQL_ACTUALIZAR_ESTADO = "UPDATE incidencia SET estado = ?, tipo = ? WHERE id = ?";
+    private static final String NUEVO_ESTADO_INCIDENCIA = "Validada";
+    
     public List<IncidenciaDTO> getListaIncidencias() {
     	
     	LogSystem.logFlow("Consulta incidencias", "ejecución query");
@@ -29,5 +28,9 @@ public class ClasificarIncidenciasModel {
         List<IncidenciaDTO> incidencias = db.executeQueryPojo(IncidenciaDTO.class, SQL_LISTA_INCIDENCIAS);
     	
     	return incidencias;
+    }
+        
+    public void actualizarEstadoIncidencia(int id, String nuevoTipo) {
+        db.executeUpdate(SQL_ACTUALIZAR_ESTADO,NUEVO_ESTADO_INCIDENCIA, nuevoTipo, id);
     }
 }
