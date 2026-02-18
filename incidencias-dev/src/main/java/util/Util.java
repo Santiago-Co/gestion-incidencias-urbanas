@@ -82,7 +82,16 @@ public class Util {
         else
             return "";
     }
+    
+    public static String getSelectedValue(JTable table, int column) {
+        int row = table.getSelectedRow();
+        if (row >= 0)
+            return table.getModel().getValueAt(row, column).toString();
+        else
+            return "";
+    }
 
+    
     public static String selectAndGetSelectedKey(JTable table, String key) {
         for (int i = 0; i < table.getModel().getRowCount(); i++) {
             if (table.getModel().getValueAt(i, 0).equals(key)) {
