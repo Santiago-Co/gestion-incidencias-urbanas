@@ -15,11 +15,11 @@ public class CrearIncidenciaModel {
 	private Database db = new Database();
     
 	private static final String SQL_INSERT_INCIDENCIA = 
-			"INSERT INTO incidencia (ciudadano_id, tipo, descripcion, localizacion, estado) " 
+			"INSERT INTO incidencia (ciudadanoId, tipo, descripcion, localizacion, estado) " 
 			+ "VALUES (?, ?, ?, ?, ?)";
 	private static final String SQL_SELECT_INCIDENCIA = 
-			"SELECT id, ciudadano_id AS ciudadanoId, tipo, descripcion, localizacion, estado," 
-			+ "fecha_registro AS fechaRegistro FROM incidencia ORDER BY id DESC LIMIT 1";
+			"SELECT id, ciudadanoId, tipo, descripcion, localizacion, estado," 
+			+ "fechaRegistro FROM incidencia ORDER BY id DESC LIMIT 1";
 			
 	public IncidenciaDTO registrarYRecuperarIncidencia(IncidenciaEntity inc) {
 	    Util.validateNotNull(inc, INCIDENCIA_NO_NULA);

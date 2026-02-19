@@ -16,7 +16,9 @@ public class DashboardView extends javax.swing.JFrame {
     private static final Color PRIMARY_COLOR = new Color(79, 70, 229); 
     private static final Color BG_COLOR = new Color(249, 250, 251); 
     private static final Color DANGER_COLOR = new Color(220, 38, 38); 
-
+    
+    private static DashboardView instance;
+    
     private JLabel lblBienvenida;
     private JButton btnClose;
     private JButton btnLogout; 
@@ -27,8 +29,15 @@ public class DashboardView extends javax.swing.JFrame {
     private JButton btnClasificarIncidencia; 
     
     private int xMouse, yMouse;
-
-    public DashboardView() {
+    
+    public static DashboardView getInstance() {
+    	if(instance == null) {
+    		instance = new DashboardView(); 
+    	}
+    	return instance; 
+    }
+    
+    private DashboardView() {
         setUndecorated(true);
         initComponents();
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20));
@@ -142,19 +151,18 @@ public class DashboardView extends javax.swing.JFrame {
                 break;
                 
             default:
-                // En caso de tener que añadir un nuevo rol
+                // En caso de tener que añadir un nuevo rol	
                 break;
         }
         
         btnCrearIncidencia.setVisible(true);
         btnConsultarMisIncidencias.setVisible(true);
         
-        // Revalidar el layout para que los huecos vacíos desaparezcan
         this.revalidate();
         this.repaint();
     }
 
-    // --- ESTILOS ---
+   
 
     private void styleMenuButton(JButton btn) {
         btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -178,7 +186,6 @@ public class DashboardView extends javax.swing.JFrame {
         btn.setFocusPainted(false);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btn.setPreferredSize(new Dimension(300, 45));
-        // Borde rojo sutil
         btn.setBorder(BorderFactory.createLineBorder(DANGER_COLOR, 1)); 
 
         btn.addMouseListener(new MouseAdapter() {
@@ -210,10 +217,7 @@ public class DashboardView extends javax.swing.JFrame {
             }
         });
     }
-
-    // --- GETTERS (Para el Controlador) ---
-    // El controlador añadirá los ActionListeners a estos botones
-
+    
     public JButton getBtnClose() { return btnClose; }
     public JButton getBtnLogout() { return btnLogout; }
     

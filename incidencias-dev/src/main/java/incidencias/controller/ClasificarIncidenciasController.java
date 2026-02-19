@@ -11,12 +11,14 @@ import javax.swing.table.TableModel;
 import incidencias.model.ClasificarIncidenciasModel;
 import incidencias.model.DTOs.IncidenciaDTO;
 import incidencias.ui.ClasificarIncidenciasView;
+import incidencias.ui.DashboardView;
 import util.Util;
 
 public class ClasificarIncidenciasController {
     
 	private ClasificarIncidenciasView view;
     private ClasificarIncidenciasModel model;
+	private DashboardView viewDsb;
 	
     private static final String[] TITULOS_TABLA_INCIDENCIAS_DTO = {"id", "tipo", "descripcion", "fechaRegistro"};
 	private static final String[] TITULOS_VISUALES = {"ID", "Tipo", "Descripción", "Fecha/Hora"};
@@ -25,9 +27,10 @@ public class ClasificarIncidenciasController {
 	private static final String MENSAJE_EXITO = "Incidencia validada correctamente";
 	private static final String MENSAJE_FALLO = "Debe seleccionar una incidencia para validarla"; 
 	
-    public ClasificarIncidenciasController(ClasificarIncidenciasView view, ClasificarIncidenciasModel model) {
+    public ClasificarIncidenciasController(ClasificarIncidenciasView view, ClasificarIncidenciasModel model, DashboardView viewDsb) {
         this.view = view;
         this.model = model;
+        this.viewDsb = viewDsb; 
         this.initController();
         this.initView();
         
@@ -40,8 +43,8 @@ public class ClasificarIncidenciasController {
 
     public void initController() {  
     	view.getBtnValidar().addActionListener(e -> validarIncidencia());
+    	view.getBtnClose().addActionListener(e -> volverDashboard());
     	
-    	Util.addCloseAction(view.getBtnClose(), "ClasificarIncidencias");
     }
     
     private void listarIncidencias() {
@@ -84,5 +87,10 @@ public class ClasificarIncidenciasController {
             
             listarIncidencias();
         });
+    }
+    
+    private void volverDashboard() {
+    	view.dispose(); 
+        viewDsb.setVisible(true);
     }
 }

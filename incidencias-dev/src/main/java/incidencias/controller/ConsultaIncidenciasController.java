@@ -1,31 +1,36 @@
 package incidencias.controller;
 
 import java.util.List;
+
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
+
 import incidencias.model.ConsultaIncidenciasModel;
 import incidencias.model.DTOs.IncidenciaDTO;
 import incidencias.ui.ConsultaIncidenciasView;
+import incidencias.ui.DashboardView;
 import util.swing.SwingUtil;
 
 public class ConsultaIncidenciasController {
     
 	private ConsultaIncidenciasView view;
     private ConsultaIncidenciasModel model;
-	
+	private DashboardView viewDsb;
 	private int idUsuario;
 	
 	private static final String[] TITULOS_TABLA_INCIDENCIAS = {"ID", "Tipo", "Descripción", "Fecha/Hora", "Estado"};
 	private static final String[] TITULOS_TABLA_POJOS = new String[]{"id", "tipo", "descripcion", "fechaRegistro", "estado"};
 			
 
-    public ConsultaIncidenciasController(ConsultaIncidenciasView l, ConsultaIncidenciasModel m, int id) {
+    public ConsultaIncidenciasController(ConsultaIncidenciasView l, ConsultaIncidenciasModel m, int id, DashboardView viewDsb) {
         this.view = l;
         this.model = m;
         this.idUsuario = id;
+        this.viewDsb = viewDsb;
         this.initView();
+        this.initController();
     }
     
     public void initView() {
@@ -41,6 +46,8 @@ public class ConsultaIncidenciasController {
     		if(filtro.equals("Todos los estados")) SwingUtil.exceptionWrapper(() -> listarIncidencias());
     		else SwingUtil.exceptionWrapper(() -> filtrarIncidencias(filtro));
     	});
+    	
+    	view.getBtnClose().addActionListener(e -> volverDashboard());
     }
 
     private void listarIncidencias() {
@@ -66,6 +73,11 @@ public class ConsultaIncidenciasController {
 		SwingUtil.setTableStyle(tabla, centerRenderer, TITULOS_TABLA_INCIDENCIAS);
 		SwingUtil.setDescColumnStyle(tabla, 2, 250);
 		SwingUtil.autoAdjustColumns(tabla);
+    }
+    
+    private void volverDashboard() {
+    	view.dispose(); 
+        viewDsb.setVisible(true);
     }
     
 }

@@ -44,7 +44,7 @@ public class LogInController {
     
     private void abrirDashboard(UsuarioDTO usuario) {
     	view.dispose();
-    	DashboardView appView = new DashboardView();
+    	DashboardView appView = DashboardView.getInstance();//new DashboardView();
     	DashboardModel appModel = new DashboardModel();
     	new DashboardController(appView, appModel, usuario);
     }

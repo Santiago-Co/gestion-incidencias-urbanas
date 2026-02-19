@@ -4,33 +4,31 @@ import incidencias.model.CrearIncidenciaModel;
 import incidencias.model.DTOs.IncidenciaDTO;
 import incidencias.model.Entitiy.IncidenciaEntity;
 import incidencias.ui.CrearIncidenciaView;
+import incidencias.ui.DashboardView;
 import util.LogSystem;
 import util.Util;
 
 public class CrearIncidenciasController {
     private CrearIncidenciaView view; 
     private CrearIncidenciaModel model;
+    private DashboardView viewDsb;
     private int ciudadanoId; 
 
-    public CrearIncidenciasController(CrearIncidenciaView view, CrearIncidenciaModel model, int ciudadanoId) {
+    public CrearIncidenciasController(CrearIncidenciaView view, CrearIncidenciaModel model, int ciudadanoId, DashboardView viewDsb) {
         this.view = view; 
         this.model = model; 
         this.ciudadanoId = ciudadanoId;
+        this.viewDsb = viewDsb; 
         this.initController();
         view.setVisible(true);
     }
     
     public void initController() {
         view.getBtnEnviar().addActionListener(e -> registrarIncidencia());
-        
-        view.getBtnCancelar().addActionListener(e -> {
-            LogSystem.logFlow("NAVIGATE", "Usuario canceló el registro");
-            System.exit(0); //TODO volver hacia la pagina anterior
-        });
 
-        Util.addCloseAction(view.getBtnClose(), "Registro de Incidencias");
+        view.getBtnClose().addActionListener(e -> volverDashboard());
     }
-
+    
     private void registrarIncidencia() {
 
         String tipo = (String) view.getCmbTipo().getSelectedItem();
@@ -74,7 +72,12 @@ public class CrearIncidenciasController {
             view.mostrarError("Hubo un error al guardar la incidencia en la base de datos.");
         }
     }
-
+    
+    private void volverDashboard() {
+        view.dispose(); 
+        viewDsb.setVisible(true);
+    }
+    
     private void limpiarFormulario() {
         view.getTxtLocalizacion().setText("");
         view.getTxtDescripcion().setText("");

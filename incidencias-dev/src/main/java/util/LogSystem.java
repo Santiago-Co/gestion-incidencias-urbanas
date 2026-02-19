@@ -13,7 +13,7 @@ public class LogSystem {
         	/*
         	 * To make the logs stay change the false to true
         	 */
-            FileHandler fh = new FileHandler("LogSystem.log", true);
+            FileHandler fh = new FileHandler("LogSystem.log", false);
             
             fh.setFormatter(new Formatter() {
                 @Override

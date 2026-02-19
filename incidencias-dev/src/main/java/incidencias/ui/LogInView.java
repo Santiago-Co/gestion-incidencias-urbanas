@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.RoundRectangle2D;
 
 
@@ -19,7 +20,9 @@ public class LogInView extends javax.swing.JFrame {
     private JTextField txtIdentificador;
     private JButton btnIdentificar;
     private JButton btnClose;
-
+    
+    private int xMouse, yMouse;
+    
     public LogInView() {
         setUndecorated(true);
         initComponents();
@@ -43,6 +46,20 @@ public class LogInView extends javax.swing.JFrame {
         
         topPanel.add(titleWin, BorderLayout.WEST);
         topPanel.add(btnClose, BorderLayout.EAST);
+        
+        topPanel.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent evt) {
+                xMouse = evt.getX();
+                yMouse = evt.getY();
+            }
+        });
+        topPanel.addMouseMotionListener(new MouseMotionAdapter() {
+            public void mouseDragged(MouseEvent evt) {
+                int x = evt.getXOnScreen();
+                int y = evt.getYOnScreen();
+                setLocation(x - xMouse, y - yMouse);
+            }
+        });
         
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setBackground(BG_COLOR);

@@ -40,7 +40,6 @@ public class CrearIncidenciaView extends javax.swing.JFrame {
     private JTextField txtLocalizacion;
     private JTextArea txtDescripcion;
     private JButton btnEnviar;
-    private JButton btnCancelar;
     private JButton btnClose;
     private int ciudadanoId;
 	
@@ -85,7 +84,6 @@ public class CrearIncidenciaView extends javax.swing.JFrame {
         txtDescripcion = new JTextArea();
         JScrollPane scrollPane = new JScrollPane(txtDescripcion);
         btnEnviar = createPrimaryButton("Enviar Reporte");
-        btnCancelar = createSecondaryButton("Cancelar");
         btnClose = new JButton("✕");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -150,8 +148,7 @@ public class CrearIncidenciaView extends javax.swing.JFrame {
         mainPanel.add(btnEnviar, gbc); 
         
         gbc.gridy++; gbc.insets = new Insets(0, 0, 0, 0);
-        mainPanel.add(btnCancelar, gbc); 
-
+        
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(topBar, BorderLayout.NORTH);
         getContentPane().add(mainPanel, BorderLayout.CENTER);
@@ -219,41 +216,6 @@ public class CrearIncidenciaView extends javax.swing.JFrame {
         return btn;
     }
 
-    private JButton createSecondaryButton(String text) {
-        JButton btn = new JButton(text);
-        btn.setFont(new Font("Segoe UI", Font.BOLD, 14)); 
-        
-        Color bgNormal = new Color(243, 244, 246);
-        Color bgHover  = new Color(229, 231, 235);
-        Color textDark = new Color(55, 65, 81);   
-
-        btn.setBackground(bgNormal);
-        btn.setForeground(textDark);
-
-        btn.setContentAreaFilled(true); 
-        btn.setBorderPainted(false);    
-        btn.setFocusPainted(false);     
-        btn.setBorder(null);            
-        
-        
-        btn.setPreferredSize(new Dimension(300, 45)); 
-        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        
-        //btn.addActionListener(e -> System.exit(0); Eliminado para añadirlo en el controlador
-        
-        btn.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent evt) { 
-                btn.setBackground(bgHover); 
-            }
-            @Override
-            public void mouseExited(MouseEvent evt) { 
-                btn.setBackground(bgNormal); 
-            }
-        });
-        return btn;
-    }
-
     private void styleCloseButton(JButton btn) {
         btn.setText("X");
         btn.setFont(new Font("Segoe UI", Font.BOLD, 18));
@@ -297,10 +259,5 @@ public class CrearIncidenciaView extends javax.swing.JFrame {
     public JTextField getTxtLocalizacion() { return this.txtLocalizacion; }
     public JTextArea getTxtDescripcion() { return this.txtDescripcion; }
     public JButton getBtnEnviar() { return this.btnEnviar; }
-    public JButton getBtnCancelar() { return this.btnCancelar; }
     public JButton getBtnClose() { return this.btnClose; }
-
-	
-    
-    
 }
