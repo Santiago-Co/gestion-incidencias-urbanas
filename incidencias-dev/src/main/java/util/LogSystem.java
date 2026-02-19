@@ -13,14 +13,14 @@ public class LogSystem {
         	/*
         	 * To make the logs stay change the false to true
         	 */
-            FileHandler fh = new FileHandler("LogSystem.log", false);
+            FileHandler fh = new FileHandler("LogSystem.log", true);
             
             fh.setFormatter(new Formatter() {
                 @Override
                 public String format(LogRecord record) {
                     String fecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(record.getMillis()));
                     // Format: <Date> <Thread> <Level> >> Message 
-                    return String.format("[%s] [Thread-%-4s] [%s] >> %s%n", 
+                    return String.format("[%s] [Thread-%s] [%s] >> %s%n", 
                             fecha, 
                             record.getLongThreadID(), //getThreadID(), 
                             record.getLevel(), 
@@ -41,8 +41,8 @@ public class LogSystem {
     /**
      * Logs a structured operational flow entry at the INFO level.
      * <p>
-     * This method uses {@link StackWalker} to automatically inspect the runtime stack,
-     * identify the names of the class and the method that invoked it. This allows for context-aware logging
+     * This method uses {@link StackWalker} to automatically inspect the runtime stack and
+     * identify the name of the method that invoked it. This allows for context-aware logging
      * without manually passing the method name.
      * </p>
      * <p>
@@ -55,16 +55,15 @@ public class LogSystem {
      * @param detail A descriptive message explaining the context or specific data of the event.
      */
     public static void logFlow(String action, String detail) {
-    	StackWalker.StackFrame frame = StackWalker.getInstance().walk(f -> f.skip(1).findFirst()).get();
-    	String nombreClase = frame.getClassName().substring(frame.getClassName().lastIndexOf(".") + 1);
-    	String nombreMetodo = frame.getMethodName();
-    	
-	    String mensajeDecorado = String.format("CLASE: %-25s | METODO: %-25s | ACCION: %-23s | DETALLE: %s", 
-                nombreClase, 
-                nombreMetodo + "()", 
-                action.toUpperCase(), 
-                detail);
-    	
+        String nombreMetodo = StackWalker.getInstance()
+                .walk(frames -> frames.skip(1).findFirst())
+                .map(StackWalker.StackFrame::getMethodName)
+                .orElse("unknown");
+
+        String mensajeDecorado = String.format("METODO: %-20s | ACCION: %-10s | DETALLE: %s", 
+                                                nombreMetodo + "()", 
+                                                action.toUpperCase(), 
+                                                detail);
         logger.info(mensajeDecorado);
     }
 }

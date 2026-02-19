@@ -24,7 +24,14 @@ public class Util {
     public static boolean esCorreoValido(String texto) {
         return texto != null && texto.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
     }
-
+    
+    public static void validateCondition(boolean cond, String message) {
+		 if (!cond) {
+			 LogSystem.logFlow("ERROR", message);
+			 throw new ApplicationException(message);
+		 }
+	 }
+    
     /**
      * Agrega una acción de cierre total de la aplicación a un botón.
      */

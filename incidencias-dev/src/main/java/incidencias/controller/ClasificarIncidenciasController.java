@@ -1,4 +1,4 @@
-package controller;
+package incidencias.controller;
 
 import java.util.List;
 
@@ -8,10 +8,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
-import dto.IncidenciaDTO;
-import model.ClasificarIncidenciasModel;
+import incidencias.model.ClasificarIncidenciasModel;
+import incidencias.model.DTOs.IncidenciaDTO;
+import incidencias.ui.ClasificarIncidenciasView;
 import util.Util;
-import view.ClasificarIncidenciasView;
 
 public class ClasificarIncidenciasController {
     

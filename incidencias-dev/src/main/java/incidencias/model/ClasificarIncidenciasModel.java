@@ -1,8 +1,8 @@
-package model;
+package incidencias.model;
 
 import java.util.List;
 
-import dto.IncidenciaDTO;
+import incidencias.model.DTOs.IncidenciaDTO;
 import util.Database;
 import util.LogSystem;
 
@@ -15,8 +15,8 @@ public class ClasificarIncidenciasModel {
     */
     /**Si no se pone as fechaRegistro para coincidir {@IncidenciaDTO} al mapearlo no se podria conseguir su 
     getter y saldria con una hora null */
-    private String SQL_LISTA_INCIDENCIAS = "select id, tipo, descripcion, fecha_registro as fechaRegistro " 
-    		+ "from incidencia where estado = 'Nueva' order by fecha_registro";
+    private String SQL_LISTA_INCIDENCIAS = "select id, tipo, descripcion, fechaRegistro " 
+    		+ "from incidencia where estado = 'Nueva' order by fechaRegistro";
     
     private String SQL_ACTUALIZAR_ESTADO = "UPDATE incidencia SET estado = ?, tipo = ? WHERE id = ?";
     private static final String NUEVO_ESTADO_INCIDENCIA = "Validada";

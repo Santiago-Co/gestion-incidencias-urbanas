@@ -1,4 +1,4 @@
-package view;
+package incidencias.ui;
 
 import java.awt.*;
 import java.awt.event.*;

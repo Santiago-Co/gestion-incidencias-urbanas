@@ -1,4 +1,4 @@
-package entitiy; 
+package incidencias.model.Entitiy; 
 
 public class UsuarioEntity {
     private int id;

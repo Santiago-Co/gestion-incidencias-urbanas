@@ -1,7 +1,25 @@
---Primero se deben borrar todas las tablas (de detalle a maestro) y lugo anyadirlas (de maestro a detalle)
---(en este caso en cada aplicacion se usa solo una tabla, por lo que no hace falta)
+DROP TABLE IF EXISTS historial;
+DROP TABLE IF EXISTS incidencia;
+DROP TABLE IF EXISTS usuarios;
 
---Para giis.demo.tkrun:
-drop table Carreras;
-create table Carreras (id int primary key not null, inicio date not null, fin date not null, fecha date not null, descr varchar(32), check(inicio<=fin), check(fin<fecha));
+CREATE TABLE usuarios (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    dni TEXT UNIQUE NOT NULL,
+    correo TEXT UNIQUE NOT NULL, 
+    rol TEXT NOT NULL CHECK (rol IN ('Ciudadano', 'Operador', 'Tecnico'))
+);
 
+CREATE TABLE incidencia (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ciudadanoId INTEGER NOT NULL,
+    tecnicoId INTEGER NULL,
+    tipo TEXT NOT NULL,
+    descripcion TEXT NOT NULL,
+    localizacion TEXT NOT NULL,
+    estado TEXT NOT NULL DEFAULT 'Nueva', 
+    fechaRegistro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CHECK (tipo IN ('Alumbrado', 'Limpieza', 'Mobiliario urbano', 'Zonas verdes', 'Señalización y calzada', 'Otro')),
+    CHECK ( estado IN ('Nueva', 'Validada', 'Asignada', 'En proceso', 'Resuelta', 'Cerrada')),
+    FOREIGN KEY (ciudadanoId) REFERENCES usuarios(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (tecnicoId) REFERENCES usuarios(id) ON DELETE CASCADE ON UPDATE CASCADE
+);

@@ -1,4 +1,4 @@
-package view;
+package incidencias.ui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 
 
-public class LogIn extends javax.swing.JFrame {
+public class LogInView extends javax.swing.JFrame {
 
    
 	private static final long serialVersionUID = 1L;
@@ -20,7 +20,7 @@ public class LogIn extends javax.swing.JFrame {
     private JButton btnIdentificar;
     private JButton btnClose;
 
-    public LogIn() {
+    public LogInView() {
         setUndecorated(true);
         initComponents();
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20));
@@ -32,7 +32,18 @@ public class LogIn extends javax.swing.JFrame {
         txtIdentificador = new JTextField();
         btnIdentificar = new JButton();
         btnClose = new JButton("×");
-
+        
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setBackground(new Color(229, 231, 235));
+        topPanel.setPreferredSize(new Dimension(getWidth(), 40));
+        
+        JLabel titleWin = new JLabel("  Sistema de Gestión de Incidencias");
+        titleWin.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        titleWin.setForeground(new Color(75, 85, 99));
+        
+        topPanel.add(titleWin, BorderLayout.WEST);
+        topPanel.add(btnClose, BorderLayout.EAST);
+        
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setBackground(BG_COLOR);
 
@@ -72,9 +83,7 @@ public class LogIn extends javax.swing.JFrame {
 
         
         styleCloseButton(btnClose);
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        topPanel.setBackground(Color.WHITE);
-        topPanel.add(btnClose);
+        
 
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(topPanel, BorderLayout.NORTH);
