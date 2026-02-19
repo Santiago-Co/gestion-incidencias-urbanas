@@ -31,10 +31,7 @@ import util.LogSystem;
 
 public class CrearIncidenciaView extends javax.swing.JFrame {
 
-    
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L; // Ns que hace pero para eliminar el warning
 	private JComboBox<String> cmbTipo;
     private JTextField txtLocalizacion;

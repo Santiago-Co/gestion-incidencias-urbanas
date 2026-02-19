@@ -1,3 +1,4 @@
+-- Usar camel case para mantener la correlación con las variables de java
 DROP TABLE IF EXISTS historial;
 DROP TABLE IF EXISTS incidencia;
 DROP TABLE IF EXISTS usuarios;

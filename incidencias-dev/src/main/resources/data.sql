@@ -1,3 +1,5 @@
+--generado por gemini para hacer pruebas
+
 INSERT INTO usuarios (dni, correo, rol) VALUES 
 ('12345678A', 'ciudadano@email.com', 'Ciudadano'),
 ('87654321B', 'operador@email.com', 'Operador'),

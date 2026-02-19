@@ -44,6 +44,11 @@ public class LogInController {
     
     private void abrirDashboard(UsuarioDTO usuario) {
     	view.dispose();
+    	/**
+    	 * Cree el singleton para intentar solucionar el problema de duplicidad de ventanas lo solucione también
+    	 * eliminando la asignación de las acciones a los botones no he probado quitando el singleton si funcionaria
+    	 * TODO probar quitar singleton
+    	 */
     	DashboardView appView = DashboardView.getInstance();//new DashboardView();
     	DashboardModel appModel = new DashboardModel();
     	new DashboardController(appView, appModel, usuario);

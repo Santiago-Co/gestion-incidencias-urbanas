@@ -37,10 +37,8 @@ public class DashboardController {
     }
 
     private void initController() {
-        // 1. Limpiamos los listeners previos para evitar duplicidad por el Singleton
+    	// Evitar duplicados
         limpiarListeners();
-
-        // 2. Asignamos los listeners normalmente
         // --- Botones Comunes ---
         view.getBtnLogout().addActionListener(e -> cerrarSesion());
         Util.addCloseAction(view.getBtnClose(), "Dashboard");
@@ -51,10 +49,7 @@ public class DashboardController {
         view.getBtnClasificarIncidencia().addActionListener(e -> abrirValidarIncidencias());
     }
 
-    /**
-     * Elimina todos los ActionListeners de los botones de la vista
-     * para evitar que se ejecuten varias veces debido al uso de Singleton.
-     */
+    
     private void limpiarListeners() {
         for (java.awt.event.ActionListener al : view.getBtnLogout().getActionListeners()) 
             view.getBtnLogout().removeActionListener(al);
@@ -70,8 +65,7 @@ public class DashboardController {
         
         for (java.awt.event.ActionListener al : view.getBtnClose().getActionListeners()) 
             view.getBtnClose().removeActionListener(al);
-        // Nota: El botón Close suele estar gestionado por Util, 
-        // pero si también se duplica, límpialo aquí.
+        
     }
 
     private void cerrarSesion() {

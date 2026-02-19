@@ -11,6 +11,7 @@ public class ClasificarIncidenciasView extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private static final Color PRIMARY_COLOR = new Color(37, 99, 235);
+    //TODO buscar una mejor manera de hacer esto, no me acuerdo ni pq lo hice así {Santiago}
     private static final String MENSAJE_CONFIRMACION_INICIO = "¿Desea validar la incidencia: ";
     private static final String MENSAJE_CONFIRMACION_FIN = "?";
     
