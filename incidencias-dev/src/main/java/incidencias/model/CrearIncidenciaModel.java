@@ -4,9 +4,9 @@ import java.util.List;
 
 import incidencias.model.DTOs.IncidenciaDTO;
 import incidencias.model.Entitiy.IncidenciaEntity;
-import util.Database;
 import util.LogSystem;
 import util.Util;
+import util.database.Database;
 
 public class CrearIncidenciaModel {
 

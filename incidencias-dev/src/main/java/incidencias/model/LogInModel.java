@@ -3,9 +3,9 @@ package incidencias.model;
 import java.util.List;
 
 import incidencias.model.DTOs.UsuarioDTO;
-import util.Database;
 import util.LogSystem;
 import util.Util;
+import util.database.Database;
 
 public class LogInModel {
 	

@@ -7,14 +7,13 @@ import java.util.Properties;
 import org.apache.commons.dbutils.DbUtils;
 
 import exceptions.ApplicationException;
-import util.DatabaseUtil;
 import util.LogSystem;
 
 /**
  * Encapsula los datos de acceso JDBC, lectura de la configuracion
  * y scripts de base de datos para creacion y carga.
  */
-public class Database extends DatabaseUtil {
+public class Database extends DbUtil {
     //Localizacion de ficheros de configuracion y carga de bases de datos
     private static final String APP_PROPERTIES = "src/main/resources/application.properties";
     private static final String SQL_SCHEMA = "src/main/resources/schema.sql";

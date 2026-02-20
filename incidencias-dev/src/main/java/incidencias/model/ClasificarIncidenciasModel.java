@@ -3,8 +3,8 @@ package incidencias.model;
 import java.util.List;
 
 import incidencias.model.DTOs.IncidenciaDTO;
-import util.Database;
 import util.LogSystem;
+import util.database.Database;
 
 public class ClasificarIncidenciasModel {
 	    
