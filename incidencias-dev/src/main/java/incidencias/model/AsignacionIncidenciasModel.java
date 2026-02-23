@@ -22,6 +22,8 @@ public class AsignacionIncidenciasModel {
 		      									  + "WHERE rol = 'Tecnico'";
     
     public static final String SQL_ACTUALIZA_ESTADO = "UPDATE incidencia SET estado = 'Asignada' WHERE id = ?";
+    
+    public static final String SQL_ASIGNA_TECNICO = "INSERT INTO asignacion(tecnicoId, incidenciaId) VALUES(?, ?)";
     	
     public List<IncidenciaDTO> getListaIncidenciasValidadas() {
     	
@@ -42,6 +44,10 @@ public class AsignacionIncidenciasModel {
     }
     
     public void asignarIncidencia(int idIncidencia, int idTecnico) {
+    	
+    	LogSystem.logFlow("Asignacion incidencia", "ejecución query");
+    	
+    	db.executeUpdate(SQL_ASIGNA_TECNICO, idTecnico, idIncidencia);
     	
     	LogSystem.logFlow("Actualizacion estado incidencia", "ejecución query");
     	

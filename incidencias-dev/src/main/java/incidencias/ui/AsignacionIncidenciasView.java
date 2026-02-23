@@ -63,7 +63,7 @@ public class AsignacionIncidenciasView extends JFrame {
         tablasPanel.setBackground(Color.WHITE);
         GridBagConstraints gbcTablas = new GridBagConstraints();
 
-        final JLabel lblIncidencias = new JLabel("Incidencias validadas:");
+        final JLabel lblIncidencias = new JLabel("Seleccione una incidencia para asignarla:");
         lblIncidencias.setFont(new Font("Segoe UI", Font.BOLD, 16));
         lblIncidencias.setForeground(LABEL_COLOR);
         gbcTablas.gridx = 0; gbcTablas.gridy = 0;
@@ -83,7 +83,7 @@ public class AsignacionIncidenciasView extends JFrame {
 
         styleTable(tablaIncidencias);
         scrollIncidencias = new JScrollPane(tablaIncidencias);
-        scrollIncidencias.setPreferredSize(new Dimension(550, 300));
+        scrollIncidencias.setPreferredSize(new Dimension(570, 300));
         scrollIncidencias.setBorder(BorderFactory.createLineBorder(new Color(120, 120, 120), 2));
         gbcTablas.gridx = 0; gbcTablas.gridy = 1;
         gbcTablas.insets = new Insets(0, 0, 0, 20);

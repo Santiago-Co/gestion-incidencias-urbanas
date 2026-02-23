@@ -1,5 +1,6 @@
 -- Usar camel case para mantener la correlación con las variables de java
 DROP TABLE IF EXISTS historial;
+DROP TABLE IF EXISTS asignacion;
 DROP TABLE IF EXISTS incidencia;
 DROP TABLE IF EXISTS usuarios;
 
@@ -23,4 +24,12 @@ CREATE TABLE incidencia (
     CHECK ( estado IN ('Nueva', 'Validada', 'Asignada', 'En proceso', 'Resuelta', 'Cerrada')),
     FOREIGN KEY (ciudadanoId) REFERENCES usuarios(id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (tecnicoId) REFERENCES usuarios(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE asignacion (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	tecnicoId INTEGER NOT NULL,
+	incidenciaId INTEGER NOT NULL,
+    FOREIGN KEY (tecnicoId) REFERENCES usuarios(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (incidenciaId) REFERENCES incidencia(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
