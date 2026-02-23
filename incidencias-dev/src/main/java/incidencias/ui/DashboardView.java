@@ -26,7 +26,8 @@ public class DashboardView extends javax.swing.JFrame {
     
     private JButton btnCrearIncidencia;    
     private JButton btnConsultarMisIncidencias;
-    private JButton btnClasificarIncidencia; 
+    private JButton btnClasificarIncidencia;
+    private JButton btnAsignarIncidencias;
     
     private int xMouse, yMouse;
     
@@ -103,15 +104,18 @@ public class DashboardView extends javax.swing.JFrame {
         btnCrearIncidencia = new JButton("Nueva Incidencia");
         btnConsultarMisIncidencias = new JButton("Consultar Incidencias");
         btnClasificarIncidencia = new JButton("Clasificar Incidencias");
+        btnAsignarIncidencias = new JButton("Asignar Incidencias");
         
         
         styleMenuButton(btnCrearIncidencia);
         styleMenuButton(btnConsultarMisIncidencias);
         styleMenuButton(btnClasificarIncidencia);
+        styleMenuButton(btnAsignarIncidencias);
         
         buttonsPanel.add(btnCrearIncidencia);
         buttonsPanel.add(btnConsultarMisIncidencias);
         buttonsPanel.add(btnClasificarIncidencia);
+        buttonsPanel.add(btnAsignarIncidencias);
 
         gbc.gridy = 2;
         gbc.insets = new Insets(0, 0, 30, 0);
@@ -138,15 +142,17 @@ public class DashboardView extends javax.swing.JFrame {
         btnCrearIncidencia.setVisible(false);
         btnConsultarMisIncidencias.setVisible(false);
         btnClasificarIncidencia.setVisible(false);
-        
+        btnAsignarIncidencias.setVisible(false);
+
         switch (rol.trim()) {
             case "Ciudadano":
-                
                 break;
+                
             case "Operador":
             	btnClasificarIncidencia.setVisible(true);
-            	
+                btnAsignarIncidencias.setVisible(true);
                 break;
+                
             case "Tecnico":
                 break;
                 
@@ -224,4 +230,6 @@ public class DashboardView extends javax.swing.JFrame {
     public JButton getBtnCrearIncidencia() { return btnCrearIncidencia; }
     public JButton getBtnConsultarMisIncidencias() { return btnConsultarMisIncidencias; }
     public JButton getBtnClasificarIncidencia() { return btnClasificarIncidencia; }
+    public JButton getBtnAsignarIncidencia() { return btnAsignarIncidencias; }
+
 }

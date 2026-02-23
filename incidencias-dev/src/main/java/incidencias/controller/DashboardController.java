@@ -1,11 +1,13 @@
 package incidencias.controller;
 
+import incidencias.model.AsignacionIncidenciasModel;
 import incidencias.model.ClasificarIncidenciasModel;
 import incidencias.model.ConsultaIncidenciasModel;
 import incidencias.model.CrearIncidenciaModel;
 import incidencias.model.DashboardModel;
 import incidencias.model.LogInModel;
 import incidencias.model.DTOs.UsuarioDTO;
+import incidencias.ui.AsignacionIncidenciasView;
 import incidencias.ui.ClasificarIncidenciasView;
 import incidencias.ui.ConsultaIncidenciasView;
 import incidencias.ui.CrearIncidenciaView;
@@ -47,6 +49,7 @@ public class DashboardController {
 
         // --- Botones de OPERADOR ---
         view.getBtnClasificarIncidencia().addActionListener(e -> abrirValidarIncidencias());
+        view.getBtnAsignarIncidencia().addActionListener(e -> abrirAsignarIncidencia());
     }
 
     
@@ -62,6 +65,9 @@ public class DashboardController {
             
         for (java.awt.event.ActionListener al : view.getBtnClasificarIncidencia().getActionListeners()) 
             view.getBtnClasificarIncidencia().removeActionListener(al);
+        
+        for (java.awt.event.ActionListener al : view.getBtnAsignarIncidencia().getActionListeners()) 
+            view.getBtnAsignarIncidencia().removeActionListener(al);
         
         for (java.awt.event.ActionListener al : view.getBtnClose().getActionListeners()) 
             view.getBtnClose().removeActionListener(al);
@@ -97,6 +103,13 @@ public class DashboardController {
     	CrearIncidenciaView crearIncidenciaView = new CrearIncidenciaView();
     	CrearIncidenciaModel crearIncidenciaModel = new CrearIncidenciaModel();
     	new CrearIncidenciasController(crearIncidenciaView, crearIncidenciaModel, model.getUsuarioActual().getId(), this.view);
+    	view.setVisible(false);
+    }
+    
+    private void abrirAsignarIncidencia() {
+    	AsignacionIncidenciasView asignarIncidenciaView = new AsignacionIncidenciasView();
+    	AsignacionIncidenciasModel asignarIncidenciaModel = new AsignacionIncidenciasModel();
+    	new AsignacionIncidenciasController(asignarIncidenciaView, asignarIncidenciaModel, model.getUsuarioActual().getId(), this.view);
     	view.setVisible(false);
     }
 }

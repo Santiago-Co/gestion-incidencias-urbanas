@@ -1,11 +1,13 @@
 package util.swing;
 
+import java.awt.Dimension;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -60,7 +62,7 @@ public class SwingUtil {
 	 * Ajusta todas las columnas de la tabla al tamanyo correspondiente al contenido del tablemodel
 	 */
 	public static void autoAdjustColumns(JTable table) {
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		TableColumnAdjuster tca = new TableColumnAdjuster(table);
 		tca.adjustColumns();
 	}
@@ -69,9 +71,13 @@ public class SwingUtil {
 	 * Permite modificar los encabezados de la tabla y definir las propiedades de sus celdas
 	 */
 	public static void setTableStyle(JTable tabla, TableCellRenderer renderer, String[] headers) {
+        if (tabla.getModel() instanceof DefaultTableModel) {
+            ((DefaultTableModel) tabla.getModel()).setColumnIdentifiers(headers);
+        }
 		for(int i=0; i<tabla.getColumnCount(); i++) {
-			tabla.getColumnModel().getColumn(i).setHeaderValue(headers[i]);
-			tabla.getColumnModel().getColumn(i).setCellRenderer(renderer);
+			TableColumn col = tabla.getColumnModel().getColumn(i);
+			col.setHeaderValue(headers[i]);
+			col.setCellRenderer(renderer);
 		}
 	}
 	
@@ -79,7 +85,7 @@ public class SwingUtil {
 	 * Permite modificar una columna de la tabla para que se muestre en formato TextArea y ajustar su tamaño
 	 * NOTA: este metodo esta pensado para dar formato a campos textuales descriptivos, de forma que su contenido
 	 * se muestre en varias lineas en lugar de una única línea. De este modo, el tamaño de la tabla y del resto
-	 * de columnas no impide vidsualizar el texto
+	 * de columnas no impide visualizar el texto
 	 */
 	public static void setDescColumnStyle(JTable tabla, int colIdx, int colWidth) {
 		tabla.getColumnModel().getColumn(colIdx).setCellRenderer(new TextAreaRenderer());
@@ -89,17 +95,36 @@ public class SwingUtil {
         col.setPreferredWidth(colWidth);
         col.setResizable(false);
 	}
+	
+	public static void adjustTableWidth(JTable tabla, JScrollPane scrollPane) {
+	    int newTableWidth = 0;
+	    for (int i = 0; i < tabla.getColumnCount(); i++) {
+	    	newTableWidth += tabla.getColumnModel().getColumn(i).getPreferredWidth();
+	    }
+	    // Añadir márgenes internos de la tabla
+	    newTableWidth += tabla.getIntercellSpacing().width * (tabla.getColumnCount() - 1);
 
-	/** 
-	 * Obtiene la key (primera columna) de la fila seleccionada en la tabla de carreras o string vacio (si no existe)
-	 */
+	    Dimension currentTableDim = scrollPane.getPreferredSize();
+	    if(currentTableDim.width < newTableWidth) {
+	    	scrollPane.setPreferredSize(new Dimension(newTableWidth, currentTableDim.height));
+	    }
+	}
+
 	public static String getSelectedKey(JTable table) {
-		int row = table.getSelectedRow(); // el item de primera columna es el id de carrera
+		int row = table.getSelectedRow();
 		if (row >= 0)
-			return (String) table.getModel().getValueAt(row, 0);
-		else // no hay filas seleccionadas
+			return table.getModel().getValueAt(row, 0).toString();
+		else
 			return "";
 	}
+	
+    public static String getSelectedValue(JTable table, int column) {
+        int row = table.getSelectedRow();
+        if (row >= 0)
+            return table.getModel().getValueAt(row, column).toString();
+        else
+            return "";
+    }
 	
 	/** 
 	 * Selecciona la fila de la tabla con la clave indicada y devuelve el valor la clave de la fila seleccionada resultante
