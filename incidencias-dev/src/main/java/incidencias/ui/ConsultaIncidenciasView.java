@@ -13,6 +13,7 @@ public class ConsultaIncidenciasView extends JFrame {
     private static final Color BG_COLOR = new Color(249, 250, 251);
 
     private JComboBox<String> cbFiltroEstado;
+    private JScrollPane scrollPane;
     private JTable tablaIncidencias;
     private JButton btnClose;
     
@@ -64,8 +65,8 @@ public class ConsultaIncidenciasView extends JFrame {
         mainPanel.add(filterPanel, gbc);
         
         styleTable(tablaIncidencias);
-        JScrollPane scrollPane = new JScrollPane(tablaIncidencias);
-        scrollPane.setPreferredSize(new Dimension(600, 300));
+        scrollPane = new JScrollPane(tablaIncidencias);
+        scrollPane.setPreferredSize(new Dimension(700, 300));
         scrollPane.setBorder(BorderFactory.createLineBorder(new Color(120, 120, 120), 2));
         gbc.gridy = 2;
         gbc.insets = new Insets(0, 0, 0, 0);
@@ -147,7 +148,7 @@ public class ConsultaIncidenciasView extends JFrame {
     }
     
     public JComboBox<String> getListaFiltros() { return this.cbFiltroEstado; }
-    
+    public JScrollPane getScrollIncidencias() { return this.scrollPane; }
     public JTable getTablaIncidencias() { return this.tablaIncidencias; }
     public JButton getBtnClose() { return this.btnClose; }
      

@@ -4,7 +4,9 @@ import java.awt.Dimension;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import javax.swing.ComboBoxModel;
+import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -61,10 +63,12 @@ public class SwingUtil {
 	/**
 	 * Ajusta todas las columnas de la tabla al tamanyo correspondiente al contenido del tablemodel
 	 */
-	public static void autoAdjustColumns(JTable table) {
+	public static void autoAdjustColumns(JTable table, JScrollPane scroll) {
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		TableColumnAdjuster tca = new TableColumnAdjuster(table);
-		tca.adjustColumns();
+		if(tca.adjustColumns() < scroll.getPreferredSize().getWidth()) {
+			table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		}
 	}
 	
 	/**
@@ -82,32 +86,32 @@ public class SwingUtil {
 	}
 	
 	/**
-	 * Permite modificar una columna de la tabla para que se muestre en formato TextArea y ajustar su tamaño
+	 * Permite modificar una columna de la tabla para que se muestre en formato JTextArea y ajustar su tamaño
 	 * NOTA: este metodo esta pensado para dar formato a campos textuales descriptivos, de forma que su contenido
 	 * se muestre en varias lineas en lugar de una única línea. De este modo, el tamaño de la tabla y del resto
 	 * de columnas no impide visualizar el texto
 	 */
-	public static void setDescColumnStyle(JTable tabla, int colIdx, int colWidth) {
-		tabla.getColumnModel().getColumn(colIdx).setCellRenderer(new TextAreaRenderer());
+	public static void setDescriptionColumnStyle(JTable tabla, int colIdx, int colWidth) {
 		TableColumn col = tabla.getColumnModel().getColumn(colIdx);
+		col.setCellRenderer(new TextAreaRenderer());
         col.setMinWidth(colWidth);
         col.setMaxWidth(colWidth);
         col.setPreferredWidth(colWidth);
         col.setResizable(false);
 	}
 	
-	public static void adjustTableWidth(JTable tabla, JScrollPane scrollPane) {
-	    int newTableWidth = 0;
-	    for (int i = 0; i < tabla.getColumnCount(); i++) {
-	    	newTableWidth += tabla.getColumnModel().getColumn(i).getPreferredWidth();
-	    }
-	    // Añadir márgenes internos de la tabla
-	    newTableWidth += tabla.getIntercellSpacing().width * (tabla.getColumnCount() - 1);
-
-	    Dimension currentTableDim = scrollPane.getPreferredSize();
-	    if(currentTableDim.width < newTableWidth) {
-	    	scrollPane.setPreferredSize(new Dimension(newTableWidth, currentTableDim.height));
-	    }
+	/**
+	 * Permite modificar una columna de la tabla para que se muestre en formato JComboBox y ajustar su tamaño
+	 * NOTA: este metodo esta pensado para dar formato a campos de múltiple elección, de forma que las celdas
+	 * se muestren como texto normal pero, al seleccionarlas, puedan ser editadas como un combo-box
+	 */
+	public static void setComboBoxColumnStyle(JTable tabla, JComboBox<String> comboBox, int colIdx, int colWidth) {
+		TableColumn col = tabla.getColumnModel().getColumn(colIdx);
+		col.setCellEditor(new DefaultCellEditor(comboBox));
+        col.setMinWidth(colWidth);
+        col.setMaxWidth(colWidth);
+        col.setPreferredWidth(colWidth);
+        col.setResizable(false);
 	}
 
 	public static String getSelectedKey(JTable table) {

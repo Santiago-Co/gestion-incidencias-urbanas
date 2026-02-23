@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
@@ -13,6 +16,7 @@ import incidencias.model.DTOs.IncidenciaDTO;
 import incidencias.ui.ClasificarIncidenciasView;
 import incidencias.ui.DashboardView;
 import util.Util;
+import util.swing.SwingUtil;
 
 public class ClasificarIncidenciasController {
     
@@ -55,15 +59,19 @@ public class ClasificarIncidenciasController {
             
             TableModel modeloNuevo = Util.getTableModelFromPojos(lista, TITULOS_TABLA_INCIDENCIAS_DTO);
 
-            view.getTablaIncidencias().setModel(modeloNuevo);
+            JTable tabla = view.getTablaIncidencias();
+            tabla.setModel(modeloNuevo);
+            
+    		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+    		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 
-            if (modeloNuevo instanceof DefaultTableModel) {
-                ((DefaultTableModel) modeloNuevo).setColumnIdentifiers(TITULOS_VISUALES);
-            }
+    		SwingUtil.setTableStyle(tabla, centerRenderer, TITULOS_VISUALES);
+    		SwingUtil.setDescriptionColumnStyle(tabla, 2, 250);
             
             JComboBox<String> combo = new JComboBox<>(OPCIONES_INCIDENCIAS);
-            TableColumn columnaTipo = view.getTablaIncidencias().getColumnModel().getColumn(1);
-            columnaTipo.setCellEditor(new DefaultCellEditor(combo));       
+            SwingUtil.setComboBoxColumnStyle(tabla, combo, 1, 150);   
+            
+    		SwingUtil.autoAdjustColumns(tabla, view.getScrollIncidencias());
         });
     }
 

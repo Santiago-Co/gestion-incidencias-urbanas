@@ -83,7 +83,7 @@ public class AsignacionIncidenciasView extends JFrame {
 
         styleTable(tablaIncidencias);
         scrollIncidencias = new JScrollPane(tablaIncidencias);
-        scrollIncidencias.setPreferredSize(new Dimension(570, 300));
+        scrollIncidencias.setPreferredSize(new Dimension(575, 300));
         scrollIncidencias.setBorder(BorderFactory.createLineBorder(new Color(120, 120, 120), 2));
         gbcTablas.gridx = 0; gbcTablas.gridy = 1;
         gbcTablas.insets = new Insets(0, 0, 0, 20);

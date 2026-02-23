@@ -69,8 +69,8 @@ public class AsignacionIncidenciasController {
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 		SwingUtil.setTableStyle(tabla, centerRenderer, TITULOS_TABLA_INCIDENCIAS);
-		SwingUtil.setDescColumnStyle(tabla, 2, 250);
-		SwingUtil.autoAdjustColumns(tabla);
+		SwingUtil.setDescriptionColumnStyle(tabla, 2, 250);
+		SwingUtil.autoAdjustColumns(tabla, view.getScrollIncidencias());
     }
     
     private void listarTecnicos() {
@@ -81,7 +81,7 @@ public class AsignacionIncidenciasController {
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 		SwingUtil.setTableStyle(tabla, centerRenderer, TITULOS_TABLA_TECNICOS);
-		SwingUtil.autoAdjustColumns(tabla);
+		SwingUtil.autoAdjustColumns(tabla, view.getScrollIncidencias());
     }
     
     private void asignarIncidencia() {
