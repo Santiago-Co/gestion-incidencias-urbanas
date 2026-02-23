@@ -70,6 +70,9 @@ public class PlanificacionIncidenciasView extends JFrame {
 		panelSur.add(panelFormulario, BorderLayout.CENTER);
 		
 	}
+	
+	
+	public JTable getTablaIncidencias() { return this.tablaIncidencias; }
 
 	
 	
