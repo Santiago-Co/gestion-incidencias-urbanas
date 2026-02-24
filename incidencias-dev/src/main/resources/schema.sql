@@ -12,26 +12,27 @@ CREATE TABLE usuarios (
 
 CREATE TABLE incidencia (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    ciudadanoId INTEGER NOT NULL,
-    tecnicoId INTEGER NULL,
     tipo TEXT NOT NULL,
+	idCiudadano INTEGER NOT NULL,
     descripcion TEXT NOT NULL,
     localizacion TEXT NOT NULL,
-    estado TEXT NOT NULL DEFAULT 'Nueva', 
-    fechaRegistro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    horasPrevistas INTEGER,
-    descripcionTrabajo TEXT,
+    horasPrevistas INTEGER NULL,
+    descripcionTrabajo TEXT NULL,
     CHECK (tipo IN ('Alumbrado', 'Limpieza', 'Mobiliario urbano', 'Zonas verdes', 'Señalización y calzada', 'Otro')),
-    CHECK ( estado IN ('Nueva', 'Validada', 'Asignada', 'En proceso', 'Resuelta', 'Cerrada')),
-    FOREIGN KEY (ciudadanoId) REFERENCES usuarios(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (tecnicoId) REFERENCES usuarios(id) ON DELETE CASCADE ON UPDATE CASCADE
-);
+	FOREIGN KEY (idCiudadano) REFERENCES usuarios(id) ON DELETE CASCADE ON UPDATE CASCADE
+	);
 
-CREATE TABLE historial (
+CREATE TABLE historia (
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	idIncidencia INTEGER NOT NULL,
-	fechaCambio TEXT NOT NULL,
+	idCiudadano INTEGER NOT NULL,
+	idTecnico INTEGER NULL,
+	idOperador INTEGER NULL,
+	fechaCambio DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	estado TEXT NOT NULL,
 	descripcion TEXT NOT NULL,
-	FOREIGN KEY (idIncidencia) REFERENCES incidencia(id) ON DELETE CASCADE ON UPDATE CASCADE
+	CHECK (estado IN ('Nueva', 'Validada', 'Asignada', 'En proceso', 'Resuleta', 'Cerrada')),
+	FOREIGN KEY (idIncidencia) REFERENCES incidencia(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (idTecnico) REFERENCES usuarios(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (idOperador) REFERENCES usuarios(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
