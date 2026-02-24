@@ -31,6 +31,7 @@ public class PlanificacionIncidenciasView extends JFrame {
     }
 
     private void initComponents() {
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setBackground(BG_COLOR);
         getContentPane().setLayout(new BorderLayout());
 
@@ -127,7 +128,6 @@ public class PlanificacionIncidenciasView extends JFrame {
         btn.setFocusPainted(false);
         btn.setPreferredSize(new Dimension(44, 28));
         btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        btn.addActionListener(e -> dispose());
         btn.addMouseListener(new MouseAdapter() {
             @Override public void mouseEntered(MouseEvent e) { btn.setBackground(new Color(180, 40, 40)); }
             @Override public void mouseExited(MouseEvent e) { btn.setBackground(new Color(120, 120, 120)); }
@@ -150,8 +150,9 @@ public class PlanificacionIncidenciasView extends JFrame {
         });
     }
 
-    public JTable getTablaIncidencias() { return tablaIncidencias; }
-    public JTextField getTextFieldHorasPrevistas() { return textFieldHorasPrevistas; }
-    public JTextArea getTextAreaDescripcion() { return textAreaDescripcion; }
-    public JButton getBtnGuardar() { return btnGuardar; }
+    public JTable getTablaIncidencias() { return this.tablaIncidencias; }
+    public JTextField getTextFieldHorasPrevistas() { return this.textFieldHorasPrevistas; }
+    public JTextArea getTextAreaDescripcion() { return this.textAreaDescripcion; }
+    public JButton getBtnGuardar() { return this.btnGuardar; }
+    public JButton getBtnClose() { return this.btnClose; }
 }

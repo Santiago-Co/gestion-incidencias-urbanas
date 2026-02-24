@@ -160,8 +160,8 @@ public class DashboardView extends javax.swing.JFrame {
                 break;
         }
         
-        //btnCrearIncidencia.setVisible(true);
-        //btnConsultarMisIncidencias.setVisible(true);
+        btnCrearIncidencia.setVisible(true);
+        btnConsultarMisIncidencias.setVisible(true);
         
         this.revalidate();
         this.repaint();

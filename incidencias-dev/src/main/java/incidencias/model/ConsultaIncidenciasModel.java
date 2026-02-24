@@ -10,15 +10,39 @@ public class ConsultaIncidenciasModel {
 	    
     private Database db = new Database();
     
-	public static final String SQL_LISTA_INCIDENCIAS = "SELECT id, tipo, descripcion, fechaRegistro, estado "
-		     + "FROM incidencia "
-		     + "WHERE ciudadanoId = ? "
-		     + "ORDER BY fechaRegistro DESC";
+    public static final String SQL_LISTA_INCIDENCIAS = "SELECT i.id, tipo, i.descripcion, " +
+    												   "hCreacion.fechaCambio AS fechaCreacion, " +
+    												   "hActual.estado " +
+    	    										   "FROM incidencia i " +
+    	    										   "JOIN historia hCreacion ON hCreacion.id = " +
+    	    										   "( " +
+    	    										   "   SELECT MIN(h1.id) FROM historia h1 " +
+    	    										   "   WHERE h1.idIncidencia = i.id " +
+    	    										   ") " +
+    	    										   "JOIN historia hActual ON hActual.id = " +
+    	    										   "( " +
+    	    										   "   SELECT MAX(h2.id) FROM historia h2 " +
+    	    										   "   WHERE h2.idIncidencia = i.id " +
+    	    										   ") " +
+    	    										   "WHERE idCiudadano = ? " +
+    	    										   "ORDER BY hCreacion.fechaCambio DESC";
 	
-	public static final String SQL_FILTRA_INCIDENCIAS = "SELECT id, tipo, descripcion, fechaRegistro, estado "
-		      + "FROM incidencia "
-		      + "WHERE ciudadanoId = ? AND estado = ? "
-		      + "ORDER BY fechaRegistro DESC";
+	public static final String SQL_FILTRA_INCIDENCIAS = "SELECT i.id, tipo, i.descripcion, " +
+														"hCreacion.fechaCambio AS fechaCreacion, " +
+														"hActual.estado " +
+			   											"FROM incidencia i " +
+			   											"JOIN historia hCreacion ON hCreacion.id = " +
+			   											"( " +
+			   											"   SELECT MIN(h1.id) FROM historia h1 " +
+			   											"   WHERE h1.idIncidencia = i.id " +
+			   											") " +
+			   											"JOIN historia hActual ON hActual.id = " +
+			   											"( " +
+			   											"   SELECT MAX(h2.id) FROM historia h2 " +
+			   											"   WHERE h2.idIncidencia = i.id " +
+			   											") " +
+			   											"WHERE idCiudadano = ? AND hActual.estado = ?" +
+			   											"ORDER BY hCreacion.fechaCambio DESC";
     	
     public List<IncidenciaDTO> getListaIncidencias(int id) {
     	

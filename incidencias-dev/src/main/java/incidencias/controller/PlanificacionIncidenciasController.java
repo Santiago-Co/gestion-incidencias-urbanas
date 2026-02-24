@@ -10,6 +10,7 @@ import javax.swing.table.TableModel;
 
 import incidencias.model.PlanificacionIncidenciasModel;
 import incidencias.model.DTOs.IncidenciaDTO;
+import incidencias.ui.DashboardView;
 import incidencias.ui.PlanificacionIncidenciasView;
 import util.swing.SwingUtil;
 
@@ -17,18 +18,20 @@ public class PlanificacionIncidenciasController {
 
 	private PlanificacionIncidenciasView view;
     private PlanificacionIncidenciasModel model;
-    
+    private DashboardView viewDsb;
     private int idUsuario;
     
-    private static final String[] TITULOS_TABLA_INCIDENCIAS = {"ID", "Tipo", "Descripción", "Fecha/Hora", "Estado"};
-	private static final String[] TITULOS_TABLA_POJOS = new String[]{"id", "tipo", "descripcion", "fechaRegistro", "estado"};
+    private static final String[] TITULOS_TABLA_INCIDENCIAS = {"ID", "Tipo", "Descripción", "Localización", "Fecha/Hora"};
+	private static final String[] TITULOS_TABLA_POJOS = new String[]{"id", "tipo", "descripcion", "localizacion", "fechaCambio"};
 
-	public PlanificacionIncidenciasController(PlanificacionIncidenciasView view, PlanificacionIncidenciasModel model, int id) {
-		super();
+	public PlanificacionIncidenciasController(PlanificacionIncidenciasView view, PlanificacionIncidenciasModel model, int id, DashboardView viewDsb) {
 		this.view = view;
 		this.model = model;
+		this.viewDsb = viewDsb;
 		this.idUsuario = id;
-		this.initView();
+		
+		initView();
+		initController();
 	}
 
 	private void initView() {
@@ -38,6 +41,7 @@ public class PlanificacionIncidenciasController {
 
 	public void initController() {
 		view.getBtnGuardar().addActionListener(e -> SwingUtil.exceptionWrapper(() -> guardarPlanificacion()));
+    	view.getBtnClose().addActionListener(e -> volverDashboard());
 	}
 	
 	private void listarIncidenciasTecnico() {
@@ -92,12 +96,14 @@ public class PlanificacionIncidenciasController {
             return;
         }
 
-        model.planificarIncidencia(idIncidencia, horas, descripcionTrabajo);
+        model.planificarIncidencia(idIncidencia, idUsuario, horas, descripcionTrabajo);
 
         JOptionPane.showMessageDialog(view, "Incidencia planificada correctamente. Estado cambiado a 'En proceso'.", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
         listarIncidenciasTecnico();
 	}
     
-    
-	
+    private void volverDashboard() {
+    	view.dispose(); 
+        viewDsb.setVisible(true);
+    }
 }

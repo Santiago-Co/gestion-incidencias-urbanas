@@ -68,6 +68,9 @@ public class DashboardController {
         for (java.awt.event.ActionListener al : view.getBtnClasificarIncidencia().getActionListeners()) 
             view.getBtnClasificarIncidencia().removeActionListener(al);
         
+        for (java.awt.event.ActionListener al : view.getBtnPlanificarIncidencia().getActionListeners()) 
+            view.getBtnPlanificarIncidencia().removeActionListener(al);
+        
         for (java.awt.event.ActionListener al : view.getBtnClose().getActionListeners()) 
             view.getBtnClose().removeActionListener(al);
         
@@ -94,7 +97,7 @@ public class DashboardController {
     private void abrirValidarIncidencias() {
         ClasificarIncidenciasView clasificarView = new ClasificarIncidenciasView();
         ClasificarIncidenciasModel clasificarModel = new ClasificarIncidenciasModel();
-        new ClasificarIncidenciasController(clasificarView, clasificarModel, this.view);
+        new ClasificarIncidenciasController(clasificarView, clasificarModel, model.getUsuarioActual().getId(), this.view);
         view.setVisible(false); 
     }
     
@@ -108,8 +111,7 @@ public class DashboardController {
     private void abrirPlanificarIncidencias() {
     	PlanificacionIncidenciasView planView = new PlanificacionIncidenciasView();
         PlanificacionIncidenciasModel planModel = new PlanificacionIncidenciasModel();
-        PlanificacionIncidenciasController planController =
-            new PlanificacionIncidenciasController(planView, planModel, model.getUsuarioActual().getId());
-        planController.initController();  // inicializa listeners de la ventana de planificación
+        new PlanificacionIncidenciasController(planView, planModel, model.getUsuarioActual().getId(), this.view);
+        view.setVisible(false);
     }
 }

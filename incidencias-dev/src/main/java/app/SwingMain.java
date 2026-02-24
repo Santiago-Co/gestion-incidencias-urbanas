@@ -70,7 +70,7 @@ public class SwingMain {
 		btnCargarDatosIniciales.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Database db=new Database();
-				db.createDatabase(true);
+				db.createDatabase(false);
 				db.loadDatabase();
 			}
 		});
