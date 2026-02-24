@@ -10,16 +10,16 @@ public class ConsultaIncidenciasModel {
 	    
     private Database db = new Database();
     
-    public static final String SQL_LISTA_INCIDENCIAS = "SELECT id, tipo, descripcion, fechaRegistro, estado "
+	public static final String SQL_LISTA_INCIDENCIAS = "SELECT id, tipo, descripcion, fechaRegistro, estado "
 		     + "FROM incidencia "
 		     + "WHERE ciudadanoId = ? "
 		     + "ORDER BY fechaRegistro DESC";
-
-public static final String SQL_FILTRA_INCIDENCIAS = "SELECT id, tipo, descripcion, fechaRegistro, estado "
+	
+	public static final String SQL_FILTRA_INCIDENCIAS = "SELECT id, tipo, descripcion, fechaRegistro, estado "
 		      + "FROM incidencia "
 		      + "WHERE ciudadanoId = ? AND estado = ? "
 		      + "ORDER BY fechaRegistro DESC";
-
+    	
     public List<IncidenciaDTO> getListaIncidencias(int id) {
     	
     	LogSystem.logFlow("Consulta incidencias", "ejecución query");

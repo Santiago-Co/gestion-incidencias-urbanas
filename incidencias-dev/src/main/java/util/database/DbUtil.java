@@ -21,7 +21,6 @@ import org.apache.commons.dbutils.handlers.MapListHandler;
 import exceptions.ApplicationException;
 import exceptions.UnexpectedException;
 import util.LogSystem;
-
 /**
  * Metodos de utilidad para simplificar las queries realizadas en las clases 
  * que implementan la logica de negocio:
@@ -29,7 +28,7 @@ import util.LogSystem;
  * relativos a la conexion y a la estructura de la base de datos a crear, y a la vez
  * pueda usar los metodos que se definen aqui.
  * 
- * La mayoria de los metodos de utilidad utilizan apache commons-dbutils que gestiona todo el manejo
+ * <br>La mayoria de los metodos de utilidad utilizan apache commons-dbutils que gestiona todo el manejo
  * de resultsets, su mapeo a objetos y las excepciones permitiendo un codigo mucho mas limpio 
  * en las clases de la capa de negocio y DAOs.
  */
@@ -41,6 +40,10 @@ public abstract class DbUtil {
 	public Connection getConnection() throws SQLException {
 		return DriverManager.getConnection(getUrl());
 	}
+
+	//Documentacion de apache dbutils:
+	//https://commons.apache.org/proper/commons-dbutils/apidocs/index.html
+	//https://commons.apache.org/proper/commons-dbutils/examples.html
 	
 	/**
 	 * Ejecuta una query sql con los parametros especificados mapeando el resultet en una lista de objetos 
@@ -67,6 +70,7 @@ public abstract class DbUtil {
 	 * Utiliza apache commons-dbutils para relizar el mapeo y el manejo del resto de aspectos de jdbc
 	 */
 	public List<Object[]> executeQueryArray(String sql, Object... params) {
+		LogSystem.logFlow("QUERY Plain jaba object", "Ejecutando SQL: " + sql);
 		Connection conn = null;
 		try {
 			conn = this.getConnection();
@@ -100,6 +104,7 @@ public abstract class DbUtil {
 	 * Utiliza apache commons-dbutils para manejar todos los aspectos de jdbc
 	 */
 	public void executeUpdate(String sql, Object... params) {
+		LogSystem.logFlow("UPDATE", "Ejecutando actualización SQL: " + sql);
 		Connection conn = null;
 		try {
 			conn = this.getConnection();
@@ -114,10 +119,10 @@ public abstract class DbUtil {
 	
 	/**
 	 * Metodo simple para ejecutar todas las sentencias sql que se encuentran en un archivo, teniendo en cuenta:
-	 * - Cada sentencia DEBE finalizar en ; pudiendo ocupar varias lineas
-	 * - Se permiten comentarios de linea (--)
-	 * - Todas las sentencias drop se ejecutan al principio, 
-	 *   y se ignoran los fallos en caso de que no exista la tabla (solo para drop)
+	 * <br/>- Cada sentencia DEBE finalizar en ; pudiendo ocupar varias lineas
+	 * <br/>- Se permiten comentarios de linea (--)
+	 * <br/>- Todas las sentencias drop se ejecutan al principio, 
+	 * y se ignoran los fallos en caso de que no exista la tabla (solo para drop)
 	 */
 	public void executeScript(String fileName) {
 		LogSystem.logFlow("SCRIPT", "Leyendo fichero SQL: " + fileName);
@@ -150,16 +155,21 @@ public abstract class DbUtil {
 			}
 		}
 		// Ejecuta todas las sentencias, primero los drop (si existen)
-		if (!batchDrop.isEmpty())
+		if (!batchDrop.isEmpty()) {
+			LogSystem.logFlow("BATCH DROP", "Ejecutando " + batchDrop.size() + " sentencias DROP");
 			this.executeBatchNoFail(batchDrop);
-		if (!batchUpdate.isEmpty())
+		}
+		if (!batchUpdate.isEmpty()) {
+			LogSystem.logFlow("BATCH UP", "Ejecutando " + batchUpdate.size() + " sentencias UPDATE/CREATE");
 			this.executeBatch(batchUpdate);
+		}
 	}
 
 	/**
 	 * Ejecuta un conjunto de sentencias sql de actualizacion en un unico batch
 	 */
 	public void executeBatch(String[] sqls) {
+		LogSystem.logFlow("BATCH EXEC", "Procesando batch de tamaño: " + sqls.length);
 		executeBatch(Arrays.asList(sqls));
 	}
 	
@@ -167,6 +177,7 @@ public abstract class DbUtil {
 	 * Ejecuta un conjunto de sentencias sql de actualizacion en un unico batch
 	 */
 	public void executeBatch(List<String> sqls) {
+		LogSystem.logFlow("BATCH EXEC", "Procesando batch de tamaño: " + sqls.size());
 		try (Connection cn = DriverManager.getConnection(getUrl()); Statement stmt = cn.createStatement()) {
 			for (String sql : sqls)
 				stmt.addBatch(sql);
@@ -184,6 +195,7 @@ public abstract class DbUtil {
 	 * (usado normalmente para borrar tablas de la bd, que fallarian si no existen)
 	 */
 	public void executeBatchNoFail(List<String> sqls) {
+		LogSystem.logFlow("BATCH NOFAIL", "Procesando batch silencioso de tamaño: " + sqls.size());
 		try (Connection cn = DriverManager.getConnection(getUrl()); Statement stmt = cn.createStatement()) {
 			for (String sql : sqls)
 				executeWithoutException(stmt, sql);
@@ -197,6 +209,7 @@ public abstract class DbUtil {
 			stmt.executeUpdate(sql);
 		} catch (SQLException e) {
 			// no causa excepcion intencionaamente
+			LogSystem.logFlow("WARNING", "Fallo ignorado en SQL: " + sql);
 		}
 	}
 

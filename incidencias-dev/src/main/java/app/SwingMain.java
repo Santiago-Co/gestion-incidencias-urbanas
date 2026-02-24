@@ -1,17 +1,17 @@
 package app;
 
 import java.awt.EventQueue;
-import javax.swing.JFrame;
-
-import test_login.controller.TestLoginController;
-import test_login.model.TestLoginModel;
-import test_login.ui.TestLoginView;
-import util.database.Database;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JFrame;
+
+import incidencias.controller.LogInController;
+import incidencias.model.LogInModel;
+import incidencias.ui.LogInView;
+import util.database.Database;
 
 /**
  * Punto de entrada principal que incluye botones para la ejecucion de las pantallas 
@@ -50,22 +50,12 @@ public class SwingMain {
 		JButton btnEjecutarConsultaIncidencias = new JButton("Ejecutar ConsultaIncidencias");
 		btnEjecutarConsultaIncidencias.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TestLoginController controller=new TestLoginController(new TestLoginView(), new TestLoginModel());
+				LogInController controller=new LogInController(new LogInView(), new LogInModel());
 				controller.initController();
 			}
 		});
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
 		frame.getContentPane().add(btnEjecutarConsultaIncidencias);
-			
-		JButton btnEjecutarPlanificacionIncidencias = new JButton("Ejecutar PlanificacionIncidencias");
-		btnEjecutarPlanificacionIncidencias.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				TestLoginController controller=new TestLoginController(new TestLoginView(), new TestLoginModel());
-				controller.initController();
-			}
-		});
-		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
-		frame.getContentPane().add(btnEjecutarPlanificacionIncidencias);
 		
 		JButton btnInicializarBaseDeDatos = new JButton("Inicializar Base de Datos en Blanco");
 		btnInicializarBaseDeDatos.addActionListener(new ActionListener() {

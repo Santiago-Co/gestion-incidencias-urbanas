@@ -1,5 +1,4 @@
 package exceptions;
-
 /**
  * Excepcion producida por la aplicacion antes situaciones que no deberian ocurrir pero que son controladas
  * y por tanto, la aplicacion se puede recuperar (validacion de datos, prerequisitos que no se cumplen, etc)
@@ -14,3 +13,4 @@ public class ApplicationException extends RuntimeException {
 		super(s);
 	}
 }
+

@@ -126,8 +126,6 @@ public class ConsultaIncidenciasView extends JFrame {
                 btn.setForeground(Color.WHITE);
             }
         });
-
-        btn.addActionListener(e -> dispose());
     }
     
     private void enableWindowDrag(JPanel panel) {
@@ -151,5 +149,6 @@ public class ConsultaIncidenciasView extends JFrame {
     public JComboBox<String> getListaFiltros() { return this.cbFiltroEstado; }
     
     public JTable getTablaIncidencias() { return this.tablaIncidencias; }
+    public JButton getBtnClose() { return this.btnClose; }
      
 }

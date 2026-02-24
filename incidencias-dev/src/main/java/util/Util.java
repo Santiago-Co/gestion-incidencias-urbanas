@@ -1,194 +1,168 @@
 package util;
 
+
 import java.lang.reflect.InvocationTargetException;
-import java.text.Format;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.beanutils.BeanUtils;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import org.apache.commons.beanutils.PropertyUtils;
 import exceptions.ApplicationException;
 
-/**
- * Utilidades varias con metodos generales de serializacion, conversion a csv y conversion de fechas
- */
-public class Util {
-	
-	private Util() {
-	    throw new IllegalStateException("Utility class");
-	}
-	
-	public static boolean esDNIValido(String texto) {
-		return texto.matches("^[0-9]{8}[A-Za-z]$");
-	}
 
-	public static boolean esCorreoValido(String texto) {
-		return texto.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
-	}
-	
-	 public static void validateNotNull(Object obj, String message) {
-		 if (obj == null) {
-			 LogSystem.logFlow("ERROR", message);
-			 throw new ApplicationException(message);
-		 }
-	 }
-	 
-	 public static void validateCondition(boolean cond, String message) {
+public class Util {
+
+    private Util() {
+        throw new IllegalStateException("Utility class");
+    }
+
+
+    public static boolean esDNIValido(String texto) {
+        return texto != null && texto.matches("^[0-9]{8}[A-Za-z]$");
+    }
+
+    public static boolean esCorreoValido(String texto) {
+        return texto != null && texto.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+    }
+    
+    public static void validateCondition(boolean cond, String message) {
 		 if (!cond) {
 			 LogSystem.logFlow("ERROR", message);
 			 throw new ApplicationException(message);
 		 }
 	 }
+    
+    /**
+     * Agrega una acción de cierre total de la aplicación a un botón.
+     */
+    public static void addCloseAction(JButton btn, String windowName) {
+        btn.addActionListener(e -> {
+            LogSystem.logFlow("EXIT", "Cerrando aplicación desde: " + windowName);
+            System.exit(0);
+        });
+    }
 
-	/**
-	 * Serializa una lista de objetos a formato json insertando saltos de linea entre cada elemento 
-	 * para facilitar la comparacion de resultados en las pruebas utilizando jackson-databind
-	 * (opcionalmente permite obtene una representacion similar a csv).
-	 * @param pojoList Lista de objetos a serializar
-	 * @param asArray si es true codifica los diferentes campos del objeto como un array 
-	 * y elimina comillas para facilitar la comparacion, si es false devuelve el json completo
-	 * @return el string que representa la lista serializada
-	 */
-	public static String serializeToJson(Class<?> pojoClass, List<?> pojoList, boolean asArray) {
-		try {
-			ObjectMapper mapper = new ObjectMapper();
-			if (asArray) {
-				mapper.configOverride(pojoClass).setFormat(JsonFormat.Value.forShape(JsonFormat.Shape.ARRAY));
-				String value = mapper.writeValueAsString(pojoList);
-				return value.replace("],", "],\n").replace("\"", ""); // con saltos de linea y sin comillas
-				// otra alternativa es utilizar las clases especificas para csv que suministra Jackson
-				// (jackson-dataformat-csv)
-			} else {
-				return mapper.writeValueAsString(pojoList).replaceAll("},", "},\n"); // con saltos de linea
-			}
-		} catch (JsonProcessingException e) {
-			throw new ApplicationException(e);
-		}
-	}
-	
-	/**
-	 * Convierte una lista de objetos a formato csv
-	 * @param pojoList Lista de objetos a serializar
-	 * @param fields campos de cada objeto a incluir en el csv
-	 */
-	public static String pojosToCsv(List<?> pojoList, String[] fields) {
-		return pojosToCsv(pojoList, fields, false, ",", "", "", "");
-	}
+    public static void validateNotNull(Object obj, String message) {
+        if (obj == null) {
+            LogSystem.logFlow("ERROR", message);
+            throw new ApplicationException(message);
+        }
+    }
 
-	/**
-	 * Convierte una lista de objetos a formato csv con varios parametros para personalizar el aspecto
-	 * @param pojoList Lista de objetos a serializar
-	 * @param fields campos de cada objeto a incluir en el csv
-	 * @param headers si es true incluye una primera fila con las cabeceras
-	 * @param separator caracter que separa cada columna
-	 * @param begin caracter a incluir al principio de cada linea
-	 * @param end caracter a incluir al final de cada linea
-	 * @param nullAs Texto que se incluira cuando el valor es null
-	 * @return el string que representa la lista serializada en csv
-	 */
-	public static String pojosToCsv(List<?> pojoList, String[] fields, boolean headers, String separator, String begin,
-			String end, String nullAs) {
-		StringBuilder sb = new StringBuilder();
-		if (headers)
-			addPojoLineToCsv(sb, null, fields, separator, begin, end, nullAs);
-		for (int i = 0; i < pojoList.size(); i++) {
-			try {
-				// utiliza Apache commons BeanUtils para obtener los atributos del objeto en un map
-				Map<String, String> objectAsMap = BeanUtils.describe(pojoList.get(i));
-				addPojoLineToCsv(sb, objectAsMap, fields, separator, begin, end, nullAs);
-			} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-				throw new ApplicationException(e);
-			}
-		}
-		return sb.toString();
-	}
+    /**
+     * Envuelve la ejecución de un método en un manejador de excepciones estándar para UI.
+     */
+    public static void exceptionWrapper(Runnable consumer) {
+        try {
+            consumer.run();
+        } catch (ApplicationException e) {
+            showMessage(e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            showMessage("Ocurrió un error inesperado:\n" + e.toString(), "Excepción no controlada", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
-	/**
-	 * Convierte una lista de maps que representan un objeto a formato csv con varios parametros para personalizar el aspecto
-	 * @param mapList Lista de objetos a serializar
-	 * @param fields campos de cada objeto a incluir en el csv
-	 * @param headers si es true incluye una primera fila que representa las cabeceras
-	 * @param separator caracter que separa cada columna
-	 * @param begin caracter a incluir al principio de cada linea
-	 * @param end caracter a incluir al final de cada linea
-	 * @param nullAs Texto que se incluira cuando el valor es null
-	 * @return el string que representa la lista serializada en csv
-	 */
-	public static String mapsToCsv(List<Map<String, String>> mapList, String[] fields, boolean headers, String separator, String begin,
-			String end, String nullAs) {
-		StringBuilder sb = new StringBuilder();
-		if (headers)
-			addPojoLineToCsv(sb, null, fields, separator, begin, end, nullAs);
-		for (int i = 0; i < mapList.size(); i++)
-			addPojoLineToCsv(sb, mapList.get(i), fields, separator, begin, end, nullAs);
-		return sb.toString();
-	}
+    private static void showMessage(String message, String title, int type) {
+        JOptionPane pane = new JOptionPane(message, type, JOptionPane.DEFAULT_OPTION);
+        pane.setOptions(new Object[] { "ACEPTAR" });
+        JDialog d = pane.createDialog(pane, title);
+        d.setLocation(200, 200);
+        d.setVisible(true);
+    }
 
-	private static void addPojoLineToCsv(StringBuilder sb, Map<String, String> objectAsMap, String[] fields,
-			String separator, String begin, String end, String nullAs) {
-		sb.append(begin);
-		for (int j = 0; j < fields.length; j++) {
-			String value;
-			if (objectAsMap == null) // nombre del campo si no hay map
-				value = fields[j];
-			else // valor del campo o el especificado para null
-				value = objectAsMap.get(fields[j]) == null ? nullAs : objectAsMap.get(fields[j]);
-			sb.append((j == 0 ? "" : separator) + value);
-		}
-		sb.append(end + "\n");
-	}
+    /**
+     * Ajusta todas las columnas de la tabla al tamaño de su contenido.
+     * Requiere la clase auxiliar TableColumnAdjuster.
+     */
+    public static void autoAdjustColumns(JTable table) {
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        // Nota: Asegúrate de tener la clase TableColumnAdjuster en tu proyecto
+        TableColumnAdjuster tca = new TableColumnAdjuster(table);
+        tca.adjustColumns();
+    }
 
-	/**
-	 * Convierte un array bidimensional de strings a csv (usado para comparaciones del ui con AssertJ Swing)
-	 */
-	public static String arraysToCsv(String[][] arrays) {
-		return arraysToCsv(arrays, null, ",", "", "");
-	}
+    public static String getSelectedKey(JTable table) {
+        int row = table.getSelectedRow();
+        if (row >= 0)
+            return table.getModel().getValueAt(row, 0).toString();
+        else
+            return "";
+    }
+    
+    public static String getSelectedValue(JTable table, int column) {
+        int row = table.getSelectedRow();
+        if (row >= 0)
+            return table.getModel().getValueAt(row, column).toString();
+        else
+            return "";
+    }
 
-	/**
-	 * Convierte un array bidimensional de strings a csv permitiendo parametrizacion
-	 * (usado para comparaciones del ui con AssertJ Swing y Cucumber)
-	 */
-	public static String arraysToCsv(String[][] arrays, String[] fields, String separator, String begin, String end) {
-		StringBuilder sb = new StringBuilder();
-		if (fields != null)
-			addArrayLineToCsv(sb, fields, separator, begin, end);
-		for (int i = 0; i < arrays.length; i++)
-			addArrayLineToCsv(sb, arrays[i], separator, begin, end);
-		return sb.toString();
-	}
+    
+    public static String selectAndGetSelectedKey(JTable table, String key) {
+        for (int i = 0; i < table.getModel().getRowCount(); i++) {
+            if (table.getModel().getValueAt(i, 0).equals(key)) {
+                table.setRowSelectionInterval(i, i);
+                return key;
+            }
+        }
+        return "";
+    }
 
-	private static void addArrayLineToCsv(StringBuilder sb, String[] array, String separator, String begin, String end) {
-		sb.append(begin);
-		for (int j = 0; j < array.length; j++)
-			sb.append((j == 0 ? "" : separator) + array[j]);
-		sb.append(end);
-		sb.append("\n");
-	}
-	
-	/** 
-	 * Convierte fecha repesentada como un string iso a fecha java (para conversion de entradas de tipo fecha)
-	 */
-	public static Date isoStringToDate(String isoDateString) {
-		try {
-			return new SimpleDateFormat("yyyy-MM-dd").parse(isoDateString);
-		} catch (ParseException e) {
-			throw new ApplicationException("Formato ISO incorrecto para fecha: " + isoDateString);
-		}
-	}
+    /**
+     * Crea un TableModel a partir de una lista de POJOs usando Apache BeanUtils.
+     */
+    public static <E> TableModel getTableModelFromPojos(List<E> pojos, String[] colProperties) {
+        DefaultTableModel tm;
+        if (pojos == null) {
+            return new DefaultTableModel(colProperties, 0);
+        } else {
+            tm = new DefaultTableModel(colProperties, pojos.size());
+        }
 
-	/** 
-	 * Convierte fecha java a un string formato iso (para display o uso en sql) 
-	 */
-	public static String dateToIsoString(Date javaDate) {
-		Format formatter = new SimpleDateFormat("yyyy-MM-dd");
-		return formatter.format(javaDate);
-	}
-	
+        for (int i = 0; i < pojos.size(); i++) {
+            for (int j = 0; j < colProperties.length; j++) {
+                try {
+                    Object pojo = pojos.get(i);
+                    Object value = PropertyUtils.getSimpleProperty(pojo, colProperties[j]);
+                    tm.setValueAt(value, i, j);
+                } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                    throw new RuntimeException("Error al acceder a la propiedad: " + colProperties[j], e);
+                }
+            }
+        }
+        return tm;
+    }
+
+    /**
+     * Crea un modelo de tabla tipo "Registro" (vertical) para un solo POJO.
+     */
+    public static <E> TableModel getRecordModelFromPojo(E pojo, String[] colProperties) {
+        DefaultTableModel tm = new DefaultTableModel(new String[] { "Campo", "Valor" }, colProperties.length);
+        for (int j = 0; j < colProperties.length; j++) {
+            try {
+                tm.setValueAt(colProperties[j], j, 0);
+                Object value = PropertyUtils.getSimpleProperty(pojo, colProperties[j]);
+                tm.setValueAt(value, j, 1);
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                throw new RuntimeException("Error al acceder a la propiedad: " + colProperties[j], e);
+            }
+        }
+        return tm;
+    }
+
+    /**
+     * Crea un Comboboxmodel a partir de una lista de arrays de objetos.
+     */
+    public static ComboBoxModel<Object> getComboModelFromList(List<Object[]> lst) {
+        DefaultComboBoxModel<Object> cm = new DefaultComboBoxModel<>();
+        if (lst != null) {
+            for (Object[] row : lst) {
+                if (row.length > 0) {
+                    cm.addElement(row[0]);
+                }
+            }
+        }
+        return cm;
+    }
 }
