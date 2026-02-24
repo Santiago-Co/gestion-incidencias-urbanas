@@ -13,7 +13,8 @@ public class PlanificacionIncidenciasView extends JFrame {
 	private JTable tablaIncidencias;
     private JTextField textFieldHorasPrevistas;
 	private JTextArea textAreaDescripcion;
-    
+    private JButton btnGuardar;
+	
 	public PlanificacionIncidenciasView() {
 		setTitle("Planificación de Incidencias");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,21 +60,19 @@ public class PlanificacionIncidenciasView extends JFrame {
 		// Descripción
 		panelFormulario.add(new JLabel("Descripción"));
 		textAreaDescripcion = new JTextArea(3, 20);
-		panelFormulario.add(textAreaDescripcion);
-		
 		JScrollPane scrollPaneDescripcion = new JScrollPane(textAreaDescripcion);
 		panelFormulario.add(scrollPaneDescripcion);
 		
-		JButton btnGuardar = new JButton("Guardar");
+		btnGuardar = new JButton("Guardar");
 		panelSur.add(btnGuardar, BorderLayout.EAST);
 		
 		panelSur.add(panelFormulario, BorderLayout.CENTER);
 		
 	}
-	
-	
-	public JTable getTablaIncidencias() { return this.tablaIncidencias; }
 
-	
+	public JTable getTablaIncidencias() { return this.tablaIncidencias; }
+	public JTextField getTextFieldHorasPrevistas() { return this.textFieldHorasPrevistas; }
+	public JTextArea getTextAreaDescripcion() { return this.textAreaDescripcion; }
+	public JButton getBtnGuardar() { return this.btnGuardar; }
 	
 }

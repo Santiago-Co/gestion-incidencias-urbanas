@@ -18,11 +18,11 @@ public class ConsultaIncidenciasController {
 	private int idUsuario;
 	
 	private static final String[] TITULOS_TABLA_INCIDENCIAS = {"ID", "Tipo", "Descripción", "Fecha/Hora", "Estado"};
-	private static final String[] TITULOS_TABLA_POJOS = new String[]{"id", "tipo", "descripcion", "fechaHora", "estado"};
+	private static final String[] TITULOS_TABLA_POJOS = new String[]{"id", "tipo", "descripcion", "fechaRegistro", "estado"};
 			
 
     public ConsultaIncidenciasController(ConsultaIncidenciasView l, ConsultaIncidenciasModel m, int id) {
-        this.view = l;
+    	this.view = l;
         this.model = m;
         this.idUsuario = id;
         this.initView();

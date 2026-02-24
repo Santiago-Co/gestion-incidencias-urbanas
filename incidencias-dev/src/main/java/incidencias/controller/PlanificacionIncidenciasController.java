@@ -2,6 +2,7 @@ package incidencias.controller;
 
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -19,9 +20,8 @@ public class PlanificacionIncidenciasController {
     
     private int idUsuario;
     
-	private static final String[] TITULOS_TABLA_INCIDENCIAS = {"ID", "Tipo", "Descripción", "Fecha/Hora", "Estado"};
-	private static final String[] TITULOS_TABLA_POJOS = new String[]{"id", "tipo", "descripcion", "fechaHora", "estado"};
-
+    private static final String[] TITULOS_TABLA_INCIDENCIAS = {"ID", "Tipo", "Descripción", "Fecha/Hora", "Estado"};
+	private static final String[] TITULOS_TABLA_POJOS = new String[]{"id", "tipo", "descripcion", "fechaRegistro", "estado"};
 
 	public PlanificacionIncidenciasController(PlanificacionIncidenciasView view, PlanificacionIncidenciasModel model, int id) {
 		super();
@@ -37,8 +37,7 @@ public class PlanificacionIncidenciasController {
 	}
 
 	public void initController() {
-		// TODO Auto-generated method stub
-		
+		view.getBtnGuardar().addActionListener(e -> SwingUtil.exceptionWrapper(() -> guardarPlanificacion()));
 	}
 	
 	private void listarIncidenciasTecnico() {
@@ -52,6 +51,52 @@ public class PlanificacionIncidenciasController {
 		SwingUtil.setDescColumnStyle(tabla, 2, 250);
 		SwingUtil.autoAdjustColumns(tabla);
     }
+	
+	private void guardarPlanificacion() {
+	    JTable tabla = view.getTablaIncidencias();
+	    int fila = tabla.getSelectedRow();
+
+	    if (fila == -1) {
+	        JOptionPane.showMessageDialog(view, "Seleccione una incidencia de la tabla.", "Aviso", JOptionPane.WARNING_MESSAGE);
+	        return;
+	    }
+
+	    Object value = tabla.getModel().getValueAt(fila, 0);
+	    if (!(value instanceof Number)) {
+	        JOptionPane.showMessageDialog(view, "Id de incidencia inválido.", "Error", JOptionPane.ERROR_MESSAGE);
+	        return;
+	    }
+
+	    int idIncidencia = ((Number) value).intValue();
+
+	    String horasTxt = view.getTextFieldHorasPrevistas().getText().trim();
+        Integer horas;
+        if (horasTxt.isEmpty()) {
+            JOptionPane.showMessageDialog(view, "Las horas previstas son obligatorias.", "Validación", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        try {
+            horas = Integer.parseInt(horasTxt);
+            if (horas <= 0) {
+                JOptionPane.showMessageDialog(view, "Introduce un número de horas válido (> 0).", "Validación", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(view, "Horas previstas debe ser un número entero.", "Validación", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String descripcionTrabajo = view.getTextAreaDescripcion().getText().trim();
+        if (descripcionTrabajo.isEmpty()) {
+            JOptionPane.showMessageDialog(view, "La descripción del trabajo es obligatoria.", "Validación", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        model.planificarIncidencia(idIncidencia, horas, descripcionTrabajo);
+
+        JOptionPane.showMessageDialog(view, "Incidencia planificada correctamente. Estado cambiado a 'En proceso'.", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+        listarIncidenciasTecnico();
+	}
     
     
 	

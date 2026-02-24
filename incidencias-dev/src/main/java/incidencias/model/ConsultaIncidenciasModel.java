@@ -10,17 +10,15 @@ public class ConsultaIncidenciasModel {
 	    
     private Database db = new Database();
     
-    public static final String SQL_LISTA_INCIDENCIAS = "SELECT i.id, tipo, descripcion, fechaHora, estado "
-    											     + "FROM usuario u JOIN incidencia i "
-    											     + "ON u.id = i.idUsuario "
-    											     + "WHERE u.id = ? "
-    											     + "ORDER BY fechaHora DESC";
-    
-    public static final String SQL_FILTRA_INCIDENCIAS = "SELECT i.id, tipo, descripcion, fechaHora, estado "
-												      + "FROM usuario u JOIN incidencia i "
-												      + "ON u.id = i.idUsuario "
-												      + "WHERE u.id = ? and estado = ?"
-												      + "ORDER BY fechaHora DESC";
+    public static final String SQL_LISTA_INCIDENCIAS = "SELECT id, tipo, descripcion, fechaRegistro, estado "
+		     + "FROM incidencia "
+		     + "WHERE ciudadanoId = ? "
+		     + "ORDER BY fechaRegistro DESC";
+
+public static final String SQL_FILTRA_INCIDENCIAS = "SELECT id, tipo, descripcion, fechaRegistro, estado "
+		      + "FROM incidencia "
+		      + "WHERE ciudadanoId = ? AND estado = ? "
+		      + "ORDER BY fechaRegistro DESC";
 
     public List<IncidenciaDTO> getListaIncidencias(int id) {
     	

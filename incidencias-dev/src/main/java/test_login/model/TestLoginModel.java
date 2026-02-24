@@ -11,7 +11,7 @@ public class TestLoginModel {
 	    
     private Database db = new Database();
     
-    public static final String SQL_EXISTE_USUARIO = "SELECT id FROM usuario "
+    public static final String SQL_EXISTE_USUARIO = "SELECT id FROM usuarios "
     											  + "WHERE dni = ? OR correo = ?";
 
     public UsuarioDTO validarUsuario(String id) {
