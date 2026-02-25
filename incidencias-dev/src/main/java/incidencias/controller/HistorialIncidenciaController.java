@@ -31,7 +31,7 @@ public class HistorialIncidenciaController {
             new String[] { "id", "tipo", "descripcion", "fechaCambio", "estado" };
 
     private static final String[] TITULOS_TABLA_HISTORIAL_POJOS = 
-            new String[] { "fechaCambio", "idIncidencia", "descripcion", "estado" };
+            new String[] { "fechaCambio", "descripcion", "estado" };
 
     public HistorialIncidenciaController(HistorialIncidenciaView view, HistorialIncidenciaModel model, int usuarioId, DashboardView viewDsb) {
         this.view = view;

@@ -13,7 +13,7 @@ public class HistorialIncidenciaModel {
     private Database db = new Database();
 
     public static final String SQL_LISTA_INCIDENCIAS =
-    	    "SELECT i.id, i.tipo, i.descripcion, h.fechaCambio, h.estado " +
+    	    "SELECT i.id, i.tipo, i.descripcion, h.fechaCambio as fechaCreacion, h.estado " +
     	    "FROM incidencia i " +
     	    "JOIN historia h ON h.idIncidencia = i.id " +
     	    "WHERE h.fechaCambio = (" +
@@ -22,7 +22,7 @@ public class HistorialIncidenciaModel {
     	    "ORDER BY h.fechaCambio DESC";
 
     public static final String SQL_HISTORIAL_POR_INCIDENCIA = 
-        "SELECT fechaCambio, idIncidencia, descripcion, estado, idTecnico, idOperador " +
+        "SELECT fechaCambio, descripcion, estado, idTecnico, idOperador " +
         "FROM historia " +
         "WHERE idIncidencia = ? " +
         "ORDER BY fechaCambio DESC";
