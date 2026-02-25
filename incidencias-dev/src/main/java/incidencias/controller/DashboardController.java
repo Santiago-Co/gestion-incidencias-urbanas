@@ -4,6 +4,7 @@ import incidencias.model.ClasificarIncidenciasModel;
 import incidencias.model.ConsultaIncidenciasModel;
 import incidencias.model.CrearIncidenciaModel;
 import incidencias.model.DashboardModel;
+import incidencias.model.HistorialIncidenciaModel;
 import incidencias.model.LogInModel;
 import incidencias.model.PlanificacionIncidenciasModel;
 import incidencias.model.DTOs.UsuarioDTO;
@@ -11,6 +12,7 @@ import incidencias.ui.ClasificarIncidenciasView;
 import incidencias.ui.ConsultaIncidenciasView;
 import incidencias.ui.CrearIncidenciaView;
 import incidencias.ui.DashboardView; // O el paquete correcto view.DashboardView
+import incidencias.ui.HistorialIncidenciaView;
 import incidencias.ui.LogInView;
 import incidencias.ui.PlanificacionIncidenciasView;
 import util.Util;
@@ -52,6 +54,9 @@ public class DashboardController {
         
         // --- Botones de TECNICO ---
         view.getBtnPlanificarIncidencia().addActionListener(e -> abrirPlanificarIncidencias());
+        
+        // --- Botones de OPERADOR Y TECNICO ---
+        view.getBtnHistorialIncidencia().addActionListener(e -> abrirHistorialIncidencia());
     }
 
     
@@ -70,6 +75,9 @@ public class DashboardController {
         
         for (java.awt.event.ActionListener al : view.getBtnPlanificarIncidencia().getActionListeners()) 
             view.getBtnPlanificarIncidencia().removeActionListener(al);
+        
+        for (java.awt.event.ActionListener al : view.getBtnHistorialIncidencia().getActionListeners()) 
+            view.getBtnHistorialIncidencia().removeActionListener(al);
         
         for (java.awt.event.ActionListener al : view.getBtnClose().getActionListeners()) 
             view.getBtnClose().removeActionListener(al);
@@ -112,6 +120,13 @@ public class DashboardController {
     	PlanificacionIncidenciasView planView = new PlanificacionIncidenciasView();
         PlanificacionIncidenciasModel planModel = new PlanificacionIncidenciasModel();
         new PlanificacionIncidenciasController(planView, planModel, model.getUsuarioActual().getId(), this.view);
+        view.setVisible(false);
+    }
+    
+    private void abrirHistorialIncidencia() {
+    	HistorialIncidenciaView histView = new HistorialIncidenciaView();
+        HistorialIncidenciaModel histModel = new HistorialIncidenciaModel();
+        new HistorialIncidenciaController(histView, histModel, model.getUsuarioActual().getId(), this.view);
         view.setVisible(false);
     }
 }
