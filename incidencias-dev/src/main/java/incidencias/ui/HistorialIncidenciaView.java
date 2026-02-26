@@ -1,141 +1,131 @@
 package incidencias.ui;
 
-import javax.swing.*;
-import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
+import javax.swing.*;
+import javax.swing.table.JTableHeader;
 
 public class HistorialIncidenciaView extends JFrame {
 
     private static final long serialVersionUID = 1L;
-
     private static final Color BG_COLOR = new Color(249, 250, 251);
-    private static final Color HEADER_BG = new Color(243, 244, 246);
-    private static final Color HEADER_FG = new Color(31, 41, 55);
+    private static final Color TABLE_BORDER = new Color(209, 213, 219);
 
     private JTable tablaIncidencias;
     private JTable tablaHistorial;
     private JButton btnClose;
-    private JLabel lblTitle;
-
-    // Drag window support
     private int mouseX, mouseY;
 
     public HistorialIncidenciaView() {
-        super("Historial de Incidencia");
         setUndecorated(true);
         initComponents();
-
-        pack();
-        setSize(800, 600);
-        setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 16, 16));
+        setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20));
         setLocationRelativeTo(null);
     }
 
     private void initComponents() {
+        getContentPane().setBackground(BG_COLOR); 
         getContentPane().setLayout(new BorderLayout());
-        getContentPane().setBackground(BG_COLOR);
 
+        JPanel mainPanel = new JPanel();
+        mainPanel.setBackground(Color.WHITE);
+        mainPanel.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createEmptyBorder(20, 20, 20, 20), // Margen exterior
+            BorderFactory.createEmptyBorder(10, 30, 20, 30)  // Padding interior blanco
+        ));
         
-        JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setBackground(HEADER_BG);
-        topPanel.setBorder(BorderFactory.createEmptyBorder(8, 12, 8, 12));
+        mainPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
 
-        lblTitle = new JLabel("Historial de Incidencias");
-        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 20));
-        lblTitle.setForeground(HEADER_FG);
+        // --- Título ---
+        JLabel lblTitle = new JLabel("Seguimiento de Incidencias");
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 26));
+        lblTitle.setForeground(new Color(31, 41, 55));
+        gbc.gridx = 0; gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(0, 0, 25, 0);
+        gbc.anchor = GridBagConstraints.WEST;
+        mainPanel.add(lblTitle, gbc);
 
-        btnClose = new JButton("X");
-        styleCloseButton(btnClose);
-
-        JPanel rightControls = new JPanel(new FlowLayout(FlowLayout.RIGHT, 6, 0));
-        rightControls.setOpaque(false);
-        rightControls.add(btnClose);
-
-        topPanel.add(lblTitle, BorderLayout.WEST);
-        topPanel.add(rightControls, BorderLayout.EAST);
-
-        enableWindowDrag(topPanel);
-
-        getContentPane().add(topPanel, BorderLayout.NORTH);
-
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-        splitPane.setResizeWeight(0.45);
-        splitPane.setContinuousLayout(true);
-        splitPane.setBorder(null);
-
-
+        // --- Tablas y SplitPane ---
         tablaIncidencias = new JTable();
-        tablaIncidencias.setFillsViewportHeight(true);
-        tablaIncidencias.setRowHeight(28);
-        tablaIncidencias.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        JTableHeader headerInc = tablaIncidencias.getTableHeader();
-        headerInc.setFont(new Font("Segoe UI", Font.BOLD, 13));
-        headerInc.setBackground(new Color(243, 244, 246));
-        headerInc.setForeground(new Color(55, 65, 81));
+        tablaHistorial = new JTable();
+        styleTable(tablaIncidencias);
+        styleTable(tablaHistorial);
 
         JScrollPane scrollInc = new JScrollPane(tablaIncidencias);
-        scrollInc.setBorder(BorderFactory.createTitledBorder("Listado de incidencias"));
-        scrollInc.setPreferredSize(new Dimension(420, 400));
-
-        // Right - historial de la incidencia seleccionada
-        tablaHistorial = new JTable(); // columnas: fechaHora, id, descripcion, estado
-        tablaHistorial.setFillsViewportHeight(true);
-        tablaHistorial.setRowHeight(26);
-        tablaHistorial.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        JTableHeader headerHist = tablaHistorial.getTableHeader();
-        headerHist.setFont(new Font("Segoe UI", Font.BOLD, 13));
-        headerHist.setBackground(new Color(243, 244, 246));
-        headerHist.setForeground(new Color(55, 65, 81));
-
+        scrollInc.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(TABLE_BORDER), "Tus Incidencias"));
+        
         JScrollPane scrollHist = new JScrollPane(tablaHistorial);
-        scrollHist.setBorder(BorderFactory.createTitledBorder("Historial (más recientes arriba)"));
-        scrollHist.setPreferredSize(new Dimension(520, 400));
+        scrollHist.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(TABLE_BORDER), "Detalle de la Incidencia"));
 
-        splitPane.setLeftComponent(scrollInc);
-        splitPane.setRightComponent(scrollHist);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollInc, scrollHist);
+        splitPane.setDividerLocation(500);
+        splitPane.setDividerSize(10);
+        splitPane.setBackground(Color.WHITE);
+        splitPane.setBorder(null);
 
-        getContentPane().add(splitPane, BorderLayout.CENTER);
+        gbc.gridy = 1;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        mainPanel.add(splitPane, gbc);
 
-        JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.setBackground(Color.WHITE);
-        bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 12, 12, 12));
-        JLabel lblHint = new JLabel("Seleccione una incidencia para ver su historial.");
-        lblHint.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        lblHint.setForeground(new Color(107, 114, 128));
-        bottomPanel.add(lblHint, BorderLayout.WEST);
+        // --- Barra superior ---
+        btnClose = new JButton("X");
+        styleCloseButton(btnClose);
+        
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        topPanel.setBackground(new Color(229, 231, 235));
+        topPanel.add(btnClose);
+        enableWindowDrag(topPanel);
 
-        getContentPane().add(bottomPanel, BorderLayout.SOUTH);
+        
+        getContentPane().add(topPanel, BorderLayout.NORTH);
+        getContentPane().add(mainPanel, BorderLayout.CENTER);
+
+        pack();
+    }
+
+    private void styleTable(JTable table) {
+        table.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        table.setRowHeight(30);
+        table.setGridColor(new Color(229, 231, 235));
+        table.setSelectionBackground(new Color(243, 244, 246));
+        table.setSelectionForeground(Color.BLACK);
+
+        JTableHeader header = table.getTableHeader();
+        header.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        header.setBackground(new Color(243, 244, 246));
+        header.setForeground(new Color(55, 65, 81));
+        header.setReorderingAllowed(false);
     }
 
     private void styleCloseButton(JButton btn) {
-        btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        btn.setPreferredSize(new Dimension(44, 28));
-        btn.setBackground(new Color(120,120,120));
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 18));
         btn.setForeground(Color.WHITE);
         btn.setBorder(null);
+        btn.setContentAreaFilled(false);
         btn.setFocusPainted(false);
-        btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        btn.addActionListener(e -> dispose());
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
         btn.addMouseListener(new MouseAdapter() {
-            @Override public void mouseEntered(MouseEvent e) { btn.setBackground(new Color(180,40,40)); }
-            @Override public void mouseExited(MouseEvent e) { btn.setBackground(new Color(120,120,120)); }
+            @Override public void mouseEntered(MouseEvent evt) { btn.setForeground(Color.RED); }
+            @Override public void mouseExited(MouseEvent evt) { btn.setForeground(Color.WHITE); }
         });
     }
 
-    private void enableWindowDrag(JComponent comp) {
-        comp.addMouseListener(new MouseAdapter() {
+    private void enableWindowDrag(JPanel panel) {
+        panel.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 mouseX = e.getX();
                 mouseY = e.getY();
             }
         });
-        comp.addMouseMotionListener(new MouseMotionAdapter() {
+        panel.addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
-                int x = e.getXOnScreen() - mouseX;
-                int y = e.getYOnScreen() - mouseY;
-                setLocation(x, y);
+                setLocation(e.getXOnScreen() - mouseX, e.getYOnScreen() - mouseY);
             }
         });
     }
@@ -143,5 +133,4 @@ public class HistorialIncidenciaView extends JFrame {
     public JTable getTablaIncidencias() { return tablaIncidencias; }
     public JTable getTablaHistorial() { return tablaHistorial; }
     public JButton getBtnClose() { return btnClose; }
-    public JLabel getLblTitle() { return lblTitle; }
 }

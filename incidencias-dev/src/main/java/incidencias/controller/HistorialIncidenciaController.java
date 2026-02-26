@@ -5,6 +5,7 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 
 import incidencias.model.HistorialIncidenciaModel;
@@ -29,9 +30,15 @@ public class HistorialIncidenciaController {
 
     private static final String[] TITULOS_TABLA_INCIDENCIAS_POJOS = 
             new String[] { "id", "tipo", "descripcion", "fechaCambio", "estado" };
+    
+    private static final String[] TITULOS_TABLA_INCIDENCIAS_VISTA = 
+            new String[] { "Id", "Tipo", "Descripción", "Último cambio", "Estado" };
 
     private static final String[] TITULOS_TABLA_HISTORIAL_POJOS = 
-            new String[] { "fechaCambio", "descripcion", "estado" };
+            new String[] { "id", "fechaCambio", "descripcion", "estado" };
+    
+    private static final String[] TITULOS_TABLA_HISTORIAL_VISTA = 
+            new String[] { "Id", "Fecha de cambio", "Descripción", "Estado" };
 
     public HistorialIncidenciaController(HistorialIncidenciaView view, HistorialIncidenciaModel model, int usuarioId, DashboardView viewDsb) {
         this.view = view;
@@ -59,7 +66,6 @@ public class HistorialIncidenciaController {
             }
         });
 
-        // Botones
         view.getBtnClose().addActionListener(e -> volverDashboard());
     }
 
@@ -70,35 +76,26 @@ public class HistorialIncidenciaController {
         TableModel tmodel = SwingUtil.getTableModelFromPojos(incidenciaList, TITULOS_TABLA_INCIDENCIAS_POJOS);
         JTable tabla = view.getTablaIncidencias();
         tabla.setModel(tmodel);
+        SwingUtil.setTableStyle(tabla, new DefaultTableCellRenderer(), TITULOS_TABLA_INCIDENCIAS_VISTA);
 
         SwingUtil.autoAdjustColumns(tabla);
     }
 
     private void onIncidenciaSelected() {
         JTable tabla = view.getTablaIncidencias();
-        int row = tabla.getSelectedRow();
-        if (row < 0) {
-            // limpiar historial si no hay selección
-            view.getTablaHistorial().setModel(new javax.swing.table.DefaultTableModel(TITULOS_TABLA_HISTORIAL_POJOS, 0));
-            return;
-        }
-
-        Object idObj = tabla.getModel().getValueAt(row, 0);
-        if (idObj == null) return;
-
-        int idIncidencia;
-        if (idObj instanceof Number) {
-            idIncidencia = ((Number) idObj).intValue();
-        } else {
-            try {
-                idIncidencia = Integer.parseInt(idObj.toString());
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(view, "Id de incidencia inválido.", "Error", JOptionPane.ERROR_MESSAGE);
+        SwingUtil.exceptionWrapper(() -> {
+            int row = tabla.getSelectedRow();
+            if (row < 0) {
+                // Limpiar historial si no hay selección
+                view.getTablaHistorial().setModel(SwingUtil.getTableModelFromPojos(null, TITULOS_TABLA_HISTORIAL_POJOS));
                 return;
             }
-        }
 
-        cargarHistorial(idIncidencia);
+            // asumimos que el id de la incidencia se encuentra en la columna 0
+            int idIncidencia = (int) tabla.getValueAt(row, 0);
+
+            cargarHistorial(idIncidencia);
+        });
     }
 
     private void cargarHistorial(int idIncidencia) {
@@ -106,8 +103,10 @@ public class HistorialIncidenciaController {
         List<HistoriaDTO> historial = model.getHistorialPorIncidencia(idIncidencia);
 
         TableModel tmodel = SwingUtil.getTableModelFromPojos(historial, TITULOS_TABLA_HISTORIAL_POJOS);
-        view.getTablaHistorial().setModel(tmodel);
-        SwingUtil.autoAdjustColumns(view.getTablaHistorial());
+        JTable tabla = view.getTablaHistorial();
+        tabla.setModel(tmodel);
+        SwingUtil.setTableStyle(tabla, new DefaultTableCellRenderer(), TITULOS_TABLA_HISTORIAL_VISTA);
+        SwingUtil.autoAdjustColumns(tabla);
     }
     
     private void volverDashboard() {

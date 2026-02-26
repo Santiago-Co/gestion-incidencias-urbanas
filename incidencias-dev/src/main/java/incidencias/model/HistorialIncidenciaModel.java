@@ -16,23 +16,32 @@ public class HistorialIncidenciaModel {
     	    "SELECT i.id, i.tipo, i.descripcion, h.fechaCambio as fechaCreacion, h.estado " +
     	    "FROM incidencia i " +
     	    "JOIN historia h ON h.idIncidencia = i.id " +
-    	    "WHERE h.fechaCambio = (" +
+    	    "WHERE (h.idTecnico = ? OR h.idOperador = ?) " +
+    	    "AND h.fechaCambio = (" +
     	    "   SELECT MAX(h2.fechaCambio) FROM historia h2 WHERE h2.idIncidencia = i.id" +
     	    ") " +
     	    "ORDER BY h.fechaCambio DESC";
 
     public static final String SQL_HISTORIAL_POR_INCIDENCIA = 
-        "SELECT fechaCambio, descripcion, estado, idTecnico, idOperador " +
+        "SELECT id, fechaCambio, descripcion, estado " +
         "FROM historia " +
         "WHERE idIncidencia = ? " +
         "ORDER BY fechaCambio DESC";
 
+    /*
+     * Selecciona las incidencias cuyo id de operador o técnico se corresponde con el id del usuario
+     * que desea realizar la consulta. Se recoge de la tabla "Historia" el último estado al que ha
+     * pasado la incidencia.
+     */
     public List<IncidenciaDTO> getIncidenciasUsuario(int usuarioId) {
         LogSystem.logFlow("HistorialModel", "Listando incidencias (usuarioId=" + usuarioId + ")");
-        List<IncidenciaDTO> lista = db.executeQueryPojo(IncidenciaDTO.class, SQL_LISTA_INCIDENCIAS);
+        List<IncidenciaDTO> lista = db.executeQueryPojo(IncidenciaDTO.class, SQL_LISTA_INCIDENCIAS, usuarioId, usuarioId);
         return lista;
     }
 
+    /*
+     * Selecciona los datos principales de las historias asociadas a una incidencia concreta.
+     */
     public List<HistoriaDTO> getHistorialPorIncidencia(int idIncidencia) {
         LogSystem.logFlow("HistorialModel", "Obteniendo historial para incidencia " + idIncidencia);
         List<HistoriaDTO> historial = db.executeQueryPojo(HistoriaDTO.class, SQL_HISTORIAL_POR_INCIDENCIA, idIncidencia);
