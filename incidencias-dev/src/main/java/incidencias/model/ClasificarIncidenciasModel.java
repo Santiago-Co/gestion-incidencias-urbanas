@@ -13,24 +13,34 @@ public class ClasificarIncidenciasModel {
     /** Utilizada para los test de la historia
     private String SQL_LISTA_INCIDENCIAS_TODO = "select * from incidencia";
     */
-    /**Si no se pone as fechaRegistro para coincidir {@IncidenciaDTO} al mapearlo no se podria conseguir su 
-    getter y saldria con una hora null */
-    private String SQL_LISTA_INCIDENCIAS = "select id, tipo, descripcion, fechaRegistro " 
-    		+ "from incidencia where estado = 'Nueva' order by fechaRegistro";
+    private static final String SQL_LISTA_INCIDENCIAS = "SELECT i.id, i.tipo, i.descripcion, h.fechaCambio AS fechaCreacion " +
+    													"FROM incidencia i JOIN historia h ON h.idIncidencia = i.id " +
+    													"WHERE h.estado = 'Nueva' " +
+    													"AND h.id = (SELECT MIN(h1.id) FROM historia h1 WHERE h1.idIncidencia = i.id) " +
+    													"AND h.id = (SELECT MAX(h2.id) FROM historia h2 WHERE h2.idIncidencia = i.id) " +
+    													"ORDER BY h.fechaCambio";
+
+    private static final String SQL_ACTUALIZAR_TIPO = "UPDATE incidencia SET tipo = ? WHERE id = ?";
     
-    private String SQL_ACTUALIZAR_ESTADO = "UPDATE incidencia SET estado = ?, tipo = ? WHERE id = ?";
+    private static final String SQL_INSERT_HISTORIAL = "INSERT INTO historia (idIncidencia, idTecnico, idOperador, estado, descripcion) " +
+		    										   "VALUES (?, NULL, ?, ?, ?)";
+    
     private static final String NUEVO_ESTADO_INCIDENCIA = "Validada";
     
     public List<IncidenciaDTO> getListaIncidencias() {
     	
-    	LogSystem.logFlow("Consulta incidencias", "ejecución query");
+    	LogSystem.logFlow("Consulta incidencias validadas", "ejecución query");
     	
         List<IncidenciaDTO> incidencias = db.executeQueryPojo(IncidenciaDTO.class, SQL_LISTA_INCIDENCIAS);
+        
+    	LogSystem.logFlow("Resultados", String.format("Fecha incidencia: %s", incidencias.get(0).getFechaCambio()));
     	
     	return incidencias;
     }
         
-    public void actualizarEstadoIncidencia(int id, String nuevoTipo) {
-        db.executeUpdate(SQL_ACTUALIZAR_ESTADO,NUEVO_ESTADO_INCIDENCIA, nuevoTipo, id);
+    public void actualizarEstadoIncidencia(int idIncidencia, int idOperador, String nuevoTipo) {
+        db.executeUpdate(SQL_ACTUALIZAR_TIPO, nuevoTipo, idIncidencia);
+        db.executeUpdate(SQL_INSERT_HISTORIAL, idIncidencia, idOperador, NUEVO_ESTADO_INCIDENCIA,
+        				 String.format("Incidencia validada por el operador %d", idOperador));
     }
 }

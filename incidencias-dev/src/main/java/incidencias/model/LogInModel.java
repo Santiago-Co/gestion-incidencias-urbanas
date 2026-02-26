@@ -12,8 +12,9 @@ public class LogInModel {
     private final static String MSG_ID_NO_NULA = "El identificador no puede ser nulo";
     private Database db = new Database();
     
-    public static final String SQL_EXISTE_USUARIO = 
-            "SELECT id, rol, correo FROM usuarios WHERE dni = ? OR correo = ?";
+    public static final String SQL_EXISTE_USUARIO = "SELECT id, rol, correo "
+    											  + "FROM usuario "
+    											  + "WHERE dni = ? OR correo = ?";
 
     public UsuarioDTO validarUsuario(String id) {
     	

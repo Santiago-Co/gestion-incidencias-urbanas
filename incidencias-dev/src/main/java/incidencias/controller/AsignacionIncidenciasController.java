@@ -9,13 +9,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import incidencias.model.AsignacionIncidenciasModel;
-import incidencias.model.ConsultaIncidenciasModel;
 import incidencias.model.DTOs.IncidenciaDTO;
 import incidencias.model.DTOs.UsuarioDTO;
 import incidencias.ui.AsignacionIncidenciasView;
-import incidencias.ui.ConsultaIncidenciasView;
 import incidencias.ui.DashboardView;
-import util.LogSystem;
 import util.Util;
 import util.swing.SwingUtil;
 
@@ -27,7 +24,7 @@ public class AsignacionIncidenciasController {
 	private int idUsuario;
 	
 	private static final String[] TITULOS_TABLA_INCIDENCIAS = {"ID", "Tipo", "Descripción", "Fecha/Hora"};
-	private static final String[] TITULOS_TABLA_INCIDENCIAS_POJOS = new String[]{"id", "tipo", "descripcion", "fechaRegistro"};
+	private static final String[] TITULOS_TABLA_INCIDENCIAS_POJOS = new String[]{"id", "tipo", "descripcion", "fechaCambio"};
 	
 	private static final String[] TITULOS_TABLA_TECNICOS = {"ID", "Email"};
 	private static final String[] TITULOS_TABLA_TECNICOS_POJOS = new String[]{"id", "correo"};	
@@ -92,7 +89,7 @@ public class AsignacionIncidenciasController {
     	int idIn  = Integer.parseInt(idIncidencia);
     	int idTec = Integer.parseInt(idTecnico);
     	if(view.confirmarAsignacion(idIn, idTec)) {
-    		model.asignarIncidencia(idIn, idTec);
+    		model.asignarIncidencia(idIn, idTec, idUsuario);
     		JTable tablaIncidencias = view.getTablaIncidencias();
     		DefaultTableModel modelTabla = (DefaultTableModel) tablaIncidencias.getModel();
     		modelTabla.removeRow(tablaIncidencias.getSelectedRow());

@@ -23,21 +23,25 @@ public class ClasificarIncidenciasController {
 	private ClasificarIncidenciasView view;
     private ClasificarIncidenciasModel model;
 	private DashboardView viewDsb;
+	private int idUsuario;
 	
-    private static final String[] TITULOS_TABLA_INCIDENCIAS_DTO = {"id", "tipo", "descripcion", "fechaRegistro"};
+    private static final String[] TITULOS_TABLA_INCIDENCIAS_DTO = {"id", "tipo", "descripcion", "fechaCambio"};
 	private static final String[] TITULOS_VISUALES = {"ID", "Tipo", "Descripción", "Fecha/Hora"};
+	
 	private static final String[] OPCIONES_INCIDENCIAS= {"Alumbrado", "Limpieza", "Mobiliario urbano", 
 														"Zonas verdes", "Señalización y calzada", "Otro"};
+	
 	private static final String MENSAJE_EXITO = "Incidencia validada correctamente";
 	private static final String MENSAJE_FALLO = "Debe seleccionar una incidencia para validarla"; 
 	
-    public ClasificarIncidenciasController(ClasificarIncidenciasView view, ClasificarIncidenciasModel model, DashboardView viewDsb) {
+    public ClasificarIncidenciasController(ClasificarIncidenciasView view, ClasificarIncidenciasModel model, int id, DashboardView viewDsb) {
         this.view = view;
         this.model = model;
-        this.viewDsb = viewDsb; 
-        this.initController();
-        this.initView();
+        this.viewDsb = viewDsb;
+        this.idUsuario = id;
         
+        initController();
+        initView();
     }
     
     public void initView() {
@@ -57,7 +61,7 @@ public class ClasificarIncidenciasController {
             
             List<IncidenciaDTO> lista = model.getListaIncidencias();
             
-            TableModel modeloNuevo = Util.getTableModelFromPojos(lista, TITULOS_TABLA_INCIDENCIAS_DTO);
+            TableModel modeloNuevo = SwingUtil.getTableModelFromPojos(lista, TITULOS_TABLA_INCIDENCIAS_DTO);
 
             JTable tabla = view.getTablaIncidencias();
             tabla.setModel(modeloNuevo);
@@ -90,7 +94,7 @@ public class ClasificarIncidenciasController {
         Util.exceptionWrapper(() -> {
             int id = Integer.parseInt(idStr);
             
-            model.actualizarEstadoIncidencia(id, tipoIncidencia);
+            model.actualizarEstadoIncidencia(id, idUsuario, tipoIncidencia);
             this.view.mostrarExito(MENSAJE_EXITO);
             
             listarIncidencias();

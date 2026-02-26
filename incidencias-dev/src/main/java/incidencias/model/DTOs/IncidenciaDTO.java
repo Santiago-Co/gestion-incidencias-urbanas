@@ -3,38 +3,54 @@ package incidencias.model.DTOs;
 public class IncidenciaDTO {
 
     private int id;
-    private int ciudadanoId;
-    private Integer tecnicoId;   
-    private String fechaRegistro;
-    private String estado;
+    private int idCiudadano;
     private String tipo;
     private String descripcion;
     private String localizacion;
+    private int horasPrevistas;
+    private String descripcionTrabajo;
+    private String fechaCreacion;
+    private String estado;
     
     public IncidenciaDTO() {}
 
-    public IncidenciaDTO(int rowId, String rowTipo, String rowDesc, String rowFecha, String rowEstado) {
-		this.id = rowId;
-		this.tipo = rowTipo;
-		this.descripcion = rowDesc;
-		this.fechaRegistro = rowFecha;
-		this.estado = rowEstado;
+    public IncidenciaDTO(int rowId, String rowTipo, String rowDesc, String rowLoc,
+    					 int rowHP, String rowDescT, String rowFecha, String rowEstado)
+    {
+        this.id = rowId;
+        this.tipo = rowTipo;
+        this.descripcion = rowDesc;
+        this.localizacion = rowLoc;
+        this.horasPrevistas = rowHP;
+        this.descripcionTrabajo = rowDescT;
+        this.fechaCreacion = rowFecha;
+        this.estado = rowEstado;
     }
 
     public int getId() { return this.id; }
     public void setId(int id) { this.id = id; }
-    public int getCiudadanoId() { return ciudadanoId; }
-    public void setCiudadanoId(int ciudadanoId) { this.ciudadanoId = ciudadanoId; }
-    public Integer getTecnicoId() { return tecnicoId; }
-    public void setTecnicoId(Integer tecnicoId) { this.tecnicoId = tecnicoId; }
-    public String getFechaRegistro() { return fechaRegistro; }
-    public void setFechaRegistro(String fechaRegistro) { this.fechaRegistro = fechaRegistro; }
-    public String getEstado() { return estado; }
-    public void setEstado(String estado) { this.estado = estado; }
+
+    public int getCiudadanoId() { return idCiudadano; }
+    public void setCiudadanoId(int ciudadanoId) { this.idCiudadano = ciudadanoId; }
+
     public String getTipo() { return tipo; }
     public void setTipo(String tipo) { this.tipo = tipo; }
+
     public String getDescripcion() { return descripcion; }
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+
     public String getLocalizacion() { return localizacion; }
     public void setLocalizacion(String localizacion) { this.localizacion = localizacion; }
+
+    public int getHorasPrevistas() { return horasPrevistas; }
+    public void setHorasPrevistas(int horasPrevistas) { this.horasPrevistas = horasPrevistas; }
+
+    public String getDescripcionTrabajo() { return descripcionTrabajo; }
+    public void setDescripcionTrabajo(String descripcionTrabajo) { this.descripcionTrabajo = descripcionTrabajo; }
+
+	public String getFechaCambio() { return fechaCreacion; }
+	public void setFechaCreacion(String fechaCreacion) { this.fechaCreacion = fechaCreacion; }
+
+	public String getEstado() { return estado; }
+	public void setEstado(String estado) { this.estado = estado; }
 }

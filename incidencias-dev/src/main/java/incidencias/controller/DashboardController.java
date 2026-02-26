@@ -6,13 +6,15 @@ import incidencias.model.ConsultaIncidenciasModel;
 import incidencias.model.CrearIncidenciaModel;
 import incidencias.model.DashboardModel;
 import incidencias.model.LogInModel;
+import incidencias.model.PlanificacionIncidenciasModel;
 import incidencias.model.DTOs.UsuarioDTO;
 import incidencias.ui.AsignacionIncidenciasView;
 import incidencias.ui.ClasificarIncidenciasView;
 import incidencias.ui.ConsultaIncidenciasView;
 import incidencias.ui.CrearIncidenciaView;
-import incidencias.ui.DashboardView; // O el paquete correcto view.DashboardView
+import incidencias.ui.DashboardView;
 import incidencias.ui.LogInView;
+import incidencias.ui.PlanificacionIncidenciasView;
 import util.Util;
 
 public class DashboardController {
@@ -50,6 +52,9 @@ public class DashboardController {
         // --- Botones de OPERADOR ---
         view.getBtnClasificarIncidencia().addActionListener(e -> abrirValidarIncidencias());
         view.getBtnAsignarIncidencia().addActionListener(e -> abrirAsignarIncidencia());
+        
+        // --- Botones de TECNICO ---
+        view.getBtnPlanificarIncidencia().addActionListener(e -> abrirPlanificarIncidencias());
     }
 
     
@@ -68,6 +73,9 @@ public class DashboardController {
         
         for (java.awt.event.ActionListener al : view.getBtnAsignarIncidencia().getActionListeners()) 
             view.getBtnAsignarIncidencia().removeActionListener(al);
+        
+        for (java.awt.event.ActionListener al : view.getBtnPlanificarIncidencia().getActionListeners()) 
+            view.getBtnPlanificarIncidencia().removeActionListener(al);
         
         for (java.awt.event.ActionListener al : view.getBtnClose().getActionListeners()) 
             view.getBtnClose().removeActionListener(al);
@@ -95,7 +103,7 @@ public class DashboardController {
     private void abrirValidarIncidencias() {
         ClasificarIncidenciasView clasificarView = new ClasificarIncidenciasView();
         ClasificarIncidenciasModel clasificarModel = new ClasificarIncidenciasModel();
-        new ClasificarIncidenciasController(clasificarView, clasificarModel, this.view);
+        new ClasificarIncidenciasController(clasificarView, clasificarModel, model.getUsuarioActual().getId(), this.view);
         view.setVisible(false); 
     }
     
@@ -111,5 +119,12 @@ public class DashboardController {
     	AsignacionIncidenciasModel asignarIncidenciaModel = new AsignacionIncidenciasModel();
     	new AsignacionIncidenciasController(asignarIncidenciaView, asignarIncidenciaModel, model.getUsuarioActual().getId(), this.view);
     	view.setVisible(false);
+    }
+
+    private void abrirPlanificarIncidencias() {
+    	PlanificacionIncidenciasView planView = new PlanificacionIncidenciasView();
+        PlanificacionIncidenciasModel planModel = new PlanificacionIncidenciasModel();
+        new PlanificacionIncidenciasController(planView, planModel, model.getUsuarioActual().getId(), this.view);
+        view.setVisible(false);
     }
 }

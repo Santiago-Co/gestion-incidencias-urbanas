@@ -5,25 +5,35 @@ import java.util.List;
 import incidencias.model.DTOs.IncidenciaDTO;
 import incidencias.model.DTOs.UsuarioDTO;
 import util.LogSystem;
-import util.Util;
 import util.database.Database;
 
 public class AsignacionIncidenciasModel {
 	    
     private Database db = new Database();
 
-    public static final String SQL_INCIDENCIAS_VALIDADAS = "SELECT id, tipo, descripcion, fechaRegistro "
-		     											 + "FROM incidencia "
-		     											 + "WHERE estado = 'Validada' "
-		     											 + "ORDER BY fechaRegistro";
+    private static final String SQL_INCIDENCIAS_VALIDADAS = "SELECT i.id, tipo, i.descripcion, " +
+														   "hCreacion.fechaCambio AS fechaCreacion, " +
+														   "hActual.estado " +
+														   "FROM incidencia i " +
+														   "JOIN historia hCreacion ON hCreacion.id = " +
+														   "( " +
+														   "   SELECT MIN(h1.id) FROM historia h1 " +
+														   "   WHERE h1.idIncidencia = i.id " +
+														   ") " +
+														   "JOIN historia hActual ON hActual.id = " +
+														   "( " +
+														   "   SELECT MAX(h2.id) FROM historia h2 " +
+														   "   WHERE h2.idIncidencia = i.id " +
+														   ") " +
+														   "WHERE hActual.estado = 'Validada' " +
+														   "ORDER BY hCreacion.fechaCambio";
     
-    public static final String SQL_LISTA_TECNICOS = "SELECT id, correo "
-		      									  + "FROM usuarios "
-		      									  + "WHERE rol = 'Tecnico'";
+    private static final String SQL_LISTA_TECNICOS = "SELECT id, correo " +
+		      									     "FROM usuario " +
+		      									     "WHERE rol = 'Tecnico'";
     
-    public static final String SQL_ACTUALIZA_ESTADO = "UPDATE incidencia SET estado = 'Asignada' WHERE id = ?";
-    
-    public static final String SQL_ASIGNA_TECNICO = "INSERT INTO asignacion(tecnicoId, incidenciaId) VALUES(?, ?)";
+	private static final String SQL_INSERT_HISTORIAL = "INSERT INTO historia (idIncidencia, idTecnico, idOperador, estado, descripcion) " +
+													   "VALUES (?, ?, ?, 'Asignada', ?)";
     	
     public List<IncidenciaDTO> getListaIncidenciasValidadas() {
     	
@@ -43,14 +53,11 @@ public class AsignacionIncidenciasModel {
     	return incidencias;
     }
     
-    public void asignarIncidencia(int idIncidencia, int idTecnico) {
+    public void asignarIncidencia(int idIncidencia, int idTecnico, int idOperador) {
     	
     	LogSystem.logFlow("Asignacion incidencia", "ejecución query");
     	
-    	db.executeUpdate(SQL_ASIGNA_TECNICO, idTecnico, idIncidencia);
-    	
-    	LogSystem.logFlow("Actualizacion estado incidencia", "ejecución query");
-    	
-    	db.executeUpdate(SQL_ACTUALIZA_ESTADO, idIncidencia);
+    	db.executeUpdate(SQL_INSERT_HISTORIAL, idIncidencia, idTecnico, idOperador,
+    					 String.format("Incidencia asignada por el operador %d al técnico %d", idOperador, idTecnico));
     }
 }

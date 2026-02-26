@@ -46,20 +46,18 @@ public class CrearIncidenciasController {
 
         
         IncidenciaEntity nuevaIncidencia = new IncidenciaEntity();
-        nuevaIncidencia.setCiudadanoId(this.ciudadanoId);
+        nuevaIncidencia.setIdCiudadano(this.ciudadanoId);
         nuevaIncidencia.setTipo(tipo);
         nuevaIncidencia.setLocalizacion(localizacion);
         nuevaIncidencia.setDescripcion(descripcion);
-        nuevaIncidencia.setEstado("Nueva");
 
         
         try {
             IncidenciaDTO incidenciaGenerada = model.registrarYRecuperarIncidencia(nuevaIncidencia);
             
             String mensajeResumen = "¡Registro Exitoso!\n" +
-                    "Ticket ID: " + incidenciaGenerada.getId() + "\n" +
-                    "Fecha: " + incidenciaGenerada.getFechaRegistro() + "\n" +
-                    "Estado: " + incidenciaGenerada.getEstado() + "\n" +
+                    "ID incidencia: " + incidenciaGenerada.getId() + "\n" +
+                    //"Fecha registro: " + incidenciaGenerada.getFechaCambio() + "\n" +
                     "Localización: " + incidenciaGenerada.getLocalizacion() + "\n" +
             		"Descripción: " + incidenciaGenerada.getDescripcion();
             

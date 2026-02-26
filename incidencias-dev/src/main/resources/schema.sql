@@ -1,10 +1,9 @@
 -- Usar camel case para mantener la correlación con las variables de java
-DROP TABLE IF EXISTS historial;
-DROP TABLE IF EXISTS asignacion;
+DROP TABLE IF EXISTS historia;
 DROP TABLE IF EXISTS incidencia;
-DROP TABLE IF EXISTS usuarios;
+DROP TABLE IF EXISTS usuario;
 
-CREATE TABLE usuarios (
+CREATE TABLE usuario (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     dni TEXT UNIQUE NOT NULL,
     correo TEXT UNIQUE NOT NULL, 
@@ -13,23 +12,26 @@ CREATE TABLE usuarios (
 
 CREATE TABLE incidencia (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    ciudadanoId INTEGER NOT NULL,
-    tecnicoId INTEGER NULL,
     tipo TEXT NOT NULL,
+	idCiudadano INTEGER NOT NULL,
     descripcion TEXT NOT NULL,
     localizacion TEXT NOT NULL,
-    estado TEXT NOT NULL DEFAULT 'Nueva', 
-    fechaRegistro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    horasPrevistas INTEGER NULL,
+    descripcionTrabajo TEXT NULL,
     CHECK (tipo IN ('Alumbrado', 'Limpieza', 'Mobiliario urbano', 'Zonas verdes', 'Señalización y calzada', 'Otro')),
-    CHECK ( estado IN ('Nueva', 'Validada', 'Asignada', 'En proceso', 'Resuelta', 'Cerrada')),
-    FOREIGN KEY (ciudadanoId) REFERENCES usuarios(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (tecnicoId) REFERENCES usuarios(id) ON DELETE CASCADE ON UPDATE CASCADE
+	FOREIGN KEY (idCiudadano) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE asignacion (
+CREATE TABLE historia (
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
-	tecnicoId INTEGER NOT NULL,
-	incidenciaId INTEGER NOT NULL,
-    FOREIGN KEY (tecnicoId) REFERENCES usuarios(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (incidenciaId) REFERENCES incidencia(id) ON DELETE CASCADE ON UPDATE CASCADE
+	idIncidencia INTEGER NOT NULL,
+	idTecnico INTEGER NULL,
+	idOperador INTEGER NULL,
+	fechaCambio DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	estado TEXT NOT NULL,
+	descripcion TEXT NOT NULL,
+	CHECK (estado IN ('Nueva', 'Validada', 'Asignada', 'En proceso', 'Resuelta', 'Cerrada')),
+	FOREIGN KEY (idIncidencia) REFERENCES incidencia(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (idTecnico) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (idOperador) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
