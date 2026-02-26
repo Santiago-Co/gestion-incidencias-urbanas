@@ -9,7 +9,6 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.*;
 import javax.swing.table.JTableHeader;
 
-import util.LogSystem;
 
 public class AsignacionIncidenciasView extends JFrame {
 

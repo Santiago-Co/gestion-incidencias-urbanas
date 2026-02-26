@@ -5,7 +5,6 @@ import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import util.Util;
 
 public class ClasificarIncidenciasView extends JFrame {
 
