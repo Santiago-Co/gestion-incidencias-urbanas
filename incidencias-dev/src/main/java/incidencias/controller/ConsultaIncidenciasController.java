@@ -48,7 +48,7 @@ public class ConsultaIncidenciasController {
     		else SwingUtil.exceptionWrapper(() -> filtrarIncidencias(filtro));
     	});
     	
-    	view.getBtnClose().addActionListener(e -> volverDashboard());
+    	view.getBtnClose().addActionListener(e -> SwingUtil.exceptionWrapper(() -> volverDashboard()));
     }
 
     private void listarIncidencias() {
@@ -56,11 +56,7 @@ public class ConsultaIncidenciasController {
 		TableModel tmodel = SwingUtil.getTableModelFromPojos(incidencias, TITULOS_TABLA_POJOS);
 		JTable tabla = view.getTablaIncidencias();
 		tabla.setModel(tmodel);
-		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-		SwingUtil.setTableStyle(tabla, centerRenderer, TITULOS_TABLA_INCIDENCIAS);
-		SwingUtil.setDescColumnStyle(tabla, 2, 250);
-		SwingUtil.autoAdjustColumns(tabla);
+		mostrarTabla(tabla);
     }
     
     private void filtrarIncidencias(String estado) {
@@ -69,11 +65,15 @@ public class ConsultaIncidenciasController {
 		TableModel tmodel = SwingUtil.getTableModelFromPojos(incidencias, TITULOS_TABLA_POJOS);
 		JTable tabla = view.getTablaIncidencias();
 		tabla.setModel(tmodel);
+		mostrarTabla(tabla);
+    }
+    
+    private void mostrarTabla(JTable tabla) {
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 		SwingUtil.setTableStyle(tabla, centerRenderer, TITULOS_TABLA_INCIDENCIAS);
-		SwingUtil.setDescColumnStyle(tabla, 2, 250);
-		SwingUtil.autoAdjustColumns(tabla);
+		SwingUtil.setDescriptionColumnStyle(tabla, 2, 250);
+		SwingUtil.autoAdjustColumns(tabla, view.getScrollIncidencias());
     }
     
     private void volverDashboard() {

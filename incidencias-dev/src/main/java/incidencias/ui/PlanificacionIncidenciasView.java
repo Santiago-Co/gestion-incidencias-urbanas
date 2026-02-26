@@ -13,6 +13,7 @@ public class PlanificacionIncidenciasView extends JFrame {
     private static final Color HEADER_BG = new Color(243, 244, 246);
     private static final Color HEADER_FG = new Color(31, 41, 55);
 
+    private JScrollPane scrollTabla;
     private JTable tablaIncidencias;
     private JTextField textFieldHorasPrevistas;
     private JTextArea textAreaDescripcion;
@@ -60,7 +61,7 @@ public class PlanificacionIncidenciasView extends JFrame {
         tablaIncidencias.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
         tablaIncidencias.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 
-        JScrollPane scrollTabla = new JScrollPane(tablaIncidencias);
+        scrollTabla = new JScrollPane(tablaIncidencias);
         scrollTabla.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1));
         scrollTabla.setPreferredSize(new Dimension(860, 300));
         getContentPane().add(scrollTabla, BorderLayout.CENTER);
@@ -150,6 +151,7 @@ public class PlanificacionIncidenciasView extends JFrame {
         });
     }
 
+    public JScrollPane getScrollTabla() { return this.scrollTabla; }
     public JTable getTablaIncidencias() { return this.tablaIncidencias; }
     public JTextField getTextFieldHorasPrevistas() { return this.textFieldHorasPrevistas; }
     public JTextArea getTextAreaDescripcion() { return this.textAreaDescripcion; }

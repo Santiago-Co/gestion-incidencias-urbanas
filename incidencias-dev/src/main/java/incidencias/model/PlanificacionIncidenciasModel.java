@@ -22,7 +22,7 @@ public class PlanificacionIncidenciasModel {
 			   											 "   SELECT MAX(h2.id) FROM historia h2 " +
 			   											 "   WHERE h2.idIncidencia = i.id " +
 			   											 ") " +
-			   											 "WHERE idCiudadano = ? AND hActual.estado = 'Asignada' " +
+			   											 "WHERE hActual.idTecnico = ? AND hActual.estado = 'Asignada' " +
 			   											 "ORDER BY hCreacion.fechaCambio";
 	
 	private static final String SQL_NOTAS_INCIDENCIA = "UPDATE incidencia SET horasPrevistas = ?, descripcionTrabajo = ? WHERE id = ?";
