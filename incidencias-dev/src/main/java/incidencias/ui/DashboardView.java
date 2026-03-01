@@ -29,6 +29,7 @@ public class DashboardView extends javax.swing.JFrame {
     private JButton btnClasificarIncidencia;
 	private JButton btnAsignarIncidencias;
     private JButton btnPlanificarIncidencia;
+    private JButton btnHistorialIncidencia;
     
     private int xMouse, yMouse;
     
@@ -107,19 +108,21 @@ public class DashboardView extends javax.swing.JFrame {
         btnClasificarIncidencia = new JButton("Clasificar Incidencias");
         btnAsignarIncidencias = new JButton("Asignar Incidencias");
         btnPlanificarIncidencia = new JButton("Planificar Incidencias");
-        
+        btnHistorialIncidencia = new JButton("Historia de Incidencia");
         
         styleMenuButton(btnCrearIncidencia);
         styleMenuButton(btnConsultarMisIncidencias);
         styleMenuButton(btnClasificarIncidencia);
         styleMenuButton(btnAsignarIncidencias);
         styleMenuButton(btnPlanificarIncidencia);
+        styleMenuButton(btnHistorialIncidencia);
         
         buttonsPanel.add(btnCrearIncidencia);
         buttonsPanel.add(btnConsultarMisIncidencias);
         buttonsPanel.add(btnClasificarIncidencia);
         buttonsPanel.add(btnAsignarIncidencias);
         buttonsPanel.add(btnPlanificarIncidencia);
+        buttonsPanel.add(btnHistorialIncidencia);
 
         gbc.gridy = 2;
         gbc.insets = new Insets(0, 0, 30, 0);
@@ -148,6 +151,7 @@ public class DashboardView extends javax.swing.JFrame {
         btnClasificarIncidencia.setVisible(false);
         btnAsignarIncidencias.setVisible(false);
         btnPlanificarIncidencia.setVisible(false);
+        btnHistorialIncidencia.setVisible(false);
         
         switch (rol.trim()) {
             case "Ciudadano":
@@ -155,11 +159,13 @@ public class DashboardView extends javax.swing.JFrame {
                 break;
             case "Operador":
             	btnClasificarIncidencia.setVisible(true);
+            	btnHistorialIncidencia.setVisible(true);
                 btnAsignarIncidencias.setVisible(true);
                 break;
                 
             case "Tecnico":
             	btnPlanificarIncidencia.setVisible(true);
+            	btnHistorialIncidencia.setVisible(true);
                 break;
                 
             default:
@@ -238,4 +244,6 @@ public class DashboardView extends javax.swing.JFrame {
     public JButton getBtnClasificarIncidencia() { return btnClasificarIncidencia; }
     public JButton getBtnAsignarIncidencia() { return btnAsignarIncidencias; }
     public JButton getBtnPlanificarIncidencia() { return btnPlanificarIncidencia; }
+	public JButton getBtnHistorialIncidencia() { return btnHistorialIncidencia; }
+	public void setBtnHistorialIncidencia(JButton btnHistorialIncidencia) {	this.btnHistorialIncidencia = btnHistorialIncidencia; }
 }

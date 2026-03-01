@@ -63,6 +63,15 @@ public class SwingUtil {
 	/**
 	 * Ajusta todas las columnas de la tabla al tamanyo correspondiente al contenido del tablemodel
 	 */
+	public static void autoAdjustColumns(JTable table) {
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF); // si se usa ON la ultima columna se expandra en el panel
+		TableColumnAdjuster tca = new TableColumnAdjuster(table);
+		tca.adjustColumns();
+	}
+	
+	/**
+	 * Ajusta todas las columnas de la tabla al tamanyo correspondiente al contenido del tablemodel
+	 */
 	public static void autoAdjustColumns(JTable table, JScrollPane scroll) {
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		TableColumnAdjuster tca = new TableColumnAdjuster(table);
