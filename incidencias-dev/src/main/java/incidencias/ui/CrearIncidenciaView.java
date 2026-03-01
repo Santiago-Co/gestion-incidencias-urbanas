@@ -24,7 +24,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
 
 import util.LogSystem;
 
@@ -47,7 +46,7 @@ public class CrearIncidenciaView extends javax.swing.JFrame {
     private static final Color BORDER_COLOR = new Color(209, 213, 219);
     
 
-    private int xMouse, yMouse;
+    private int mouseX, mouseY;
 
     public CrearIncidenciaView() {
     	LogSystem.logFlow("Inicio", "Cargando componentes de la interfaz");
@@ -75,16 +74,19 @@ public class CrearIncidenciaView extends javax.swing.JFrame {
         	    "Otro"
         	});
         
+        JLabel titleWin = new JLabel("  Creación de incidencias");
+        titleWin.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        titleWin.setForeground(new Color(75, 85, 99));
+        
         JLabel lblLocalizacion = createStyledLabel("Localización");
         txtLocalizacion = createStyledTextField();
         JLabel lblDescripcion = createStyledLabel("Descripción de la incidencia");
         txtDescripcion = new JTextArea();
         JScrollPane scrollPane = new JScrollPane(txtDescripcion);
         btnEnviar = createPrimaryButton("Enviar Reporte");
-        btnClose = new JButton("✕");
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         
+        btnClose = new JButton("×");
+        styleCloseButton(btnClose); 
         
         mainPanel.setBackground(Color.WHITE);
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 30, 30, 30));
@@ -94,25 +96,14 @@ public class CrearIncidenciaView extends javax.swing.JFrame {
         gbc.insets = new Insets(5, 0, 5, 0); 
 
         
-        JPanel topBar = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        topBar.setBackground(Color.WHITE);
-        styleCloseButton(btnClose);
-        topBar.add(btnClose);
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        topPanel.setBackground(new Color(229, 231, 235));
+        topPanel.setPreferredSize(new Dimension(getWidth(), 40));
         
         
-        topBar.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent evt) {
-                xMouse = evt.getX();
-                yMouse = evt.getY();
-            }
-        });
-        topBar.addMouseMotionListener(new MouseMotionAdapter() {
-            public void mouseDragged(MouseEvent evt) {
-                int x = evt.getXOnScreen();
-                int y = evt.getYOnScreen();
-                setLocation(x - xMouse, y - yMouse);
-            }
-        });
+        topPanel.add(titleWin, BorderLayout.WEST);
+        topPanel.add(btnClose, BorderLayout.EAST);
+        enableWindowDrag(topPanel);
 
 
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 24));
@@ -147,7 +138,7 @@ public class CrearIncidenciaView extends javax.swing.JFrame {
         gbc.gridy++; gbc.insets = new Insets(0, 0, 0, 0);
         
         getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(topBar, BorderLayout.NORTH);
+        getContentPane().add(topPanel, BorderLayout.NORTH);
         getContentPane().add(mainPanel, BorderLayout.CENTER);
 
         pack();
@@ -161,7 +152,16 @@ public class CrearIncidenciaView extends javax.swing.JFrame {
         label.setForeground(LABEL_COLOR);
         return label;
     }
-
+    
+    private void enableWindowDrag(JPanel panel) {
+        panel.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) { mouseX = e.getX(); mouseY = e.getY(); }
+        });
+        panel.addMouseMotionListener(new MouseMotionAdapter() {
+            public void mouseDragged(MouseEvent e) { setLocation(e.getXOnScreen() - mouseX, e.getYOnScreen() - mouseY); }
+        });
+    }
+    
     private JTextField createStyledTextField() {
         JTextField txt = new JTextField();
         txt.setFont(new Font("Segoe UI", Font.PLAIN, 14));
@@ -214,31 +214,13 @@ public class CrearIncidenciaView extends javax.swing.JFrame {
     }
 
     private void styleCloseButton(JButton btn) {
-        btn.setText("X");
-        btn.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        btn.setForeground(new Color(150, 150, 150)); 
-
-
-        btn.setBorder(null);              
-        btn.setContentAreaFilled(false);  
-        btn.setBorderPainted(false);      
-        btn.setFocusPainted(false);       
-
-        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-        
-        //btn.addActionListener(e -> System.exit(0)); Eliminado para añadirlo en el controlador
-
-        
+        btn.setPreferredSize(new Dimension(45, 40));
+        btn.setBorder(null);
+        btn.setContentAreaFilled(false);
+        btn.setFont(new Font("Arial", Font.PLAIN, 20));
         btn.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent evt) {
-                btn.setForeground(Color.RED);
-            }
-            @Override
-            public void mouseExited(MouseEvent evt) {
-                btn.setForeground(new Color(150, 150, 150)); 
-            }
+            public void mouseEntered(MouseEvent e) { btn.setOpaque(true); btn.setBackground(Color.RED); btn.setForeground(Color.WHITE); }
+            public void mouseExited(MouseEvent e) { btn.setOpaque(false); btn.setForeground(Color.BLACK); }
         });
     }
     

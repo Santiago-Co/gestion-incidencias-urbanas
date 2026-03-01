@@ -10,7 +10,7 @@ public class ConsultaIncidenciasModel {
 	    
     private Database db = new Database();
     
-    public static final String SQL_LISTA_INCIDENCIAS = "SELECT i.id, tipo, i.descripcion, " +
+    private static final String SQL_LISTA_INCIDENCIAS = "SELECT i.id, tipo, i.descripcion, " +
     												   "hCreacion.fechaCambio AS fechaCreacion, " +
     												   "hActual.estado " +
     	    										   "FROM incidencia i " +
@@ -27,7 +27,7 @@ public class ConsultaIncidenciasModel {
     	    										   "WHERE idCiudadano = ? " +
     	    										   "ORDER BY hCreacion.fechaCambio DESC";
 	
-	public static final String SQL_FILTRA_INCIDENCIAS = "SELECT i.id, tipo, i.descripcion, " +
+	private static final String SQL_FILTRA_INCIDENCIAS = "SELECT i.id, tipo, i.descripcion, " +
 														"hCreacion.fechaCambio AS fechaCreacion, " +
 														"hActual.estado " +
 			   											"FROM incidencia i " +

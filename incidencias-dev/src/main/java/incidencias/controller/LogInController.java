@@ -22,6 +22,8 @@ public class LogInController {
 
     public void initController() {
         
+    	limpiarListeners();
+    	
     	view.getBtnIdentificar().addActionListener(e -> SwingUtil.exceptionWrapper(() ->intentarLogin()));
           
         Util.addCloseAction(view.getBtnClose(), "Dashboard");
@@ -52,5 +54,10 @@ public class LogInController {
     	DashboardView appView = DashboardView.getInstance();//new DashboardView();
     	DashboardModel appModel = new DashboardModel();
     	new DashboardController(appView, appModel, usuario);
+    }
+    
+    private void limpiarListeners() {
+        for (java.awt.event.ActionListener al : view.getBtnIdentificar().getActionListeners()) 
+            view.getBtnIdentificar().removeActionListener(al);
     }
 }

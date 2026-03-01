@@ -1,6 +1,6 @@
 package incidencias.controller;
 
-import java.util.List;
+import java.util.List; 
 
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
@@ -16,9 +16,17 @@ import incidencias.ui.HistorialIncidenciaView;
 import util.LogSystem;
 import util.swing.SwingUtil;
 
-import javax.swing.JOptionPane;
-
-
+/**
+ * Controlador para la funcionalidad de visualización del historial de las
+ * incidencias asociadas a un técnico/operador.
+ * 
+ * Se encarga de:
+ * <br/> - Inicializar la vista y el modelo.
+ * <br/> - Cargar las incidencias del usuario autenticado.
+ * <br/> - Gestionar la selección de una incidencia.
+ * <br/> - Mostrar el historial de cambios asociado.
+ * <br/> - Gestionar la navegación de vuelta al Dashboard.
+ */
 public class HistorialIncidenciaController {
 
     private HistorialIncidenciaView view;
@@ -27,7 +35,8 @@ public class HistorialIncidenciaController {
     private DashboardView viewDsb;
 
     private List<IncidenciaDTO> incidenciaList;
-
+    private static final String COLUMN_ID ="Id";
+    
     private static final String[] TITULOS_TABLA_INCIDENCIAS_POJOS = 
             new String[] { "id", "tipo", "descripcion", "fechaCambio", "estado" };
     
@@ -78,7 +87,7 @@ public class HistorialIncidenciaController {
         tabla.setModel(tmodel);
         SwingUtil.setTableStyle(tabla, new DefaultTableCellRenderer(), TITULOS_TABLA_INCIDENCIAS_VISTA);
 
-        SwingUtil.autoAdjustColumns(tabla);
+        SwingUtil.autoAdjustColumns(tabla, view.getScrollInc());
     }
 
     private void onIncidenciaSelected() {
@@ -91,8 +100,8 @@ public class HistorialIncidenciaController {
                 return;
             }
 
-            // asumimos que el id de la incidencia se encuentra en la columna 0
-            int idIncidencia = (int) tabla.getValueAt(row, 0);
+            int columnIndex = tabla.getColumnModel().getColumnIndex(COLUMN_ID);
+            int idIncidencia = (int) tabla.getValueAt(row, columnIndex);
 
             cargarHistorial(idIncidencia);
         });
@@ -106,7 +115,7 @@ public class HistorialIncidenciaController {
         JTable tabla = view.getTablaHistorial();
         tabla.setModel(tmodel);
         SwingUtil.setTableStyle(tabla, new DefaultTableCellRenderer(), TITULOS_TABLA_HISTORIAL_VISTA);
-        SwingUtil.autoAdjustColumns(tabla);
+        SwingUtil.autoAdjustColumns(tabla, view.getScrollHist());
     }
     
     private void volverDashboard() {

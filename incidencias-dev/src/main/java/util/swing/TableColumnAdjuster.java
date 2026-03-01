@@ -57,30 +57,35 @@ public class TableColumnAdjuster implements PropertyChangeListener, TableModelLi
 	/*
 	 *  Adjust the widths of all the columns in the table
 	 */
-	public void adjustColumns()
+	public int adjustColumns()
 	{
+		int totalWidth = 0;
 		TableColumnModel tcm = table.getColumnModel();
 
 		for (int i = 0; i < tcm.getColumnCount(); i++)
 		{
-			adjustColumn(i);
+			totalWidth += adjustColumn(i);
 		}
+		
+		return totalWidth;
 	}
 
 	/*
 	 *  Adjust the width of the specified column in the table
 	 */
-	public void adjustColumn(final int column)
+	public int adjustColumn(final int column)
 	{
 		TableColumn tableColumn = table.getColumnModel().getColumn(column);
 
-		if (! tableColumn.getResizable()) return;
+		if (! tableColumn.getResizable()) return tableColumn.getPreferredWidth();
 
 		int columnHeaderWidth = getColumnHeaderWidth( column );
 		int columnDataWidth   = getColumnDataWidth( column );
-		int preferredWidth	= Math.max(columnHeaderWidth, columnDataWidth);
+		int preferredWidth	= Math.max(columnHeaderWidth, columnDataWidth) + 5;
 
 		updateTableColumn(column, preferredWidth);
+		
+		return preferredWidth;
 	}
 
 	/*

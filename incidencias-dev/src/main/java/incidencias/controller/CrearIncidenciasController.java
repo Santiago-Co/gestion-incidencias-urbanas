@@ -6,7 +6,6 @@ import incidencias.model.Entitiy.IncidenciaEntity;
 import incidencias.ui.CrearIncidenciaView;
 import incidencias.ui.DashboardView;
 import util.LogSystem;
-import util.Util;
 
 public class CrearIncidenciasController {
     private CrearIncidenciaView view; 

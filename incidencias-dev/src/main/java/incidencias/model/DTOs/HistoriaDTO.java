@@ -1,5 +1,12 @@
 package incidencias.model.DTOs;
 
+/**
+ * Data Transfer Object que contiene las filas relativas a los
+ * datos de una historia. Contiene; el ID de la historia; el ID
+ * de la incidencia, técnico y operador asociados; la fecha de
+ * cambio de estado de la incidencia; el estado de la incidencia
+ * en ese punto; y la descripción del estado.
+ */
 public class HistoriaDTO {
 	
 	private int id;

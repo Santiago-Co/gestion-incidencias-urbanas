@@ -6,12 +6,23 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.*;
 import javax.swing.table.JTableHeader;
 
+/**
+ * Vista de la pantalla del historial de incidencias, que muestra dos tablas:
+ * - A la izquierda, la tabla que muestra los datos principales de las
+ * incidencias asociadas al usuario que inició sesión.
+ * - A la derecha, la tabla que muestra los datos principales de las
+ * historias asociadas a la incidencia que el usuario haya seleccionado 
+ * con el ratón. En caso de no estar ninguna seleccionada, no se mostrará
+ * nada.
+ */
 public class HistorialIncidenciaView extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private static final Color BG_COLOR = new Color(249, 250, 251);
     private static final Color TABLE_BORDER = new Color(209, 213, 219);
 
+    private JScrollPane scrollInc;
+    private JScrollPane scrollHist;
     private JTable tablaIncidencias;
     private JTable tablaHistorial;
     private JButton btnClose;
@@ -54,10 +65,10 @@ public class HistorialIncidenciaView extends JFrame {
         styleTable(tablaIncidencias);
         styleTable(tablaHistorial);
 
-        JScrollPane scrollInc = new JScrollPane(tablaIncidencias);
+        scrollInc = new JScrollPane(tablaIncidencias);
         scrollInc.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(TABLE_BORDER), "Tus Incidencias"));
         
-        JScrollPane scrollHist = new JScrollPane(tablaHistorial);
+        scrollHist = new JScrollPane(tablaHistorial);
         scrollHist.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(TABLE_BORDER), "Detalle de la Incidencia"));
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollInc, scrollHist);
@@ -81,7 +92,6 @@ public class HistorialIncidenciaView extends JFrame {
         topPanel.add(btnClose);
         enableWindowDrag(topPanel);
 
-        
         getContentPane().add(topPanel, BorderLayout.NORTH);
         getContentPane().add(mainPanel, BorderLayout.CENTER);
 
@@ -130,6 +140,8 @@ public class HistorialIncidenciaView extends JFrame {
         });
     }
 
+    public JScrollPane getScrollInc() { return scrollInc; }
+    public JScrollPane getScrollHist() { return scrollHist; }
     public JTable getTablaIncidencias() { return tablaIncidencias; }
     public JTable getTablaHistorial() { return tablaHistorial; }
     public JButton getBtnClose() { return btnClose; }

@@ -7,7 +7,13 @@ import incidencias.model.DTOs.IncidenciaDTO;
 import util.LogSystem;
 import util.database.Database;
 
-
+/**
+ * Acceso a los datos relacionados con el historial de incidencias.
+ * 
+ * Contiene dos consultas SQL:
+ * - Obtener las incidencias de un técnico/operador.
+ * - Obtener el historial completo de una incidencia.
+ */
 public class HistorialIncidenciaModel {
 
     private Database db = new Database();
@@ -15,7 +21,7 @@ public class HistorialIncidenciaModel {
     public static final String SQL_LISTA_INCIDENCIAS =
     	    "SELECT i.id, i.tipo, i.descripcion, h.fechaCambio as fechaCreacion, h.estado " +
     	    "FROM incidencia i " +
-    	    "JOIN historia h ON h.idIncidencia = i.id " +
+    	    "INNER JOIN historia h ON h.idIncidencia = i.id " +
     	    "WHERE (h.idTecnico = ? OR h.idOperador = ?) " +
     	    "AND h.fechaCambio = (" +
     	    "   SELECT MAX(h2.fechaCambio) FROM historia h2 WHERE h2.idIncidencia = i.id" +

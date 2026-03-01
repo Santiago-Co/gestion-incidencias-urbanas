@@ -33,7 +33,11 @@ public class ClasificarIncidenciasModel {
     	
         List<IncidenciaDTO> incidencias = db.executeQueryPojo(IncidenciaDTO.class, SQL_LISTA_INCIDENCIAS);
         
-    	LogSystem.logFlow("Resultados", String.format("Fecha incidencia: %s", incidencias.get(0).getFechaCambio()));
+    	if(!incidencias.isEmpty()) {
+    		LogSystem.logFlow("Resultados", String.format("Fecha incidencia: %s", incidencias.get(0).getFechaCambio()));
+    	}else {
+    		LogSystem.logFlow("Resultados", "No quedan incidencias");
+    	}
     	
     	return incidencias;
     }

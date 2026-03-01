@@ -5,7 +5,6 @@ import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import util.Util;
 
 public class ClasificarIncidenciasView extends JFrame {
 
@@ -15,6 +14,7 @@ public class ClasificarIncidenciasView extends JFrame {
     private static final String MENSAJE_CONFIRMACION_INICIO = "¿Desea validar la incidencia: ";
     private static final String MENSAJE_CONFIRMACION_FIN = "?";
     
+    private JScrollPane scrollPane;
     private JTable tablaIncidencias;
     private JButton btnClose;
     private JButton btnValidar;
@@ -76,7 +76,7 @@ public class ClasificarIncidenciasView extends JFrame {
         mainPanel.add(pnlFiltros, gbc);
 
         styleTable(tablaIncidencias);
-        JScrollPane scrollPane = new JScrollPane(tablaIncidencias);
+        scrollPane = new JScrollPane(tablaIncidencias);
         scrollPane.setPreferredSize(new Dimension(700, 300));
         gbc.gridy = 2; gbc.weighty = 1.0; gbc.fill = GridBagConstraints.BOTH;
         mainPanel.add(scrollPane, gbc);
@@ -155,10 +155,12 @@ public class ClasificarIncidenciasView extends JFrame {
     	
     	return resultado == JOptionPane.YES_OPTION;
     }
+    
+    public JScrollPane getScrollIncidencias() { return this.scrollPane; }
 
-    public JTable getTablaIncidencias() { return tablaIncidencias; }
+    public JTable getTablaIncidencias() { return this.tablaIncidencias; }
 
-    public JButton getBtnClose() { return btnClose; }
+    public JButton getBtnClose() { return this.btnClose; }
 
-    public JButton getBtnValidar() { return btnValidar; }
+    public JButton getBtnValidar() { return this.btnValidar; }
 }
