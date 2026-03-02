@@ -22,8 +22,7 @@ public class HistorialIncidenciaModel {
     	    "SELECT i.id, i.tipo, i.descripcion, h.fechaCambio as fechaCreacion, h.estado " +
     	    "FROM incidencia i " +
     	    "INNER JOIN historia h ON h.idIncidencia = i.id " +
-    	    "WHERE (h.idTecnico = ? OR h.idOperador = ?) " +
-    	    "AND h.fechaCambio = (" +
+    	    "WHERE h.fechaCambio = (" +
     	    "   SELECT MAX(h2.fechaCambio) FROM historia h2 WHERE h2.idIncidencia = i.id" +
     	    ") " +
     	    "ORDER BY h.fechaCambio DESC";
@@ -41,7 +40,7 @@ public class HistorialIncidenciaModel {
      */
     public List<IncidenciaDTO> getIncidenciasUsuario(int usuarioId) {
         LogSystem.logFlow("HistorialModel", "Listando incidencias (usuarioId=" + usuarioId + ")");
-        List<IncidenciaDTO> lista = db.executeQueryPojo(IncidenciaDTO.class, SQL_LISTA_INCIDENCIAS, usuarioId, usuarioId);
+        List<IncidenciaDTO> lista = db.executeQueryPojo(IncidenciaDTO.class, SQL_LISTA_INCIDENCIAS);
         return lista;
     }
 
