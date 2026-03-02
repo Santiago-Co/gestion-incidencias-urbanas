@@ -21,9 +21,7 @@ public class LogInController {
     }
 
     public void initController() {
-        
-    	limpiarListeners();
-    	
+          	
     	view.getBtnIdentificar().addActionListener(e -> SwingUtil.exceptionWrapper(() ->intentarLogin()));
           
         Util.addCloseAction(view.getBtnClose(), "Dashboard");
@@ -46,18 +44,8 @@ public class LogInController {
     
     private void abrirDashboard(UsuarioDTO usuario) {
     	view.dispose();
-    	/**
-    	 * Cree el singleton para intentar solucionar el problema de duplicidad de ventanas lo solucione también
-    	 * eliminando la asignación de las acciones a los botones no he probado quitando el singleton si funcionaria
-    	 * TODO probar quitar singleton
-    	 */
-    	DashboardView appView = DashboardView.getInstance();//new DashboardView();
+    	DashboardView appView = new DashboardView();
     	DashboardModel appModel = new DashboardModel();
     	new DashboardController(appView, appModel, usuario);
-    }
-    
-    private void limpiarListeners() {
-        for (java.awt.event.ActionListener al : view.getBtnIdentificar().getActionListeners()) 
-            view.getBtnIdentificar().removeActionListener(al);
     }
 }

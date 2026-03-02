@@ -17,7 +17,6 @@ public class DashboardView extends javax.swing.JFrame {
     private static final Color BG_COLOR = new Color(249, 250, 251); 
     private static final Color DANGER_COLOR = new Color(220, 38, 38); 
     
-    private static DashboardView instance;
     
     private JLabel lblBienvenida;
     private JButton btnClose;
@@ -33,14 +32,7 @@ public class DashboardView extends javax.swing.JFrame {
     
     private int xMouse, yMouse;
     
-    public static DashboardView getInstance() {
-    	if(instance == null) {
-    		instance = new DashboardView(); 
-    	}
-    	return instance; 
-    }
-    
-    private DashboardView() {
+    public DashboardView() {
         setUndecorated(true);
         initComponents();
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20));

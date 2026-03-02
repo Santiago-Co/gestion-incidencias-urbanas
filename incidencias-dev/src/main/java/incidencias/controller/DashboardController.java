@@ -43,8 +43,6 @@ public class DashboardController {
     }
 
     private void initController() {
-    	// Evitar duplicados
-        limpiarListeners();
         // --- Botones Comunes ---
         view.getBtnLogout().addActionListener(e -> cerrarSesion());
         Util.addCloseAction(view.getBtnClose(), "Dashboard");
@@ -60,34 +58,6 @@ public class DashboardController {
         
         // --- Botones de OPERADOR Y TECNICO ---
         view.getBtnHistorialIncidencia().addActionListener(e -> abrirHistorialIncidencia());
-    }
-
-    
-    private void limpiarListeners() {
-        for (java.awt.event.ActionListener al : view.getBtnLogout().getActionListeners()) 
-            view.getBtnLogout().removeActionListener(al);
-            
-        for (java.awt.event.ActionListener al : view.getBtnConsultarMisIncidencias().getActionListeners()) 
-            view.getBtnConsultarMisIncidencias().removeActionListener(al);
-            
-        for (java.awt.event.ActionListener al : view.getBtnCrearIncidencia().getActionListeners()) 
-            view.getBtnCrearIncidencia().removeActionListener(al);
-            
-        for (java.awt.event.ActionListener al : view.getBtnClasificarIncidencia().getActionListeners()) 
-            view.getBtnClasificarIncidencia().removeActionListener(al);
-        
-        for (java.awt.event.ActionListener al : view.getBtnAsignarIncidencia().getActionListeners()) 
-            view.getBtnAsignarIncidencia().removeActionListener(al);
-        
-        for (java.awt.event.ActionListener al : view.getBtnPlanificarIncidencia().getActionListeners()) 
-            view.getBtnPlanificarIncidencia().removeActionListener(al);
-        
-        for (java.awt.event.ActionListener al : view.getBtnHistorialIncidencia().getActionListeners()) 
-            view.getBtnHistorialIncidencia().removeActionListener(al);
-        
-        for (java.awt.event.ActionListener al : view.getBtnClose().getActionListeners()) 
-            view.getBtnClose().removeActionListener(al);
-        
     }
 
     private void cerrarSesion() {

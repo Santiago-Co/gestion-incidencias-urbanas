@@ -47,15 +47,14 @@ public class SwingMain {
 		frame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		
 		
-		JButton btnEjecutarConsultaIncidencias = new JButton("Ejecutar ConsultaIncidencias");
-		btnEjecutarConsultaIncidencias.addActionListener(new ActionListener() {
+		JButton btnEjecutarApp = new JButton("Ejecutar App");
+		btnEjecutarApp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				LogInController controller=new LogInController(new LogInView(), new LogInModel());
-				controller.initController();
+				new LogInController(new LogInView(), new LogInModel());
 			}
 		});
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
-		frame.getContentPane().add(btnEjecutarConsultaIncidencias);
+		frame.getContentPane().add(btnEjecutarApp);
 		
 		JButton btnInicializarBaseDeDatos = new JButton("Inicializar Base de Datos en Blanco");
 		btnInicializarBaseDeDatos.addActionListener(new ActionListener() {
