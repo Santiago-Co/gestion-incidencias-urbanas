@@ -11,18 +11,15 @@ public class DashboardView extends javax.swing.JFrame {
 
     private static final long serialVersionUID = 1L;
     
-   
-    
     private static final Color PRIMARY_COLOR = new Color(79, 70, 229); 
     private static final Color BG_COLOR = new Color(249, 250, 251); 
     private static final Color DANGER_COLOR = new Color(220, 38, 38); 
-    
     
     private JLabel lblBienvenida;
     private JButton btnClose;
     private JButton btnLogout; 
     
-    
+    private JPanel buttonsPanel;
     private JButton btnCrearIncidencia;    
     private JButton btnConsultarMisIncidencias;
     private JButton btnClasificarIncidencia;
@@ -76,24 +73,19 @@ public class DashboardView extends javax.swing.JFrame {
         mainPanel.setBackground(Color.WHITE);
         mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 40, 30, 40));
         mainPanel.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
 
         lblBienvenida = new JLabel("Bienvenido, Usuario");
         lblBienvenida.setFont(new Font("Segoe UI", Font.BOLD, 24));
         lblBienvenida.setForeground(new Color(31, 41, 55));
-        gbc.gridx = 0; gbc.gridy = 0; gbc.insets = new Insets(0, 0, 5, 0);
-        mainPanel.add(lblBienvenida, gbc);
+        lblBienvenida.setMaximumSize(new Dimension(300, 45));
 
         JLabel lblRol = new JLabel("Seleccione una acción para continuar");
         lblRol.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         lblRol.setForeground(new Color(107, 114, 128));
-        gbc.gridy = 1; gbc.insets = new Insets(0, 0, 30, 0);
-        mainPanel.add(lblRol, gbc);
-
-        JPanel buttonsPanel = new JPanel(new GridLayout(0, 1, 10, 15)); 
+        
+        buttonsPanel = new JPanel();
+        buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
         buttonsPanel.setBackground(Color.WHITE);
-
         
         btnCrearIncidencia = new JButton("Nueva Incidencia");
         btnConsultarMisIncidencias = new JButton("Consultar Incidencias");
@@ -109,55 +101,75 @@ public class DashboardView extends javax.swing.JFrame {
         styleMenuButton(btnPlanificarIncidencia);
         styleMenuButton(btnHistorialIncidencia);
         
-        buttonsPanel.add(btnCrearIncidencia);
-        buttonsPanel.add(btnConsultarMisIncidencias);
-        buttonsPanel.add(btnClasificarIncidencia);
-        buttonsPanel.add(btnAsignarIncidencias);
-        buttonsPanel.add(btnPlanificarIncidencia);
-        buttonsPanel.add(btnHistorialIncidencia);
-
-        gbc.gridy = 2;
-        gbc.insets = new Insets(0, 0, 30, 0);
-        mainPanel.add(buttonsPanel, gbc);
-
-        
         btnLogout = new JButton("Cerrar Sesión");
         styleSecondaryButton(btnLogout); 
-        gbc.gridy = 3;
-        mainPanel.add(btnLogout, gbc);
+        
+        GridBagConstraints gbcBienvenida = new GridBagConstraints();
+        gbcBienvenida.gridx = 0;
+        gbcBienvenida.gridy = 0;
+        gbcBienvenida.weightx = 1.0;
+        gbcBienvenida.weighty = 0.0;
+        gbcBienvenida.insets = new Insets(0, 0, 5, 0);
+        gbcBienvenida.fill = GridBagConstraints.HORIZONTAL;
+        mainPanel.add(lblBienvenida, gbcBienvenida);
+        
+        GridBagConstraints gbcRol = new GridBagConstraints();
+        gbcRol.gridx = 0;
+        gbcRol.gridy = 1;
+        gbcRol.weightx = 1.0;
+        gbcRol.weighty = 0.0;
+        gbcRol.insets = new Insets(0, 0, 30, 0);
+        gbcRol.fill = GridBagConstraints.HORIZONTAL;
+        mainPanel.add(lblRol, gbcRol);
+        
+        GridBagConstraints gbcButtons = new GridBagConstraints();
+        gbcButtons.gridx = 0;
+        gbcButtons.gridy = 2;
+        gbcButtons.weightx = 1;
+        gbcButtons.weighty = 1;
+        gbcButtons.fill = GridBagConstraints.BOTH;
+        mainPanel.add(buttonsPanel, gbcButtons);
+
+        GridBagConstraints gbcLogout = new GridBagConstraints();
+        gbcLogout.gridx = 0;
+        gbcLogout.gridy = 3;
+        gbcLogout.weightx = 1;
+        gbcLogout.weighty = 0;
+        gbcLogout.fill = GridBagConstraints.HORIZONTAL;
+        mainPanel.add(btnLogout, gbcLogout);
 
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(topPanel, BorderLayout.NORTH);
         getContentPane().add(mainPanel, BorderLayout.CENTER);
 
-        setPreferredSize(new Dimension(400, 550));
+        setPreferredSize(new Dimension(425, 550));
         pack();
     }
 
+    private void addButtonToPanel(JButton btn) {
+    	buttonsPanel.add(btn);
+    	buttonsPanel.add(Box.createVerticalStrut(15));
+    }
     
     public void configurarVistaPorRol(String rol, String nombreUsuario) {
         lblBienvenida.setText("Hola, " + nombreUsuario);
-        
-        btnCrearIncidencia.setVisible(false);
-        btnConsultarMisIncidencias.setVisible(false);
-        btnClasificarIncidencia.setVisible(false);
-        btnAsignarIncidencias.setVisible(false);
-        btnPlanificarIncidencia.setVisible(false);
-        btnHistorialIncidencia.setVisible(false);
+
+        buttonsPanel.removeAll();
         
         switch (rol.trim()) {
             case "Ciudadano":
-                btnCrearIncidencia.setVisible(true);
+            	addButtonToPanel(btnCrearIncidencia);
+            	addButtonToPanel(btnConsultarMisIncidencias);               
                 break;
             case "Operador":
-            	btnClasificarIncidencia.setVisible(true);
-            	btnHistorialIncidencia.setVisible(true);
-                btnAsignarIncidencias.setVisible(true);
+            	addButtonToPanel(btnClasificarIncidencia);
+            	addButtonToPanel(btnAsignarIncidencias);
+            	addButtonToPanel(btnHistorialIncidencia);
                 break;
                 
             case "Tecnico":
-            	btnPlanificarIncidencia.setVisible(true);
-            	btnHistorialIncidencia.setVisible(true);
+            	addButtonToPanel(btnPlanificarIncidencia);
+            	addButtonToPanel(btnHistorialIncidencia);
                 break;
                 
             default:
@@ -165,14 +177,10 @@ public class DashboardView extends javax.swing.JFrame {
                 break;
         }
         
-        btnCrearIncidencia.setVisible(true);
-        btnConsultarMisIncidencias.setVisible(true);
-        
         this.revalidate();
         this.repaint();
+        this.pack();
     }
-
-   
 
     private void styleMenuButton(JButton btn) {
         btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -181,6 +189,8 @@ public class DashboardView extends javax.swing.JFrame {
         btn.setFocusPainted(false);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btn.setPreferredSize(new Dimension(300, 45));
+        btn.setMaximumSize(new Dimension(Integer.MAX_VALUE, 45));
+        btn.setMinimumSize(new Dimension(300, 45));
         btn.setBorder(null);
 
         btn.addMouseListener(new MouseAdapter() {
@@ -196,6 +206,8 @@ public class DashboardView extends javax.swing.JFrame {
         btn.setFocusPainted(false);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btn.setPreferredSize(new Dimension(300, 45));
+        btn.setMaximumSize(new Dimension(Integer.MAX_VALUE, 45));
+        btn.setMinimumSize(new Dimension(300, 45));
         btn.setBorder(BorderFactory.createLineBorder(DANGER_COLOR, 1)); 
 
         btn.addMouseListener(new MouseAdapter() {

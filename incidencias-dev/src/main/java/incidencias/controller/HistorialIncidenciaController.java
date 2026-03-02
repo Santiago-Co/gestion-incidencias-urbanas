@@ -87,7 +87,7 @@ public class HistorialIncidenciaController {
         TableModel tmodel = SwingUtil.getTableModelFromPojos(incidenciaList, TITULOS_TABLA_INCIDENCIAS_POJOS);
         JTable tabla = view.getTablaIncidencias();
         tabla.setModel(tmodel);
-        mostrarTabla(tabla);
+        mostrarTabla(tabla, TITULOS_TABLA_INCIDENCIAS_VISTA);
     }
 
     private void onIncidenciaSelected() {
@@ -114,13 +114,13 @@ public class HistorialIncidenciaController {
         TableModel tmodel = SwingUtil.getTableModelFromPojos(historial, TITULOS_TABLA_HISTORIAL_POJOS);
         JTable tabla = view.getTablaHistorial();
         tabla.setModel(tmodel);
-        mostrarTabla(tabla);
+        mostrarTabla(tabla, TITULOS_TABLA_HISTORIAL_VISTA);
     }
     
-    private void mostrarTabla(JTable tabla) {
+    private void mostrarTabla(JTable tabla, String[] titulos) {
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-		SwingUtil.setTableStyle(tabla, centerRenderer, TITULOS_TABLA_HISTORIAL_VISTA);
+		SwingUtil.setTableStyle(tabla, centerRenderer, titulos);
 		SwingUtil.setDescriptionColumnStyle(tabla, tabla.getColumnModel().getColumnIndex(DESC_ID), 250);
 		SwingUtil.autoAdjustColumns(tabla, view.getScrollHist());
     }
