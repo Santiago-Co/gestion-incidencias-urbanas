@@ -6,6 +6,8 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.*;
 import javax.swing.table.JTableHeader;
 
+import util.swing.StyleUtil;
+
 public class ConsultaIncidenciasView extends JFrame {
 
     private static final long serialVersionUID = 1L;
@@ -34,7 +36,7 @@ public class ConsultaIncidenciasView extends JFrame {
                 "Todos los estados", "Nueva", "Validada", "Asignada", "En proceso", "Resuelta", "Cerrada"
         });
         tablaIncidencias = new JTable();
-        btnClose = new JButton("X");
+        btnClose = new JButton();
         
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setBackground(BG_COLOR);
@@ -72,8 +74,8 @@ public class ConsultaIncidenciasView extends JFrame {
         gbc.insets = new Insets(0, 0, 0, 0);
         mainPanel.add(scrollPane, gbc);
         
-        styleCloseButton(btnClose);
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        StyleUtil.styleCloseButton(btnClose);
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         topPanel.setBackground(Color.LIGHT_GRAY);
         topPanel.add(btnClose);
         enableWindowDrag(topPanel);
@@ -106,27 +108,6 @@ public class ConsultaIncidenciasView extends JFrame {
         header.setFont(new Font("Segoe UI", Font.BOLD, 14));
         header.setBackground(new Color(243, 244, 246));
         header.setForeground(new Color(55, 65, 81));
-    }
-
-    private void styleCloseButton(JButton btn) {
-        btn.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        btn.setForeground(Color.WHITE);
-        btn.setBorder(null);
-        btn.setContentAreaFilled(false);
-        btn.setFocusPainted(false);
-        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-        btn.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent evt) {
-                btn.setForeground(Color.RED);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent evt) {
-                btn.setForeground(Color.WHITE);
-            }
-        });
     }
     
     private void enableWindowDrag(JPanel panel) {

@@ -1,6 +1,9 @@
 package incidencias.ui;
 
 import javax.swing.*;
+
+import util.swing.StyleUtil;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
@@ -12,6 +15,7 @@ public class PlanificacionIncidenciasView extends JFrame {
     private static final Color BG_COLOR = new Color(249, 250, 251);
     private static final Color HEADER_BG = new Color(243, 244, 246);
     private static final Color HEADER_FG = new Color(31, 41, 55);
+    private static final Color PRIMARY_COLOR = new Color(37, 99, 235);
 
     private JScrollPane scrollTabla;
     private JTable tablaIncidencias;
@@ -37,16 +41,15 @@ public class PlanificacionIncidenciasView extends JFrame {
         getContentPane().setLayout(new BorderLayout());
 
         // ========== NORTH ==========
-        JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setBackground(HEADER_BG);
-        topPanel.setBorder(BorderFactory.createEmptyBorder(8, 12, 8, 12));
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+        topPanel.setBackground(new Color(229, 231, 235));
 
         JLabel title = new JLabel("Incidencias asignadas");
-        title.setFont(new Font("Segoe UI", Font.BOLD, 22));
+        title.setFont(new Font("Segoe UI", Font.BOLD, 18));
         title.setForeground(HEADER_FG);
 
-        btnClose = new JButton("X");
-        styleCloseButton(btnClose);
+        btnClose = new JButton();
+        StyleUtil.styleCloseButton(btnClose);
 
         topPanel.add(title, BorderLayout.WEST);
         topPanel.add(btnClose, BorderLayout.EAST);
@@ -110,8 +113,7 @@ public class PlanificacionIncidenciasView extends JFrame {
 
         // boton guardar a la derecha
         btnGuardar = new JButton("Guardar");
-        btnGuardar.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        btnGuardar.setPreferredSize(new Dimension(120, 34));
+        styleActionButton(btnGuardar, PRIMARY_COLOR);
         JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         btnPanel.setBackground(Color.WHITE);
         btnPanel.add(btnGuardar);
@@ -120,19 +122,14 @@ public class PlanificacionIncidenciasView extends JFrame {
 
         getContentPane().add(south, BorderLayout.SOUTH);
     }
-
-    private void styleCloseButton(JButton btn) {
-        btn.setFont(new Font("Segoe UI", Font.BOLD, 16));
+    
+    private void styleActionButton(JButton btn, Color bg) {
+        btn.setBackground(bg);
         btn.setForeground(Color.WHITE);
-        btn.setBackground(new Color(120, 120, 120));
-        btn.setBorder(null);
         btn.setFocusPainted(false);
-        btn.setPreferredSize(new Dimension(44, 28));
-        btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        btn.addMouseListener(new MouseAdapter() {
-            @Override public void mouseEntered(MouseEvent e) { btn.setBackground(new Color(180, 40, 40)); }
-            @Override public void mouseExited(MouseEvent e) { btn.setBackground(new Color(120, 120, 120)); }
-        });
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        btn.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
     private void enableWindowDrag(JComponent comp) {

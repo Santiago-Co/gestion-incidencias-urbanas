@@ -26,6 +26,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import util.LogSystem;
+import util.swing.StyleUtil;
 
 
 public class CrearIncidenciaView extends javax.swing.JFrame {
@@ -85,8 +86,8 @@ public class CrearIncidenciaView extends javax.swing.JFrame {
         JScrollPane scrollPane = new JScrollPane(txtDescripcion);
         btnEnviar = createPrimaryButton("Enviar Reporte");
         
-        btnClose = new JButton("×");
-        styleCloseButton(btnClose); 
+        btnClose = new JButton();
+        StyleUtil.styleCloseButton(btnClose); 
         
         mainPanel.setBackground(Color.WHITE);
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 30, 30, 30));
@@ -96,7 +97,7 @@ public class CrearIncidenciaView extends javax.swing.JFrame {
         gbc.insets = new Insets(5, 0, 5, 0); 
 
         
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         topPanel.setBackground(new Color(229, 231, 235));
         topPanel.setPreferredSize(new Dimension(getWidth(), 40));
         
@@ -211,17 +212,6 @@ public class CrearIncidenciaView extends javax.swing.JFrame {
             public void mouseExited(MouseEvent evt) { btn.setBackground(PRIMARY_COLOR); }
         });
         return btn;
-    }
-
-    private void styleCloseButton(JButton btn) {
-        btn.setPreferredSize(new Dimension(45, 40));
-        btn.setBorder(null);
-        btn.setContentAreaFilled(false);
-        btn.setFont(new Font("Arial", Font.PLAIN, 20));
-        btn.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent e) { btn.setOpaque(true); btn.setBackground(Color.RED); btn.setForeground(Color.WHITE); }
-            public void mouseExited(MouseEvent e) { btn.setOpaque(false); btn.setForeground(Color.BLACK); }
-        });
     }
     
     public void mostrarError(String mensaje) {

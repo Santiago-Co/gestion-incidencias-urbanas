@@ -1,6 +1,9 @@
 package incidencias.ui;
 
 import javax.swing.*;
+
+import util.swing.StyleUtil;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -34,7 +37,7 @@ public class LogInView extends javax.swing.JFrame {
         JPanel mainPanel = new JPanel();
         txtIdentificador = new JTextField();
         btnIdentificar = new JButton();
-        btnClose = new JButton("×");
+        btnClose = new JButton();
         
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.setBackground(new Color(229, 231, 235));
@@ -99,7 +102,7 @@ public class LogInView extends javax.swing.JFrame {
         mainPanel.add(btnIdentificar, gbc);
 
         
-        styleCloseButton(btnClose);
+        StyleUtil.styleCloseButton(btnClose);
         
 
         getContentPane().setLayout(new BorderLayout());
@@ -155,18 +158,6 @@ public class LogInView extends javax.swing.JFrame {
             public void mouseExited(MouseEvent evt) { btn.setBackground(PRIMARY_COLOR); }
         });
     }
-
-    private void styleCloseButton(JButton btn) {
-        btn.setPreferredSize(new Dimension(45, 40));
-        btn.setBorder(null);
-        btn.setContentAreaFilled(false);
-        btn.setFont(new Font("Arial", Font.PLAIN, 20));
-        btn.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent e) { btn.setOpaque(true); btn.setBackground(Color.RED); btn.setForeground(Color.WHITE); }
-            public void mouseExited(MouseEvent e) { btn.setOpaque(false); btn.setForeground(Color.BLACK); }
-        });
-    }
-
 
     public String getIdentificador() {
         String texto = txtIdentificador.getText().trim();

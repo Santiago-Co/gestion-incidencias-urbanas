@@ -6,6 +6,8 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import util.swing.StyleUtil;
+
 public class ClasificarIncidenciasView extends JFrame {
 
     private static final long serialVersionUID = 1L;
@@ -44,8 +46,8 @@ public class ClasificarIncidenciasView extends JFrame {
         topPanel.setBackground(new Color(229, 231, 235));
         topPanel.setPreferredSize(new Dimension(getWidth(), 40));
         
-        btnClose = new JButton("×");
-        styleCloseButton(btnClose);
+        btnClose = new JButton();
+        StyleUtil.styleCloseButton(btnClose);
         
         JLabel titleWin = new JLabel("  Sistema de Gestión de Incidencias");
         titleWin.setFont(new Font("Segoe UI", Font.BOLD, 12));
@@ -114,17 +116,6 @@ public class ClasificarIncidenciasView extends JFrame {
         btn.setFont(new Font("Segoe UI", Font.BOLD, 13));
         btn.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-    }
-
-    private void styleCloseButton(JButton btn) {
-        btn.setPreferredSize(new Dimension(45, 40));
-        btn.setBorder(null);
-        btn.setContentAreaFilled(false);
-        btn.setFont(new Font("Arial", Font.PLAIN, 20));
-        btn.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent e) { btn.setOpaque(true); btn.setBackground(Color.RED); btn.setForeground(Color.WHITE); }
-            public void mouseExited(MouseEvent e) { btn.setOpaque(false); btn.setForeground(Color.BLACK); }
-        });
     }
 
     private void enableWindowDrag(JPanel panel) {

@@ -1,6 +1,6 @@
 package incidencias.ui;
 
-import java.awt.*;
+import java.awt.*; 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -9,6 +9,7 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.*;
 import javax.swing.table.JTableHeader;
 
+import util.swing.StyleUtil;
 
 public class AsignacionIncidenciasView extends JFrame {
 
@@ -40,7 +41,7 @@ public class AsignacionIncidenciasView extends JFrame {
         JPanel mainPanel = new JPanel();
         tablaIncidencias = new JTable();
         tablaTecnicos = new JTable();
-        btnClose = new JButton("X");
+        btnClose = new JButton();
         btnAsignar = new JButton("Asignar incidencia");
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -106,8 +107,8 @@ public class AsignacionIncidenciasView extends JFrame {
         gbc.insets = new Insets(0, 0, 0, 0);
         mainPanel.add(tablasPanel, gbc);
 
-        styleCloseButton(btnClose);
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        StyleUtil.styleCloseButton(btnClose);
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         topPanel.setBackground(Color.LIGHT_GRAY);
         topPanel.add(btnClose);
         enableWindowDrag(topPanel);
@@ -140,27 +141,6 @@ public class AsignacionIncidenciasView extends JFrame {
         btn.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent evt) { btn.setBackground(PRIMARY_COLOR.darker()); }
             public void mouseExited(MouseEvent evt) { btn.setBackground(PRIMARY_COLOR); }
-        });
-    }
-
-    private void styleCloseButton(JButton btn) {
-        btn.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        btn.setForeground(Color.WHITE);
-        btn.setBorder(null);
-        btn.setContentAreaFilled(false);
-        btn.setFocusPainted(false);
-        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-        btn.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent evt) {
-                btn.setForeground(Color.RED);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent evt) {
-                btn.setForeground(Color.WHITE);
-            }
         });
     }
 

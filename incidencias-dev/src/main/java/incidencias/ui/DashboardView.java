@@ -1,6 +1,9 @@
 package incidencias.ui;
 
 import javax.swing.*;
+
+import util.swing.StyleUtil;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -47,8 +50,8 @@ public class DashboardView extends javax.swing.JFrame {
         titleWin.setFont(new Font("Segoe UI", Font.BOLD, 12));
         titleWin.setForeground(new Color(75, 85, 99));
         
-        btnClose = new JButton("×");
-        styleCloseButton(btnClose);
+        btnClose = new JButton();
+        StyleUtil.styleCloseButton(btnClose);
         
         topPanel.add(titleWin, BorderLayout.WEST);
         topPanel.add(btnClose, BorderLayout.EAST);
@@ -218,24 +221,6 @@ public class DashboardView extends javax.swing.JFrame {
             public void mouseExited(MouseEvent evt) { 
                 btn.setBackground(Color.WHITE);
                 btn.setForeground(DANGER_COLOR);
-            }
-        });
-    }
-
-    private void styleCloseButton(JButton btn) {
-        btn.setPreferredSize(new Dimension(45, 40));
-        btn.setBorder(null);
-        btn.setContentAreaFilled(false);
-        btn.setFont(new Font("Arial", Font.PLAIN, 20));
-        btn.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent e) { 
-                btn.setOpaque(true); 
-                btn.setBackground(Color.RED); 
-                btn.setForeground(Color.WHITE); 
-            }
-            public void mouseExited(MouseEvent e) { 
-                btn.setOpaque(false); 
-                btn.setForeground(Color.BLACK); 
             }
         });
     }
