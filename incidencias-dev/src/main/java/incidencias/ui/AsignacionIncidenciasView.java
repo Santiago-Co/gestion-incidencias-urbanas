@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.table.JTableHeader;
 
 import util.swing.StyleUtil;
+import util.swing.SwingUtil;
 
 public class AsignacionIncidenciasView extends JFrame {
 
@@ -25,9 +26,6 @@ public class AsignacionIncidenciasView extends JFrame {
     private JScrollPane scrollTecnicos;
     private JButton btnClose;
     private JButton btnAsignar;
-
-    private int mouseX;
-    private int mouseY;
 
     public AsignacionIncidenciasView() {
         setUndecorated(true);
@@ -81,7 +79,7 @@ public class AsignacionIncidenciasView extends JFrame {
         gbcTablas.insets = new Insets(0, 20, 10, 0);
         tablasPanel.add(lblTecnicos, gbcTablas);
 
-        styleTable(tablaIncidencias);
+        StyleUtil.styleTable(tablaIncidencias);
         scrollIncidencias = new JScrollPane(tablaIncidencias);
         scrollIncidencias.setPreferredSize(new Dimension(575, 300));
         scrollIncidencias.setBorder(BorderFactory.createLineBorder(new Color(120, 120, 120), 2));
@@ -89,7 +87,7 @@ public class AsignacionIncidenciasView extends JFrame {
         gbcTablas.insets = new Insets(0, 0, 0, 20);
         tablasPanel.add(scrollIncidencias, gbcTablas);
 
-        styleTable(tablaTecnicos);
+        StyleUtil.styleTable(tablaTecnicos);
         scrollTecnicos = new JScrollPane(tablaTecnicos);
         scrollTecnicos.setPreferredSize(new Dimension(300, 300));
         scrollTecnicos.setBorder(BorderFactory.createLineBorder(new Color(120, 120, 120), 2));
@@ -111,24 +109,13 @@ public class AsignacionIncidenciasView extends JFrame {
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         topPanel.setBackground(Color.LIGHT_GRAY);
         topPanel.add(btnClose);
-        enableWindowDrag(topPanel);
+        SwingUtil.enableWindowDrag(this, topPanel);
 
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(topPanel, BorderLayout.NORTH);
         getContentPane().add(mainPanel, BorderLayout.CENTER);
 
         pack();
-    }
-
-    private void styleTable(JTable table) {
-        table.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        table.setRowHeight(28);
-        table.setGridColor(new Color(229, 231, 235));
-
-        JTableHeader header = table.getTableHeader();
-        header.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        header.setBackground(new Color(243, 244, 246));
-        header.setForeground(new Color(55, 65, 81));
     }
     
     private void styleActionButton(JButton btn) {
@@ -141,23 +128,6 @@ public class AsignacionIncidenciasView extends JFrame {
         btn.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent evt) { btn.setBackground(PRIMARY_COLOR.darker()); }
             public void mouseExited(MouseEvent evt) { btn.setBackground(PRIMARY_COLOR); }
-        });
-    }
-
-    private void enableWindowDrag(JPanel panel) {
-        panel.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                mouseX = e.getX();
-                mouseY = e.getY();
-            }
-        });
-
-        panel.addMouseMotionListener(new MouseMotionAdapter() {
-            public void mouseDragged(MouseEvent e) {
-                int x = e.getXOnScreen() - mouseX;
-                int y = e.getYOnScreen() - mouseY;
-                setLocation(x, y);
-            }
         });
     }
     

@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import util.swing.StyleUtil;
+import util.swing.SwingUtil;
 
 public class ClasificarIncidenciasView extends JFrame {
 
@@ -20,8 +21,6 @@ public class ClasificarIncidenciasView extends JFrame {
     private JTable tablaIncidencias;
     private JButton btnClose;
     private JButton btnValidar;
-    
-    private int mouseX, mouseY;
 
     public ClasificarIncidenciasView() {
         setUndecorated(true);
@@ -55,7 +54,7 @@ public class ClasificarIncidenciasView extends JFrame {
         
         topPanel.add(titleWin, BorderLayout.WEST);
         topPanel.add(btnClose, BorderLayout.EAST);
-        enableWindowDrag(topPanel);
+        SwingUtil.enableWindowDrag(this, topPanel);
 
         JPanel mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBackground(Color.WHITE);
@@ -77,7 +76,7 @@ public class ClasificarIncidenciasView extends JFrame {
         gbc.gridy = 1; gbc.gridwidth = 2;
         mainPanel.add(pnlFiltros, gbc);
 
-        styleTable(tablaIncidencias);
+        StyleUtil.styleTable(tablaIncidencias);
         scrollPane = new JScrollPane(tablaIncidencias);
         scrollPane.setPreferredSize(new Dimension(700, 300));
         gbc.gridy = 2; gbc.weighty = 1.0; gbc.fill = GridBagConstraints.BOTH;
@@ -100,15 +99,6 @@ public class ClasificarIncidenciasView extends JFrame {
         pack();
     }
 
-    private void styleTable(JTable table) {
-        table.setRowHeight(35);
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 13));
-        table.getTableHeader().setReorderingAllowed(false);
-        table.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        table.setGridColor(new Color(243, 244, 246));
-    }
-
     private void styleActionButton(JButton btn, Color bg) {
         btn.setBackground(bg);
         btn.setForeground(Color.WHITE);
@@ -116,15 +106,6 @@ public class ClasificarIncidenciasView extends JFrame {
         btn.setFont(new Font("Segoe UI", Font.BOLD, 13));
         btn.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-    }
-
-    private void enableWindowDrag(JPanel panel) {
-        panel.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) { mouseX = e.getX(); mouseY = e.getY(); }
-        });
-        panel.addMouseMotionListener(new MouseMotionAdapter() {
-            public void mouseDragged(MouseEvent e) { setLocation(e.getXOnScreen() - mouseX, e.getYOnScreen() - mouseY); }
-        });
     }
     
     public void mostrarError(String mensaje) {

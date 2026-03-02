@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.table.JTableHeader;
 
 import util.swing.StyleUtil;
+import util.swing.SwingUtil;
 
 /**
  * Vista de la pantalla del historial de incidencias, que muestra dos tablas:
@@ -28,7 +29,6 @@ public class HistorialIncidenciaView extends JFrame {
     private JTable tablaIncidencias;
     private JTable tablaHistorial;
     private JButton btnClose;
-    private int mouseX, mouseY;
 
     public HistorialIncidenciaView() {
         setUndecorated(true);
@@ -64,8 +64,8 @@ public class HistorialIncidenciaView extends JFrame {
         // --- Tablas y SplitPane ---
         tablaIncidencias = new JTable();
         tablaHistorial = new JTable();
-        styleTable(tablaIncidencias);
-        styleTable(tablaHistorial);
+        StyleUtil.styleTable(tablaIncidencias);
+        StyleUtil.styleTable(tablaHistorial);
 
         scrollInc = new JScrollPane(tablaIncidencias);
         scrollInc.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(TABLE_BORDER), "Tus Incidencias"));
@@ -92,40 +92,12 @@ public class HistorialIncidenciaView extends JFrame {
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         topPanel.setBackground(new Color(229, 231, 235));
         topPanel.add(btnClose);
-        enableWindowDrag(topPanel);
+        SwingUtil.enableWindowDrag(this, topPanel);
 
         getContentPane().add(topPanel, BorderLayout.NORTH);
         getContentPane().add(mainPanel, BorderLayout.CENTER);
 
         pack();
-    }
-
-    private void styleTable(JTable table) {
-        table.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        table.setRowHeight(30);
-        table.setGridColor(new Color(229, 231, 235));
-        table.setSelectionBackground(new Color(243, 244, 246));
-        table.setSelectionForeground(Color.BLACK);
-
-        JTableHeader header = table.getTableHeader();
-        header.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        header.setBackground(new Color(243, 244, 246));
-        header.setForeground(new Color(55, 65, 81));
-        header.setReorderingAllowed(false);
-    }
-
-    private void enableWindowDrag(JPanel panel) {
-        panel.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                mouseX = e.getX();
-                mouseY = e.getY();
-            }
-        });
-        panel.addMouseMotionListener(new MouseMotionAdapter() {
-            public void mouseDragged(MouseEvent e) {
-                setLocation(e.getXOnScreen() - mouseX, e.getYOnScreen() - mouseY);
-            }
-        });
     }
 
     public JScrollPane getScrollInc() { return scrollInc; }

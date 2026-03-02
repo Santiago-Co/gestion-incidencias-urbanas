@@ -27,6 +27,7 @@ import javax.swing.JTextField;
 
 import util.LogSystem;
 import util.swing.StyleUtil;
+import util.swing.SwingUtil;
 
 
 public class CrearIncidenciaView extends javax.swing.JFrame {
@@ -45,9 +46,6 @@ public class CrearIncidenciaView extends javax.swing.JFrame {
     private static final Color TEXT_COLOR = new Color(31, 41, 55);     
     private static final Color LABEL_COLOR = new Color(107, 114, 128); 
     private static final Color BORDER_COLOR = new Color(209, 213, 219);
-    
-
-    private int mouseX, mouseY;
 
     public CrearIncidenciaView() {
     	LogSystem.logFlow("Inicio", "Cargando componentes de la interfaz");
@@ -104,7 +102,7 @@ public class CrearIncidenciaView extends javax.swing.JFrame {
         
         topPanel.add(titleWin, BorderLayout.WEST);
         topPanel.add(btnClose, BorderLayout.EAST);
-        enableWindowDrag(topPanel);
+        SwingUtil.enableWindowDrag(this, topPanel);
 
 
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 24));
@@ -152,15 +150,6 @@ public class CrearIncidenciaView extends javax.swing.JFrame {
         label.setFont(new Font("Segoe UI", Font.BOLD, 12)); 
         label.setForeground(LABEL_COLOR);
         return label;
-    }
-    
-    private void enableWindowDrag(JPanel panel) {
-        panel.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) { mouseX = e.getX(); mouseY = e.getY(); }
-        });
-        panel.addMouseMotionListener(new MouseMotionAdapter() {
-            public void mouseDragged(MouseEvent e) { setLocation(e.getXOnScreen() - mouseX, e.getYOnScreen() - mouseY); }
-        });
     }
     
     private JTextField createStyledTextField() {

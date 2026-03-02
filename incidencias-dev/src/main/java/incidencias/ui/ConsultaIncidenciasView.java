@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.table.JTableHeader;
 
 import util.swing.StyleUtil;
+import util.swing.SwingUtil;
 
 public class ConsultaIncidenciasView extends JFrame {
 
@@ -18,9 +19,6 @@ public class ConsultaIncidenciasView extends JFrame {
     private JScrollPane scrollPane;
     private JTable tablaIncidencias;
     private JButton btnClose;
-    
-    private int mouseX;
-    private int mouseY;
 
     public ConsultaIncidenciasView() {
         setUndecorated(true);
@@ -66,7 +64,7 @@ public class ConsultaIncidenciasView extends JFrame {
         gbc.insets = new Insets(0, 0, 20, 0);
         mainPanel.add(filterPanel, gbc);
         
-        styleTable(tablaIncidencias);
+        StyleUtil.styleTable(tablaIncidencias);
         scrollPane = new JScrollPane(tablaIncidencias);
         scrollPane.setPreferredSize(new Dimension(700, 300));
         scrollPane.setBorder(BorderFactory.createLineBorder(new Color(120, 120, 120), 2));
@@ -78,7 +76,7 @@ public class ConsultaIncidenciasView extends JFrame {
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         topPanel.setBackground(Color.LIGHT_GRAY);
         topPanel.add(btnClose);
-        enableWindowDrag(topPanel);
+        SwingUtil.enableWindowDrag(this, topPanel);
 
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(topPanel, BorderLayout.NORTH);
@@ -97,35 +95,6 @@ public class ConsultaIncidenciasView extends JFrame {
                 BorderFactory.createEmptyBorder(5, 10, 5, 10)
         ));
         combo.setCursor(new Cursor(Cursor.HAND_CURSOR));
-    }
-
-    private void styleTable(JTable table) {
-        table.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        table.setRowHeight(28);
-        table.setGridColor(new Color(229, 231, 235));
-
-        JTableHeader header = table.getTableHeader();
-        header.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        header.setBackground(new Color(243, 244, 246));
-        header.setForeground(new Color(55, 65, 81));
-    }
-    
-    private void enableWindowDrag(JPanel panel) {
-    	
-    	panel.addMouseListener(new MouseAdapter() {
-    		public void mousePressed(MouseEvent e) {
-    			mouseX = e.getX();
-    			mouseY = e.getY();
-    		}
-    	});
-    	
-    	panel.addMouseMotionListener(new MouseMotionAdapter() {
-    		public void mouseDragged(MouseEvent e) {
-    			int x = e.getXOnScreen() - mouseX;
-    			int y = e.getYOnScreen() - mouseY;
-    			setLocation(x, y);
-    		}
-    	});
     }
     
     public JComboBox<String> getListaFiltros() { return this.cbFiltroEstado; }

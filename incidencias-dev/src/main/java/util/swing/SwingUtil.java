@@ -1,14 +1,21 @@
 package util.swing;
 
 import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Window;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -218,5 +225,28 @@ public class SwingUtil {
 			cm.addElement(value);
 		}
 		return cm;
-	}	
+	}
+	
+	public static void enableWindowDrag(final Window window, final JComponent dragComponent) {
+
+	    final Point clickPoint = new Point();
+
+	    dragComponent.addMouseListener(new MouseAdapter() {
+	        @Override
+	        public void mousePressed(MouseEvent e) {
+	            clickPoint.x = e.getX();
+	            clickPoint.y = e.getY();
+	        }
+	    });
+
+	    dragComponent.addMouseMotionListener(new MouseMotionAdapter() {
+	        @Override
+	        public void mouseDragged(MouseEvent e) {
+	            window.setLocation(
+	                e.getXOnScreen() - clickPoint.x,
+	                e.getYOnScreen() - clickPoint.y
+	            );
+	        }
+	    });
+	}
 }

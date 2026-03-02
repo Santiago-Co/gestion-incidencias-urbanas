@@ -3,9 +3,9 @@ package incidencias.ui;
 import javax.swing.*;
 
 import util.swing.StyleUtil;
+import util.swing.SwingUtil;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
 
 public class PlanificacionIncidenciasView extends JFrame {
@@ -13,7 +13,6 @@ public class PlanificacionIncidenciasView extends JFrame {
     private static final long serialVersionUID = 1L;
 
     private static final Color BG_COLOR = new Color(249, 250, 251);
-    private static final Color HEADER_BG = new Color(243, 244, 246);
     private static final Color HEADER_FG = new Color(31, 41, 55);
     private static final Color PRIMARY_COLOR = new Color(37, 99, 235);
 
@@ -23,8 +22,6 @@ public class PlanificacionIncidenciasView extends JFrame {
     private JTextArea textAreaDescripcion;
     private JButton btnGuardar;
     private JButton btnClose;
-
-    private int mouseX, mouseY;
 
     public PlanificacionIncidenciasView() {
         setUndecorated(true);
@@ -53,7 +50,7 @@ public class PlanificacionIncidenciasView extends JFrame {
 
         topPanel.add(title, BorderLayout.WEST);
         topPanel.add(btnClose, BorderLayout.EAST);
-        enableWindowDrag(topPanel);
+        SwingUtil.enableWindowDrag(this, topPanel);
 
         getContentPane().add(topPanel, BorderLayout.NORTH);
 
@@ -130,22 +127,6 @@ public class PlanificacionIncidenciasView extends JFrame {
         btn.setFont(new Font("Segoe UI", Font.BOLD, 13));
         btn.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-    }
-
-    private void enableWindowDrag(JComponent comp) {
-        comp.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                mouseX = e.getX();
-                mouseY = e.getY();
-            }
-        });
-        comp.addMouseMotionListener(new MouseMotionAdapter() {
-            public void mouseDragged(MouseEvent e) {
-                int x = e.getXOnScreen() - mouseX;
-                int y = e.getYOnScreen() - mouseY;
-                setLocation(x, y);
-            }
-        });
     }
 
     public JScrollPane getScrollTabla() { return this.scrollTabla; }
