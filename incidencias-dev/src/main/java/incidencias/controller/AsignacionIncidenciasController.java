@@ -88,13 +88,15 @@ public class AsignacionIncidenciasController {
 								"Debe seleccionar una incidencia y un técnico"  );
     	int idIn  = Integer.parseInt(idIncidencia);
     	int idTec = Integer.parseInt(idTecnico);
-    	if(view.confirmarAsignacion(idIn, idTec)) {
+    	String mensajeConfirmacion = String.format("Desea asignar la incidencia %d al técnico %d?", idIn, idTec);
+    	if(SwingUtil.showQuestionMessage(view, mensajeConfirmacion)) {
     		model.asignarIncidencia(idIn, idTec, idUsuario);
     		JTable tablaIncidencias = view.getTablaIncidencias();
     		DefaultTableModel modelTabla = (DefaultTableModel) tablaIncidencias.getModel();
     		modelTabla.removeRow(tablaIncidencias.getSelectedRow());
     		view.getTablaTecnicos().setModel(new DefaultTableModel());
-    		view.mostrarExito();
+    		String mensajeExito = "La incidencia se asignó correctamente";
+    		SwingUtil.showSuccessMessage(view, mensajeExito);
     	}
     }
     

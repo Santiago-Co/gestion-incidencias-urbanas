@@ -1,19 +1,15 @@
 package incidencias.controller;
 
 import java.util.List;
-
-
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
-
 import incidencias.model.ClasificarIncidenciasModel;
 import incidencias.model.DTOs.IncidenciaDTO;
 import incidencias.ui.ClasificarIncidenciasView;
 import incidencias.ui.DashboardView;
-import util.Util;
 import util.swing.SwingUtil;
 
 public class ClasificarIncidenciasController {
@@ -55,7 +51,7 @@ public class ClasificarIncidenciasController {
     
     private void listarIncidencias() {
  
-        Util.exceptionWrapper(() -> {
+        SwingUtil.exceptionWrapper(() -> {
             
             List<IncidenciaDTO> lista = model.getListaIncidencias();
             
@@ -79,21 +75,23 @@ public class ClasificarIncidenciasController {
 
     
     private void validarIncidencia() {
-        String idStr = Util.getSelectedKey(view.getTablaIncidencias());
-        String tipoIncidencia = Util.getSelectedValue(view.getTablaIncidencias(),1);
+        String idStr = SwingUtil.getSelectedKey(view.getTablaIncidencias());
+        String tipoIncidencia = SwingUtil.getSelectedValue(view.getTablaIncidencias(),1);
         
         if (idStr.isEmpty()) {
-        	view.mostrarError(MENSAJE_FALLO);
+        	SwingUtil.showErrorMessage(view, MENSAJE_FALLO);
             return;
         }
 
-        if(!view.confirmacionIncidencia(idStr)) { return; }
+        String mensajeConfirmacion = String.format("¿Desea validar la incidencia: %s?", idStr);
         
-        Util.exceptionWrapper(() -> {
+        if(!SwingUtil.showQuestionMessage(view, mensajeConfirmacion)) { return; }
+        
+        SwingUtil.exceptionWrapper(() -> {
             int id = Integer.parseInt(idStr);
             
             model.actualizarEstadoIncidencia(id, idUsuario, tipoIncidencia);
-            this.view.mostrarExito(MENSAJE_EXITO);
+        	SwingUtil.showSuccessMessage(view, MENSAJE_EXITO);
             
             listarIncidencias();
         });

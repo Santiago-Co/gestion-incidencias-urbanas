@@ -1,6 +1,5 @@
 package util.swing;
 
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Window;
 import java.awt.event.MouseAdapter;
@@ -14,8 +13,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -23,9 +22,9 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import org.apache.commons.beanutils.PropertyUtils;
-
 import exceptions.ApplicationException;
 import exceptions.UnexpectedException;
+import util.LogSystem;
 
 /**
  * Metodos de utilidad para interfaces de usuario con swing (poblar tablas a partir de un objeto POJO
@@ -67,14 +66,30 @@ public class SwingUtil {
 		d.setVisible(true);
 	}
 	
-	/**
-	 * Ajusta todas las columnas de la tabla al tamanyo correspondiente al contenido del tablemodel
-	 */
-	public static void autoAdjustColumns(JTable table) {
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF); // si se usa ON la ultima columna se expandra en el panel
-		TableColumnAdjuster tca = new TableColumnAdjuster(table);
-		tca.adjustColumns();
+	public static void showErrorMessage(JFrame window, String message) {
+        JOptionPane.showMessageDialog(window, message, "Error", JOptionPane.ERROR_MESSAGE);
 	}
+	
+	public static void showSuccessMessage(JFrame window, String message) {
+        JOptionPane.showMessageDialog(window, message, "Éxito", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public static boolean showQuestionMessage(JFrame window, String message) {
+    	int answer = JOptionPane.showConfirmDialog(
+                window,
+                message,
+                "Confirmación",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE
+        );
+    	
+    	return answer == JOptionPane.YES_OPTION;
+	}
+	
+    public static void showSummaryMessage(JFrame window, String mensaje, String resumen) {
+    	LogSystem.logFlow("SUCCESS", resumen);
+        JOptionPane.showMessageDialog(window, mensaje, "Incidencia registrada", JOptionPane.INFORMATION_MESSAGE);
+    }
 	
 	/**
 	 * Ajusta todas las columnas de la tabla al tamanyo correspondiente al contenido del tablemodel
@@ -82,7 +97,7 @@ public class SwingUtil {
 	public static void autoAdjustColumns(JTable table, JScrollPane scroll) {
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		TableColumnAdjuster tca = new TableColumnAdjuster(table);
-		if(tca.adjustColumns() < scroll.getPreferredSize().getWidth()) {
+		if(tca.adjustColumns() < scroll.getWidth()) {
 			table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		}
 	}

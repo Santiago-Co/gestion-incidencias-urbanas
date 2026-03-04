@@ -1,19 +1,13 @@
 package incidencias.ui;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
 import javax.swing.*;
-import javax.swing.table.JTableHeader;
-
 import util.swing.StyleUtil;
-import util.swing.SwingUtil;
 
 public class ConsultaIncidenciasView extends JFrame {
 
     private static final long serialVersionUID = 1L;
-
-    private static final Color BG_COLOR = new Color(249, 250, 251);
 
     private JComboBox<String> cbFiltroEstado;
     private JScrollPane scrollPane;
@@ -28,73 +22,69 @@ public class ConsultaIncidenciasView extends JFrame {
     }
 
     private void initComponents() {
-
         JPanel mainPanel = new JPanel();
+        
+        final JLabel titleWin = new JLabel("  Consulta de incidencias");
+        StyleUtil.styleWindowTitle(titleWin);
+        
+        final JLabel lblTitle = new JLabel("Mis incidencias registradas");
+        StyleUtil.styleLabel(lblTitle, 26, true);
+        
+        final JLabel lblFiltro = new JLabel("Buscar por estado:");
+        StyleUtil.styleLabel(lblFiltro, 14, false);
+        
         cbFiltroEstado = new JComboBox<>(new String[]{
                 "Todos los estados", "Nueva", "Validada", "Asignada", "En proceso", "Resuelta", "Cerrada"
         });
-        tablaIncidencias = new JTable();
-        btnClose = new JButton();
-        
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setBackground(BG_COLOR);
-        
-        mainPanel.setBackground(Color.WHITE);
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 40, 30, 40));
-        mainPanel.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        
-        final JLabel lblTitle = new JLabel("Mis incidencias registradas");
-        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 26));
-        lblTitle.setForeground(new Color(31, 41, 55));
-        gbc.gridx = 0; gbc.gridy = 0;
-        gbc.insets = new Insets(0, 0, 20, 0);
-        mainPanel.add(lblTitle, gbc);
-        
-        final JLabel lblFiltro = new JLabel("Buscar por estado:");
-        lblFiltro.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        lblFiltro.setForeground(new Color(107, 114, 128));
+        StyleUtil.styleComboBox(cbFiltroEstado, 200, 35);
 
-        styleComboBox(cbFiltroEstado);
-        JPanel filterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
-        filterPanel.setBackground(Color.WHITE);
-        filterPanel.add(lblFiltro);
-        filterPanel.add(cbFiltroEstado);
-        gbc.gridy = 1;
-        gbc.insets = new Insets(0, 0, 20, 0);
-        mainPanel.add(filterPanel, gbc);
-        
+        tablaIncidencias = new JTable();
         StyleUtil.styleTable(tablaIncidencias);
         scrollPane = new JScrollPane(tablaIncidencias);
         scrollPane.setPreferredSize(new Dimension(700, 300));
         scrollPane.setBorder(BorderFactory.createLineBorder(new Color(120, 120, 120), 2));
+        
+        btnClose = new JButton();
+        StyleUtil.styleCloseButton(btnClose);
+        
+        JPanel topPanel = StyleUtil.createTopPanel(this, titleWin, btnClose, this.getWidth());
+        
+        JPanel filterPanel = new JPanel(new GridBagLayout());
+        filterPanel.setBackground(Color.WHITE);
+        GridBagConstraints g = new GridBagConstraints();
+        g.gridx = 0; g.gridy = 0;
+        g.anchor = GridBagConstraints.WEST;
+        filterPanel.add(lblFiltro, g);
+        g.gridx = 1;
+        g.insets = new Insets(0, 10, 0, 0);
+        filterPanel.add(cbFiltroEstado, g);
+                
+        mainPanel.setBackground(Color.WHITE);
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 40, 30, 40));
+        mainPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        
+        gbc.gridx = 0; gbc.gridy = 0;
+        gbc.insets = new Insets(0, 0, 30, 0);
+        mainPanel.add(lblTitle, gbc);
+
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 15, 0);
+        mainPanel.add(filterPanel, gbc);
+        gbc.anchor = GridBagConstraints.CENTER;
+        
         gbc.gridy = 2;
         gbc.insets = new Insets(0, 0, 0, 0);
         mainPanel.add(scrollPane, gbc);
-        
-        StyleUtil.styleCloseButton(btnClose);
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
-        topPanel.setBackground(Color.LIGHT_GRAY);
-        topPanel.add(btnClose);
-        SwingUtil.enableWindowDrag(this, topPanel);
 
+        setBackground(StyleUtil.BG_COLOR);
+        
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(topPanel, BorderLayout.NORTH);
         getContentPane().add(mainPanel, BorderLayout.CENTER);
 
         pack();
-    }
-
-    private void styleComboBox(JComboBox<String> combo) {
-        combo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        combo.setPreferredSize(new Dimension(200, 35));
-        combo.setBackground(Color.WHITE);
-        combo.setForeground(Color.BLACK);
-        combo.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(BG_COLOR, 1),
-                BorderFactory.createEmptyBorder(5, 10, 5, 10)
-        ));
-        combo.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
     
     public JComboBox<String> getListaFiltros() { return this.cbFiltroEstado; }

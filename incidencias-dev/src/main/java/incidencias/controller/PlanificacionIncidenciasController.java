@@ -1,13 +1,11 @@
 package incidencias.controller;
 
 import java.util.List;
-
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
-
+import exceptions.ApplicationException;
 import incidencias.model.PlanificacionIncidenciasModel;
 import incidencias.model.DTOs.IncidenciaDTO;
 import incidencias.ui.DashboardView;
@@ -61,14 +59,12 @@ public class PlanificacionIncidenciasController {
 	    int fila = tabla.getSelectedRow();
 
 	    if (fila == -1) {
-	        JOptionPane.showMessageDialog(view, "Seleccione una incidencia de la tabla.", "Aviso", JOptionPane.WARNING_MESSAGE);
-	        return;
+	        throw new ApplicationException("Seleccione una incidencia de la tabla");
 	    }
 
 	    Object value = tabla.getModel().getValueAt(fila, 0);
 	    if (!(value instanceof Number)) {
-	        JOptionPane.showMessageDialog(view, "Id de incidencia inválido.", "Error", JOptionPane.ERROR_MESSAGE);
-	        return;
+	        throw new ApplicationException("Id de incidencia inválido");
 	    }
 
 	    int idIncidencia = ((Number) value).intValue();
@@ -76,29 +72,25 @@ public class PlanificacionIncidenciasController {
 	    String horasTxt = view.getTextFieldHorasPrevistas().getText().trim();
         Integer horas;
         if (horasTxt.isEmpty()) {
-            JOptionPane.showMessageDialog(view, "Las horas previstas son obligatorias.", "Validación", JOptionPane.WARNING_MESSAGE);
-            return;
+	        throw new ApplicationException("Las horas previstas son obligatorias");
         }
         try {
             horas = Integer.parseInt(horasTxt);
             if (horas <= 0) {
-                JOptionPane.showMessageDialog(view, "Introduce un número de horas válido (> 0).", "Validación", JOptionPane.WARNING_MESSAGE);
-                return;
+    	        throw new ApplicationException("Introduce un número de horas válido (>0)");
             }
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(view, "Horas previstas debe ser un número entero.", "Validación", JOptionPane.WARNING_MESSAGE);
-            return;
+	        throw new ApplicationException("Las horas previstas deben ser un número entero");
         }
 
         String descripcionTrabajo = view.getTextAreaDescripcion().getText().trim();
         if (descripcionTrabajo.isEmpty()) {
-            JOptionPane.showMessageDialog(view, "La descripción del trabajo es obligatoria.", "Validación", JOptionPane.WARNING_MESSAGE);
-            return;
+	        throw new ApplicationException("La descripción del trabajo es obligatoria");
         }
 
         model.planificarIncidencia(idIncidencia, idUsuario, horas, descripcionTrabajo);
 
-        JOptionPane.showMessageDialog(view, "Incidencia planificada correctamente. Estado cambiado a 'En proceso'.", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+        SwingUtil.showSuccessMessage(view, "Incidencia planificada correctamente. Estado cambiado a 'En proceso'");
         listarIncidenciasTecnico();
 	}
     

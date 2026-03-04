@@ -6,6 +6,7 @@ import incidencias.model.Entitiy.IncidenciaEntity;
 import incidencias.ui.CrearIncidenciaView;
 import incidencias.ui.DashboardView;
 import util.LogSystem;
+import util.swing.SwingUtil;
 
 public class CrearIncidenciasController {
     private CrearIncidenciaView view; 
@@ -39,7 +40,7 @@ public class CrearIncidenciasController {
         
         if (descripcion.isEmpty() || localizacion.isEmpty()) {
             LogSystem.logFlow("VALIDATION_FAIL", "Descripción o localización vacías");
-            view.mostrarError("Por favor, rellene la descripción y la localización.");
+            SwingUtil.showErrorMessage(view, "Por favor, rellene la descripción y la localización.");
             return;
         }
 
@@ -56,17 +57,16 @@ public class CrearIncidenciasController {
             
             String mensajeResumen = "¡Registro Exitoso!\n" +
                     "ID incidencia: " + incidenciaGenerada.getId() + "\n" +
-                    //"Fecha registro: " + incidenciaGenerada.getFechaCambio() + "\n" +
                     "Localización: " + incidenciaGenerada.getLocalizacion() + "\n" +
             		"Descripción: " + incidenciaGenerada.getDescripcion();
             
             String resumenDetalle = "Incidencia guardada con ID: " + incidenciaGenerada.getId();
-            view.mostrarResumen(mensajeResumen, resumenDetalle);
+            SwingUtil.showSummaryMessage(view, mensajeResumen, resumenDetalle);
             limpiarFormulario();
             
         } catch (Exception ex) {
             LogSystem.logFlow("ERROR", "Fallo al insertar en DB: " + ex.getMessage());
-            view.mostrarError("Hubo un error al guardar la incidencia en la base de datos.");
+            SwingUtil.showErrorMessage(view, "Hubo un error al guardar la incidencia en la base de datos.");
         }
     }
     
