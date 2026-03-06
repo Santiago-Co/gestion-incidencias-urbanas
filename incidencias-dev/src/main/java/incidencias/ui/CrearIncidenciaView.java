@@ -1,12 +1,8 @@
 package incidencias.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.geom.RoundRectangle2D;
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -37,8 +33,8 @@ public class CrearIncidenciaView extends javax.swing.JFrame {
     }
 
     private void initComponents() {
-    	LogSystem.logFlow("Init", "Inicio de la construcción de la interfaz del usuario");
-        JPanel mainPanel = new JPanel();
+    	
+    	// Inicializacion de componentes
         
         final JLabel titleWin = new JLabel("  Creación de incidencias");
         StyleUtil.styleWindowTitle(titleWin);
@@ -78,50 +74,73 @@ public class CrearIncidenciaView extends javax.swing.JFrame {
         btnClose = new JButton();
         StyleUtil.styleCloseButton(btnClose); 
         
+        // Creacion de las secciones de la pantalla
+
         JPanel topPanel = StyleUtil.createTopPanel(this, titleWin, btnClose, this.getWidth());
         
-        mainPanel.setBackground(Color.WHITE);
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 40, 30, 40));
-        mainPanel.setLayout(new GridBagLayout());
-        
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.insets = new Insets(5, 0, 5, 0); 
+        JPanel mainPanel = StyleUtil.createMainPanel();
 
-        gbc.gridx = 0; gbc.gridy = 0; 
-        gbc.insets = new Insets(0, 0, 20, 0); 
-        mainPanel.add(lblTitle, gbc);
+        // Colocacion de los componentes de la pantalla
 
-        gbc.gridy++; gbc.insets = new Insets(5, 0, 2, 0);
-        mainPanel.add(lblTipo, gbc);
-        
-        gbc.gridy++; gbc.insets = new Insets(0, 0, 15, 0);
-        mainPanel.add(cmbTipo, gbc);
+        GridBagConstraints gbcTitle = new GridBagConstraints();
+        gbcTitle.gridx = 0;
+        gbcTitle.gridy = 0; 
+        gbcTitle.insets = new Insets(0, 0, 20, 0); 
+        gbcTitle.fill = GridBagConstraints.BOTH;
+        mainPanel.add(lblTitle, gbcTitle);
 
-        gbc.gridy++; gbc.insets = new Insets(5, 0, 2, 0);
-        mainPanel.add(lblLocalizacion, gbc);
+        GridBagConstraints gbcLblTipo = new GridBagConstraints();
+        gbcLblTipo.gridx = 0;
+        gbcLblTipo.gridy = 1;
+        gbcLblTipo.insets = new Insets(5, 0, 2, 0);
+        gbcLblTipo.fill = GridBagConstraints.BOTH;
+        mainPanel.add(lblTipo, gbcLblTipo);
         
-        gbc.gridy++; gbc.insets = new Insets(0, 0, 15, 0);
-        mainPanel.add(txtLocalizacion, gbc);
+        GridBagConstraints gbcCmbTipo = new GridBagConstraints();
+        gbcCmbTipo.gridx = 0;
+        gbcCmbTipo.gridy = 2;
+        gbcCmbTipo.insets = new Insets(0, 0, 15, 0);
+        gbcCmbTipo.fill = GridBagConstraints.BOTH;
+        mainPanel.add(cmbTipo, gbcCmbTipo);
 
-        gbc.gridy++; gbc.insets = new Insets(5, 0, 2, 0);
-        mainPanel.add(lblDescripcion, gbc);
+        GridBagConstraints gbcLblLocalizacion = new GridBagConstraints();
+        gbcLblLocalizacion.gridx = 0;
+        gbcLblLocalizacion.gridy = 3;
+        gbcLblLocalizacion.insets = new Insets(5, 0, 2, 0);
+        gbcLblLocalizacion.fill = GridBagConstraints.BOTH;
+        mainPanel.add(lblLocalizacion, gbcLblLocalizacion);
         
-        gbc.gridy++; gbc.insets = new Insets(0, 0, 20, 0);
-        mainPanel.add(scrollPane, gbc);
+        GridBagConstraints gbcTxtLocalizacion = new GridBagConstraints();
+        gbcTxtLocalizacion.gridx = 0;
+        gbcTxtLocalizacion.gridy = 4;
+        gbcTxtLocalizacion.insets = new Insets(0, 0, 15, 0);
+        gbcTxtLocalizacion.fill = GridBagConstraints.BOTH;
+        mainPanel.add(txtLocalizacion, gbcTxtLocalizacion);
 
-        gbc.gridy++; gbc.insets = new Insets(10, 0, 10, 0);
-        mainPanel.add(btnEnviar, gbc); 
+        GridBagConstraints gbcDescripcion = new GridBagConstraints();
+        gbcDescripcion.gridx = 0;
+        gbcDescripcion.gridy = 5;
+        gbcDescripcion.insets = new Insets(5, 0, 2, 0);
+        gbcDescripcion.fill = GridBagConstraints.BOTH;
+        mainPanel.add(lblDescripcion, gbcDescripcion);
         
-        gbc.gridy++; gbc.insets = new Insets(0, 0, 0, 0);
-        
-        setBackground(StyleUtil.BG_COLOR);
-        
-        getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(topPanel, BorderLayout.NORTH);
-        getContentPane().add(mainPanel, BorderLayout.CENTER);
+        GridBagConstraints gbcScroll = new GridBagConstraints();
+        gbcScroll.gridx = 0;
+        gbcScroll.gridy = 6;
+        gbcScroll.insets = new Insets(0, 0, 20, 0);
+        gbcScroll.fill = GridBagConstraints.BOTH;
+        mainPanel.add(scrollPane, gbcScroll);
 
-        pack();
+        GridBagConstraints gbcEnviar = new GridBagConstraints();
+        gbcEnviar.gridx = 0;
+        gbcEnviar.gridy = 7;
+        gbcEnviar.insets = new Insets(10, 0, 10, 0);
+        gbcEnviar.fill = GridBagConstraints.BOTH;
+        mainPanel.add(btnEnviar, gbcEnviar); 
+               
+        // Inicializacion del JFrame
+        
+        StyleUtil.setupWindow(this, topPanel, mainPanel, false);
         
         LogSystem.logFlow("Ready", "Interfaz construida y lista para el usuario");
     }

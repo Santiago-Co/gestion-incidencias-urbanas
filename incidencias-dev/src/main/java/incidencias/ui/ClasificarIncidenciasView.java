@@ -23,7 +23,8 @@ public class ClasificarIncidenciasView extends JFrame {
     }
 
     private void initComponents() {
-        JPanel mainPanel = new JPanel();
+    	
+    	// Inicializacion de componentes
 
         JLabel titleWin = new JLabel("  Clasificación de incidencias");
         StyleUtil.styleWindowTitle(titleWin);
@@ -51,34 +52,41 @@ public class ClasificarIncidenciasView extends JFrame {
         btnClose = new JButton();
         StyleUtil.styleCloseButton(btnClose);
         
+        // Creacion de las secciones de la pantalla
+        
         JPanel topPanel = StyleUtil.createTopPanel(this, titleWin, btnClose, this.getWidth());
         
-        JPanel accionesPanel = new JPanel(new BorderLayout());
-        accionesPanel.setBackground(Color.WHITE);
-        accionesPanel.add(btnValidar, BorderLayout.EAST);
+        JButton[] btns = {btnValidar};
+        JPanel accionesPanel = StyleUtil.createActionsPanel(btns);
 
-        mainPanel.setBackground(Color.WHITE);
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 40, 30, 40));
-        mainPanel.setLayout(new GridBagLayout());
+        JPanel mainPanel = StyleUtil.createMainPanel();
+
+        // Colocacion de los componentes de la pantalla
         
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        GridBagConstraints gbcTitle = new GridBagConstraints();
+        gbcTitle.gridx = 0;
+        gbcTitle.gridy = 0;
+        gbcTitle.insets = new Insets(5, 5, 10, 5);
+        gbcTitle.fill = GridBagConstraints.HORIZONTAL;
+        mainPanel.add(lblTitle, gbcTitle);
 
-        gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 2;
-        gbc.insets = new Insets(5, 5, 10, 5);
-        mainPanel.add(lblTitle, gbc);
-
-        gbc.gridy = 1; gbc.weighty = 1.0; gbc.fill = GridBagConstraints.BOTH;
-        mainPanel.add(scrollPane, gbc);
+        GridBagConstraints gbcScroll = new GridBagConstraints();
+        gbcScroll.gridx = 0;
+        gbcScroll.gridy = 1;
+        gbcScroll.insets = new Insets(5, 5, 10, 5);
+        gbcScroll.fill = GridBagConstraints.BOTH;
+        mainPanel.add(scrollPane, gbcScroll);
         
-        gbc.gridy = 2; gbc.weighty = 0; gbc.fill = GridBagConstraints.HORIZONTAL;
-        mainPanel.add(accionesPanel, gbc);
+        GridBagConstraints gbcPnlAcciones = new GridBagConstraints();
+        gbcPnlAcciones.gridx = 0;
+        gbcPnlAcciones.gridy = 2;
+        gbcPnlAcciones.insets = new Insets(5, 5, 10, 5);
+        gbcPnlAcciones.fill = GridBagConstraints.HORIZONTAL;
+        mainPanel.add(accionesPanel, gbcPnlAcciones);
 
-        getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(topPanel, BorderLayout.NORTH);
-        getContentPane().add(mainPanel, BorderLayout.CENTER);
+        // Inicializacion del JFrame
         
-        pack();
+        StyleUtil.setupWindow(this, topPanel, mainPanel, false);
     }
     
     public JScrollPane getScrollIncidencias() { return this.scrollPane; }

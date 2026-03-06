@@ -23,8 +23,9 @@ public class LogInView extends javax.swing.JFrame {
     }
 
     private void initComponents() {
-        JPanel mainPanel = new JPanel();
-        
+    	
+    	// Inicializacion de componentes
+    	
         final JLabel titleWin = new JLabel("  Sistema de Gestión de Incidencias");
         StyleUtil.styleWindowTitle(titleWin);
         
@@ -41,39 +42,43 @@ public class LogInView extends javax.swing.JFrame {
         StyleUtil.styleMainButton(btnIdentificar);
         
         btnClose = new JButton();
-        StyleUtil.styleCloseButton(btnClose);     
+        StyleUtil.styleCloseButton(btnClose);
+        
+        // Creacion de las secciones de la pantalla
         
         JPanel topPanel = StyleUtil.createTopPanel(this, titleWin, btnClose, this.getWidth());
 
-        mainPanel.setBackground(Color.WHITE);
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 40, 30, 40));
-        mainPanel.setLayout(new GridBagLayout());
+        JPanel mainPanel = StyleUtil.createMainPanel();
         
-        GridBagConstraints gbc = new GridBagConstraints();
+        // Colocacion de los componentes de la pantalla
+        
+        GridBagConstraints gbcTitle = new GridBagConstraints();
+        gbcTitle.gridx = 0;
+        gbcTitle.gridy = 0;
+        gbcTitle.insets = new Insets(0, 0, 10, 0);
+        mainPanel.add(lblTitle, gbcTitle);
+        
+        GridBagConstraints gbcInstruccion = new GridBagConstraints();
+        gbcInstruccion.gridx = 0;
+        gbcInstruccion.gridy = 1;
+        gbcInstruccion.insets = new Insets(0, 0, 30, 0);
+        mainPanel.add(lblInstruccion, gbcInstruccion);
+        
+        GridBagConstraints gbcTxtIdentificador = new GridBagConstraints();
+        gbcTxtIdentificador.gridx = 0;
+        gbcTxtIdentificador.gridy = 2;
+        gbcTxtIdentificador.insets = new Insets(0, 0, 20, 0);
+        mainPanel.add(txtIdentificador, gbcTxtIdentificador);
 
-        gbc.gridx = 0; gbc.gridy = 0;
-        gbc.insets = new Insets(0, 0, 10, 0);
-        mainPanel.add(lblTitle, gbc);
+        GridBagConstraints gbcBtnIdentificador = new GridBagConstraints();
+        gbcBtnIdentificador.gridx = 0;
+        gbcBtnIdentificador.gridy = 3;
+        gbcBtnIdentificador.insets = new Insets(0, 0, 20, 0);
+        mainPanel.add(btnIdentificar, gbcBtnIdentificador);
         
-        gbc.gridy = 1;
-        gbc.insets = new Insets(0, 0, 30, 0);
-        mainPanel.add(lblInstruccion, gbc);
-       
-        gbc.gridy = 2;
-        gbc.insets = new Insets(0, 0, 20, 0);
-        mainPanel.add(txtIdentificador, gbc);
-
-        gbc.gridy = 3;
-        mainPanel.add(btnIdentificar, gbc);
+        // Inicializacion del JFrame
         
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setBackground(StyleUtil.BG_COLOR);
-        
-        getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(topPanel, BorderLayout.NORTH);
-        getContentPane().add(mainPanel, BorderLayout.CENTER);
-
-        pack();
+        StyleUtil.setupWindow(this, topPanel, mainPanel, true);
     }
 
     public String getIdentificador() {

@@ -22,7 +22,8 @@ public class ConsultaIncidenciasView extends JFrame {
     }
 
     private void initComponents() {
-        JPanel mainPanel = new JPanel();
+    	
+    	// Inicializacion de componentes
         
         final JLabel titleWin = new JLabel("  Consulta de incidencias");
         StyleUtil.styleWindowTitle(titleWin);
@@ -47,44 +48,50 @@ public class ConsultaIncidenciasView extends JFrame {
         btnClose = new JButton();
         StyleUtil.styleCloseButton(btnClose);
         
+        // Creacion de las secciones de la pantalla
+
         JPanel topPanel = StyleUtil.createTopPanel(this, titleWin, btnClose, this.getWidth());
         
-        JPanel filterPanel = new JPanel(new GridBagLayout());
-        filterPanel.setBackground(Color.WHITE);
-        GridBagConstraints g = new GridBagConstraints();
-        g.gridx = 0; g.gridy = 0;
-        g.anchor = GridBagConstraints.WEST;
-        filterPanel.add(lblFiltro, g);
-        g.gridx = 1;
-        g.insets = new Insets(0, 10, 0, 0);
-        filterPanel.add(cbFiltroEstado, g);
-                
-        mainPanel.setBackground(Color.WHITE);
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 40, 30, 40));
-        mainPanel.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        
-        gbc.gridx = 0; gbc.gridy = 0;
-        gbc.insets = new Insets(0, 0, 30, 0);
-        mainPanel.add(lblTitle, gbc);
+        JPanel filterPanel = StyleUtil.createAbstractPanel();
 
-        gbc.gridy = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.insets = new Insets(0, 0, 15, 0);
-        mainPanel.add(filterPanel, gbc);
-        gbc.anchor = GridBagConstraints.CENTER;
-        
-        gbc.gridy = 2;
-        gbc.insets = new Insets(0, 0, 0, 0);
-        mainPanel.add(scrollPane, gbc);
+        JPanel mainPanel = StyleUtil.createMainPanel();
+                        
+        // Colocacion de los componentes de la pantalla
 
-        setBackground(StyleUtil.BG_COLOR);
+        GridBagConstraints gbcLblFiltro = new GridBagConstraints();
+        gbcLblFiltro.gridx = 0;
+        gbcLblFiltro.gridy = 0;
+        gbcLblFiltro.anchor = GridBagConstraints.WEST;
+        filterPanel.add(lblFiltro, gbcLblFiltro);
         
-        getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(topPanel, BorderLayout.NORTH);
-        getContentPane().add(mainPanel, BorderLayout.CENTER);
+        GridBagConstraints gbcCmbFiltro = new GridBagConstraints();
+        gbcCmbFiltro.gridx = 1;
+        gbcCmbFiltro.gridy = 0;
+        gbcCmbFiltro.insets = new Insets(0, 10, 0, 0);
+        gbcCmbFiltro.anchor = GridBagConstraints.WEST;
+        filterPanel.add(cbFiltroEstado, gbcCmbFiltro);
+        
+        GridBagConstraints gbcTitle = new GridBagConstraints();
+        gbcTitle.gridx = 0;
+        gbcTitle.gridy = 0;
+        gbcTitle.insets = new Insets(0, 0, 30, 0);
+        mainPanel.add(lblTitle, gbcTitle);
 
-        pack();
+        GridBagConstraints gbcPnlFiltro = new GridBagConstraints();
+        gbcPnlFiltro.gridx = 0;
+        gbcPnlFiltro.gridy = 1;
+        gbcPnlFiltro.insets = new Insets(0, 0, 15, 0);
+        gbcPnlFiltro.anchor = GridBagConstraints.WEST;
+        mainPanel.add(filterPanel, gbcPnlFiltro);
+        
+        GridBagConstraints gbcScroll = new GridBagConstraints();
+        gbcScroll.gridx = 0;
+        gbcScroll.gridy = 2;
+        mainPanel.add(scrollPane, gbcScroll);
+        
+        // Inicializacion del JFrame
+        
+        StyleUtil.setupWindow(this, topPanel, mainPanel, false);
     }
     
     public JComboBox<String> getListaFiltros() { return this.cbFiltroEstado; }

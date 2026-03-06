@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
@@ -17,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 import javax.swing.table.JTableHeader;
 
 public class StyleUtil {
@@ -57,6 +59,35 @@ public class StyleUtil {
         topPanel.add(close, BorderLayout.EAST);
         SwingUtil.enableWindowDrag(window, topPanel);
         return topPanel;
+	}
+	
+	public static JPanel createMainPanel() {
+        JPanel mainPanel = new JPanel();
+        mainPanel.setBackground(Color.WHITE);
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 40, 30, 40));
+        mainPanel.setLayout(new GridBagLayout());
+        return mainPanel;
+	}
+	
+	public static JPanel createAbstractPanel() {
+		JPanel panel = new JPanel(new GridBagLayout());
+        panel.setBackground(Color.WHITE);
+        return panel;
+	}
+	
+	public static JPanel createActionsPanel(JButton[] btns) {
+		JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(Color.WHITE);
+        for(JButton btn : btns) panel.add(btn, BorderLayout.EAST);
+        return panel;
+	}
+	
+	public static void setupWindow(JFrame window, JPanel topPanel, JPanel mainPanel, boolean close) {
+        if(close) window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		window.getContentPane().setLayout(new BorderLayout());
+        window.getContentPane().add(topPanel, BorderLayout.NORTH);
+        window.getContentPane().add(mainPanel, BorderLayout.CENTER);
+        window.pack();
 	}
 	
 	public static void styleWindowTitle(JLabel title) {

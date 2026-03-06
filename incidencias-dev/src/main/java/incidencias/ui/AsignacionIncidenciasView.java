@@ -26,7 +26,8 @@ public class AsignacionIncidenciasView extends JFrame {
     }
 
     private void initComponents() {
-        JPanel mainPanel = new JPanel();
+    	
+    	// Inicializacion de componentes
         
         final JLabel titleWin = new JLabel("  Asignación de incidencias");
         StyleUtil.styleWindowTitle(titleWin);
@@ -58,58 +59,73 @@ public class AsignacionIncidenciasView extends JFrame {
         btnClose = new JButton();
         StyleUtil.styleCloseButton(btnClose);
         
+        // Creacion de las secciones de la pantalla
+        
         JPanel topPanel = StyleUtil.createTopPanel(this, titleWin, btnClose, this.getWidth());
         
-        JPanel tablasPanel = new JPanel(new GridBagLayout());
-        tablasPanel.setBackground(Color.WHITE);
-        GridBagConstraints gbcTablas = new GridBagConstraints();
-        gbcTablas.gridx = 0; gbcTablas.gridy = 0;
-        gbcTablas.anchor = GridBagConstraints.WEST;
-        gbcTablas.fill = GridBagConstraints.NONE;
-        gbcTablas.insets = new Insets(0, 0, 10, 20);
-        tablasPanel.add(lblIncidencias, gbcTablas);
-        gbcTablas.gridx = 1; gbcTablas.gridy = 0;
-        gbcTablas.anchor = GridBagConstraints.WEST;
-        gbcTablas.fill = GridBagConstraints.NONE;
-        gbcTablas.insets = new Insets(0, 20, 10, 0);
-        tablasPanel.add(lblTecnicos, gbcTablas);
-        gbcTablas.gridx = 0; gbcTablas.gridy = 1;
-        gbcTablas.insets = new Insets(0, 0, 0, 20);
-        tablasPanel.add(scrollIncidencias, gbcTablas);
-        gbcTablas.gridx = 1; gbcTablas.gridy = 1;
-        gbcTablas.insets = new Insets(0, 20, 0, 0);
-        tablasPanel.add(scrollTecnicos, gbcTablas);
+        JPanel tablasPanel = StyleUtil.createAbstractPanel();
         
-        JPanel accionesPanel = new JPanel(new BorderLayout());
-        accionesPanel.setBackground(Color.WHITE);
-        accionesPanel.add(btnAsignar, BorderLayout.EAST);
+        JButton[] btns = {btnAsignar};
+        JPanel accionesPanel = StyleUtil.createActionsPanel(btns);
 
-        mainPanel.setBackground(Color.WHITE);
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 40, 30, 40));
-        mainPanel.setLayout(new GridBagLayout());
-        
-        GridBagConstraints gbc = new GridBagConstraints();
+        JPanel mainPanel = StyleUtil.createMainPanel();
 
-        gbc.gridx = 0; gbc.gridy = 0;
-        gbc.insets = new Insets(5, 0, 30, 0);
-        mainPanel.add(lblTitle, gbc);
+        // Colocacion de los componentes de la pantalla
         
-        gbc.gridy = 1;
-        gbc.insets = new Insets(0, 0, 0, 0);
-        mainPanel.add(tablasPanel, gbc);
+        GridBagConstraints gbcLblIncidencias = new GridBagConstraints();
+        gbcLblIncidencias.gridx = 0;
+        gbcLblIncidencias.gridy = 0;
+        gbcLblIncidencias.insets = new Insets(0, 0, 10, 20);
+        gbcLblIncidencias.anchor = GridBagConstraints.WEST;
+        gbcLblIncidencias.fill = GridBagConstraints.NONE;
+        tablasPanel.add(lblIncidencias, gbcLblIncidencias);
         
-        gbc.gridy = 2;
-        gbc.insets = new Insets(20, 20, 0, 0);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        mainPanel.add(accionesPanel, gbc);
+        GridBagConstraints gbcLblTecnicos = new GridBagConstraints();
+        gbcLblTecnicos.gridx = 1;
+        gbcLblTecnicos.gridy = 0;
+        gbcLblTecnicos.insets = new Insets(0, 20, 10, 0);
+        gbcLblTecnicos.anchor = GridBagConstraints.WEST;
+        gbcLblTecnicos.fill = GridBagConstraints.NONE;
+        tablasPanel.add(lblTecnicos, gbcLblTecnicos);
+        
+        GridBagConstraints gbcScrollInc = new GridBagConstraints();
+        gbcScrollInc.gridx = 0;
+        gbcScrollInc.gridy = 1;
+        gbcScrollInc.insets = new Insets(0, 0, 0, 20);
+        gbcScrollInc.anchor = GridBagConstraints.WEST;
+        gbcScrollInc.fill = GridBagConstraints.NONE;
+        tablasPanel.add(scrollIncidencias, gbcScrollInc);
+        
+        GridBagConstraints gbcScrollTec = new GridBagConstraints();
+        gbcScrollTec.gridx = 1;
+        gbcScrollTec.gridy = 1;
+        gbcScrollTec.insets = new Insets(0, 20, 0, 0);
+        gbcScrollTec.anchor = GridBagConstraints.WEST;
+        gbcScrollTec.fill = GridBagConstraints.NONE;
+        tablasPanel.add(scrollTecnicos, gbcScrollTec);
+        
+        GridBagConstraints gbcTitle = new GridBagConstraints();
+        gbcTitle.gridx = 0;
+        gbcTitle.gridy = 0;
+        gbcTitle.insets = new Insets(0, 0, 30, 0);
+        mainPanel.add(lblTitle, gbcTitle);
+        
+        GridBagConstraints gbcPnlTablas = new GridBagConstraints();
+        gbcPnlTablas.gridx = 0;
+        gbcPnlTablas.gridy = 1;
+        gbcPnlTablas.insets = new Insets(0, 0, 0, 0);
+        mainPanel.add(tablasPanel, gbcPnlTablas);
+        
+        GridBagConstraints gbcPnlAcciones = new GridBagConstraints();
+        gbcPnlAcciones.gridx = 0;
+        gbcPnlAcciones.gridy = 2;
+        gbcPnlAcciones.insets = new Insets(20, 20, 0, 0);
+        gbcPnlAcciones.fill = GridBagConstraints.HORIZONTAL;
+        mainPanel.add(accionesPanel, gbcPnlAcciones);
 
-        setBackground(StyleUtil.BG_COLOR);
+        // Inicializacion del JFrame
         
-        getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(topPanel, BorderLayout.NORTH);
-        getContentPane().add(mainPanel, BorderLayout.CENTER);
-
-        pack();
+        StyleUtil.setupWindow(this, topPanel, mainPanel, false);
     }
 
     public JTable getTablaIncidencias() { return this.tablaIncidencias; }

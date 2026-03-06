@@ -28,7 +28,8 @@ public class DashboardView extends javax.swing.JFrame {
     }
 
     private void initComponents() {
-        JPanel mainPanel = new JPanel();
+    	
+    	// Inicializacion de componentes
         
         final JLabel titleWin = new JLabel("  Sistema de Gestión de Incidencias - Panel Principal");
         StyleUtil.styleWindowTitle(titleWin);
@@ -64,24 +65,25 @@ public class DashboardView extends javax.swing.JFrame {
         btnClose = new JButton();
         StyleUtil.styleCloseButton(btnClose);
         
-        JPanel topPanel = StyleUtil.createTopPanel(this, titleWin, btnClose, this.getWidth());
+        // Creacion de las secciones de la pantalla
         
-        topPanel.add(titleWin, BorderLayout.WEST);
-        topPanel.add(btnClose, BorderLayout.EAST);
+        JPanel topPanel = StyleUtil.createTopPanel(this, titleWin, btnClose, this.getWidth());
         
         buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
         buttonsPanel.setBackground(Color.WHITE);
+        buttonsPanel.setPreferredSize(new Dimension(350, 350));
 
-        mainPanel.setBackground(Color.WHITE);
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 40, 30, 40));
-        mainPanel.setLayout(new GridBagLayout());
+
+        JPanel mainPanel = StyleUtil.createMainPanel();
+
+        // Colocacion de los componentes de la pantalla
         
         GridBagConstraints gbcBienvenida = new GridBagConstraints();
         gbcBienvenida.gridx = 0;
         gbcBienvenida.gridy = 0;
-        gbcBienvenida.weightx = 1.0;
-        gbcBienvenida.weighty = 0.0;
+        gbcBienvenida.weightx = 1;
+        gbcBienvenida.weighty = 0;
         gbcBienvenida.insets = new Insets(0, 0, 5, 0);
         gbcBienvenida.fill = GridBagConstraints.HORIZONTAL;
         mainPanel.add(lblBienvenida, gbcBienvenida);
@@ -89,8 +91,8 @@ public class DashboardView extends javax.swing.JFrame {
         GridBagConstraints gbcRol = new GridBagConstraints();
         gbcRol.gridx = 0;
         gbcRol.gridy = 1;
-        gbcRol.weightx = 1.0;
-        gbcRol.weighty = 0.0;
+        gbcRol.weightx = 1;
+        gbcRol.weighty = 0;
         gbcRol.insets = new Insets(0, 0, 30, 0);
         gbcRol.fill = GridBagConstraints.HORIZONTAL;
         mainPanel.add(lblRol, gbcRol);
@@ -111,15 +113,9 @@ public class DashboardView extends javax.swing.JFrame {
         gbcLogout.fill = GridBagConstraints.HORIZONTAL;
         mainPanel.add(btnLogout, gbcLogout);
 
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setBackground(StyleUtil.BG_COLOR);
-        
-        getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(topPanel, BorderLayout.NORTH);
-        getContentPane().add(mainPanel, BorderLayout.CENTER);
+        // Inicializacion del JFrame
 
-        setPreferredSize(new Dimension(425, 550));
-        pack();
+        StyleUtil.setupWindow(this, topPanel, mainPanel, true);
     }
 
     private void addButtonToPanel(JButton btn) {
@@ -135,7 +131,7 @@ public class DashboardView extends javax.swing.JFrame {
         switch (rol.trim()) {
             case "Ciudadano":
             	addButtonToPanel(btnCrearIncidencia);
-            	addButtonToPanel(btnConsultarMisIncidencias);               
+            	addButtonToPanel(btnConsultarMisIncidencias); 
                 break;
             case "Operador":
             	addButtonToPanel(btnClasificarIncidencia);
