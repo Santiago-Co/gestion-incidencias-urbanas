@@ -8,6 +8,7 @@ import incidencias.model.DashboardModel;
 import incidencias.model.HistorialIncidenciaModel;
 import incidencias.model.LogInModel;
 import incidencias.model.PlanificacionIncidenciasModel;
+import incidencias.model.ResolverIncidenciasModel;
 import incidencias.model.DTOs.UsuarioDTO;
 import incidencias.ui.AsignacionIncidenciasView;
 import incidencias.ui.ClasificarIncidenciasView;
@@ -17,6 +18,7 @@ import incidencias.ui.DashboardView;
 import incidencias.ui.HistorialIncidenciaView;
 import incidencias.ui.LogInView;
 import incidencias.ui.PlanificacionIncidenciasView;
+import incidencias.ui.ResolverIncidenciasView;
 import util.Util;
 
 public class DashboardController {
@@ -55,6 +57,7 @@ public class DashboardController {
         
         // --- Botones de TECNICO ---
         view.getBtnPlanificarIncidencia().addActionListener(e -> abrirPlanificarIncidencias());
+        view.getBtnResolverIncidencia().addActionListener(e -> abrirResolverIncidencia());
         
         // --- Botones de OPERADOR Y TECNICO ---
         view.getBtnHistorialIncidencia().addActionListener(e -> abrirHistorialIncidencia());
@@ -110,6 +113,13 @@ public class DashboardController {
     	HistorialIncidenciaView histView = new HistorialIncidenciaView();
         HistorialIncidenciaModel histModel = new HistorialIncidenciaModel();
         new HistorialIncidenciaController(histView, histModel, model.getUsuarioActual().getId(), this.view);
+        view.setVisible(false);
+    }
+    
+    private void abrirResolverIncidencia() {
+    	ResolverIncidenciasView histView = new ResolverIncidenciasView();
+        ResolverIncidenciasModel histModel = new ResolverIncidenciasModel();
+        new ResolverIncidenciasController(histView, histModel, model.getUsuarioActual().getId(), this.view);
         view.setVisible(false);
     }
 }
