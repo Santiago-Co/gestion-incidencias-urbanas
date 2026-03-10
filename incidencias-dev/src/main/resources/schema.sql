@@ -5,9 +5,12 @@ DROP TABLE IF EXISTS usuario;
 
 CREATE TABLE usuario (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre TEXT,
+    apellidos TEXT,
     dni TEXT UNIQUE NOT NULL,
-    correo TEXT UNIQUE NOT NULL, 
-    rol TEXT NOT NULL CHECK (rol IN ('Ciudadano', 'Operador', 'Tecnico'))
+    correo TEXT UNIQUE NOT NULL,
+    especialidad TEXT CHECK (especialidad IN ('Electricidad urbana', 'Servicios de limpieza', 'Mantenimiento', 'Jardineria', 'Seguridad vial')), 
+    rol TEXT NOT NULL CHECK (rol IN ('Ciudadano', 'Operador', 'Tecnico', 'Tecnico responsable'))
 );
 
 CREATE TABLE incidencia (
