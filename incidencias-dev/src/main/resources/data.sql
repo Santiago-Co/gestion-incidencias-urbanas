@@ -1,6 +1,7 @@
 DELETE FROM usuario;
 DELETE FROM incidencia;
 DELETE FROM historia;
+DELETE FROM trabajo;
 
 -- ============================
 -- INSERTAR USUARIOS
@@ -28,19 +29,21 @@ INSERT INTO usuario (nombre, apellidos, dni, correo, especialidad, rol) VALUES
 -- ============================
 
 -- Incidencias no 'En proceso' (sin notas de tecnico)
-INSERT INTO incidencia (tipo, idCiudadano, descripcion, localizacion, horasPrevistas, descripcionTrabajo) VALUES
-('Alumbrado',    		   1, 'Farola apagada desde hace varios días',    'Calle Mayor 15',         NULL, NULL),
-('Zonas verdes', 		   1, 'Árbol caído tras tormenta', 				  'Avenida del Río',        NULL, NULL),
-('Limpieza',     		   2, 'Acumulación de basura en parque infantil', 'Parque Central',         NULL, NULL),
-('Señalización y calzada', 2, 'Señal de stop caída', 					  'Calle Sol esquina Luna', NULL, NULL),
-('Alumbrado', 		       2, 'Farola calle A no funciona', 			  'Calle A, 12', 		    NULL, NULL),
-('Mobiliario urbano', 	   2, 'Banca rota en plaza', 					  'Plaza Mayor', 			NULL, NULL);
+INSERT INTO incidencia (tipo, idCiudadano, descripcion, localizacion,
+						horasPrevistas, horasReales, descripcionPreviaTrabajo, descripcionFinalTrabajo) VALUES
+('Alumbrado',    		   1, 'Farola apagada desde hace varios días',    'Calle Mayor 15',         NULL, NULL, NULL, NULL),
+('Zonas verdes', 		   1, 'Árbol caído tras tormenta', 				  'Avenida del Río',        NULL, NULL, NULL, NULL),
+('Limpieza',     		   2, 'Acumulación de basura en parque infantil', 'Parque Central',         NULL, NULL, NULL, NULL),
+('Señalización y calzada', 2, 'Señal de stop caída', 					  'Calle Sol esquina Luna', NULL, NULL, NULL, NULL),
+('Alumbrado', 		       2, 'Farola calle A no funciona', 			  'Calle A, 12', 		    NULL, NULL, NULL, NULL),
+('Mobiliario urbano', 	   2, 'Banca rota en plaza', 					  'Plaza Mayor', 			NULL, NULL, NULL, NULL);
 
 -- Incidencias 'En proceso' (con horasPrevistas y descripcionTrabajo)
-INSERT INTO incidencia (tipo, idCiudadano, descripcion, localizacion, horasPrevistas, descripcionTrabajo) VALUES
-('Señalización y calzada', 1, 'Socavón en calle C',     'Calle C, 9',   2, 'Reinstalación de señal vertical'),
-('Zonas verdes', 		   2, 'Árbol caído', 			'Parque Sur',   4, 'Retirada de árbol y revisión de daños'),
-('Mobiliario urbano', 	   2, 'Banco roto en la plaza', 'Plaza España', 3, 'Sustitución de banco dañado');
+INSERT INTO incidencia (tipo, idCiudadano, descripcion, localizacion,
+						horasPrevistas, horasReales, descripcionPreviaTrabajo, descripcionFinalTrabajo) VALUES
+('Señalización y calzada', 1, 'Socavón en calle C',     'Calle C, 9',   2, 4,    'Reinstalación de señal vertical',       'Lorem ipsum'),
+('Zonas verdes', 		   2, 'Árbol caído', 			'Parque Sur',   4, NULL, 'Retirada de árbol y revisión de daños', NULL),
+('Mobiliario urbano', 	   2, 'Banco roto en la plaza', 'Plaza España', 3, NULL, 'Sustitución de banco dañado',           NULL);
 
 -- ============================
 -- INSERTAR HISTORIAL
@@ -73,9 +76,16 @@ INSERT INTO historia (idIncidencia, idTecnico, idOperador, fechaCambio, estado, 
 (8, NULL, 3,    '2025-10-21 09:50:00', 'Validada',   'Incidencia validada por el operador 3'),
 (8, 7,    3,    '2025-10-25 11:20:00', 'Asignada',   'Incidencia asignada por el operador 3 al tecnico 7'),
 (8, 7,    3,    '2025-11-09 12:10:00', 'En proceso', 'Incidencia en proceso de reparacion'),
-(8, 7,    3,    '2026-01-13 14:00:00', 'Resuelta',   'Incidencia resuelta'),
+(8, 7,    3,    '2026-01-13 14:00:00', 'Resuelta',   'Incidencia resuelta. Trabajos realizados: lorem ipsum'),
 (8, 7,    3,    '2026-02-23 15:00:00', 'Cerrada',    'Incidencia cerrada'),
 
 (9, NULL, NULL, '2025-12-07 10:20:00', 'Nueva',    'Incidencia registrada por el ciudadano 2'),
 (9, NULL, 3,    '2025-12-08 11:00:00', 'Validada', 'Incidencia validada por el operador 3'),
 (9, 6,    3,    '2025-12-13 11:30:00', 'Asignada', 'Incidencia asignada por el operador 3 al tecnico 6');
+
+-- ===============================
+-- INSERTAR TRABAJOS DE INCIDENCIA
+-- ===============================
+
+INSERT INTO trabajo (idIncidencia, fecha, descripcion) VALUES
+(8, '2026-01-13 14:00:00', 'lorem ipsum');

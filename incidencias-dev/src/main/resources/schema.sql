@@ -1,15 +1,16 @@
 -- Usar camel case para mantener la correlación con las variables de java
+DROP TABLE IF EXISTS trabajo;
 DROP TABLE IF EXISTS historia;
 DROP TABLE IF EXISTS incidencia;
 DROP TABLE IF EXISTS usuario;
 
 CREATE TABLE usuario (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nombre TEXT,
-    apellidos TEXT,
+    nombre TEXT NULL,
+    apellidos TEXT NULL,
     dni TEXT UNIQUE NOT NULL,
     correo TEXT UNIQUE NOT NULL,
-    especialidad TEXT CHECK (especialidad IN ('Electricidad urbana', 'Servicios de limpieza', 'Mantenimiento', 'Jardineria', 'Seguridad vial')), 
+    especialidad TEXT NULL CHECK (especialidad IN ('Electricidad urbana', 'Servicios de limpieza', 'Mantenimiento', 'Jardineria', 'Seguridad vial')), 
     rol TEXT NOT NULL CHECK (rol IN ('Ciudadano', 'Operador', 'Tecnico', 'Tecnico responsable'))
 );
 
@@ -20,7 +21,9 @@ CREATE TABLE incidencia (
     descripcion TEXT NOT NULL,
     localizacion TEXT NOT NULL,
     horasPrevistas INTEGER NULL,
-    descripcionTrabajo TEXT NULL,
+    horasReales INTEGER NULL,
+    descripcionPreviaTrabajo TEXT NULL,
+    descripcionFinalTrabajo TEXT NULL,
     CHECK (tipo IN ('Alumbrado', 'Limpieza', 'Mobiliario urbano', 'Zonas verdes', 'Señalización y calzada', 'Otro')),
 	FOREIGN KEY (idCiudadano) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -37,4 +40,12 @@ CREATE TABLE historia (
 	FOREIGN KEY (idIncidencia) REFERENCES incidencia(id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (idTecnico) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (idOperador) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE trabajo (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	idIncidencia INTEGER NOT NULL,
+	fecha DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	descripcion TEXT NOT NULL,
+	FOREIGN KEY (idIncidencia) REFERENCES incidencia(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
