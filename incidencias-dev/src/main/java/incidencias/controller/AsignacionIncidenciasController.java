@@ -26,8 +26,8 @@ public class AsignacionIncidenciasController {
 	private static final String[] TITULOS_TABLA_INCIDENCIAS = {"ID", "Tipo", "Descripción", "Fecha/Hora"};
 	private static final String[] TITULOS_TABLA_INCIDENCIAS_POJOS = new String[]{"id", "tipo", "descripcion", "fechaCambio"};
 	
-	private static final String[] TITULOS_TABLA_TECNICOS = {"ID", "Email"};
-	private static final String[] TITULOS_TABLA_TECNICOS_POJOS = new String[]{"id", "correo"};	
+	private static final String[] TITULOS_TABLA_TECNICOS = {"ID", "Nombre", "Apellidos"};
+	private static final String[] TITULOS_TABLA_TECNICOS_POJOS = new String[]{"id", "nombre", "apellidos"};	
 
     public AsignacionIncidenciasController(AsignacionIncidenciasView l, AsignacionIncidenciasModel m, int id, DashboardView viewDsb) {
         this.view = l;
@@ -86,16 +86,23 @@ public class AsignacionIncidenciasController {
     	String idTecnico    = SwingUtil.getSelectedKey(view.getTablaTecnicos());
     	Util.validateCondition( !idIncidencia.equals("") && !idTecnico.equals("") ,
 								"Debe seleccionar una incidencia y un técnico"  );
+    	
     	int idIn  = Integer.parseInt(idIncidencia);
     	int idTec = Integer.parseInt(idTecnico);
-    	String mensajeConfirmacion = String.format("Desea asignar la incidencia %d al técnico %d?", idIn, idTec);
+    	String nombreTec = SwingUtil.getSelectedValue(view.getTablaTecnicos(), 1);
+    	String apellidosTec = SwingUtil.getSelectedValue(view.getTablaTecnicos(), 2);
+
+    	String mensajeConfirmacion = String.format("Desea asignar la incidencia %d al técnico %d (%s %s)?",
+    												idIn, idTec, nombreTec, apellidosTec);
+    	
     	if(SwingUtil.showQuestionMessage(view, mensajeConfirmacion)) {
     		model.asignarIncidencia(idIn, idTec, idUsuario);
     		JTable tablaIncidencias = view.getTablaIncidencias();
     		DefaultTableModel modelTabla = (DefaultTableModel) tablaIncidencias.getModel();
     		modelTabla.removeRow(tablaIncidencias.getSelectedRow());
     		view.getTablaTecnicos().setModel(new DefaultTableModel());
-    		String mensajeExito = "La incidencia se asignó correctamente";
+    		String mensajeExito = String.format("La incidencia %d se asignó correctamente al técnico %d (%s %s)",
+												 idIn, idTec, nombreTec, apellidosTec);
     		SwingUtil.showSuccessMessage(view, mensajeExito);
     	}
     }

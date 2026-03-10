@@ -28,7 +28,7 @@ public class AsignacionIncidenciasModel {
 														   "WHERE hActual.estado = 'Validada' " +
 														   "ORDER BY hCreacion.fechaCambio";
     
-    private static final String SQL_LISTA_TECNICOS = "SELECT id, correo " +
+    private static final String SQL_LISTA_TECNICOS = "SELECT id, nombre, apellidos " +
 		      									     "FROM usuario " +
 		      									     "WHERE rol = 'Tecnico'";
     
