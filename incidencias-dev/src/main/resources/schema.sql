@@ -36,7 +36,7 @@ CREATE TABLE historia (
 	fechaCambio DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	estado TEXT NOT NULL,
 	descripcion TEXT NOT NULL,
-	CHECK (estado IN ('Nueva', 'Validada', 'Asignada', 'En proceso', 'Resuelta', 'Cerrada')),
+	CHECK (estado IN ('Nueva', 'Validada', 'Asignada', 'En proceso', 'Resuelta', 'Cerrada', 'Rechazado')),
 	FOREIGN KEY (idIncidencia) REFERENCES incidencia(id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (idTecnico) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (idOperador) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE

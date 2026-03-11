@@ -4,10 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -26,6 +28,7 @@ public class StyleUtil {
     public  static final Color BG_COLOR = new Color(249, 250, 251); 
 	
     private static final Color PRIMARY_COLOR = new Color(79, 70, 229);
+    private static final Color SECONDARY_COLOR = new Color(255, 3, 59);
     private static final Color TEXT_COLOR = new Color(100, 106, 120); 
     private static final Color TITLE_COLOR = new Color(31, 41, 55);
     private static final Color BORDER_COLOR = new Color(209, 213, 219);
@@ -37,7 +40,7 @@ public class StyleUtil {
 		throw new IllegalStateException("Utility class");
 	}
 	
-	private static void styleAbstractButton(JButton btn) {
+	private static void styleAbstractButtonPC(JButton btn) {
         btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btn.setForeground(Color.WHITE);
         btn.setBackground(PRIMARY_COLOR);
@@ -48,6 +51,20 @@ public class StyleUtil {
         btn.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent evt) { btn.setBackground(PRIMARY_COLOR.darker()); }
             public void mouseExited(MouseEvent evt) { btn.setBackground(PRIMARY_COLOR); }
+        });
+	}
+	
+	private static void styleAbstractButtonSC(JButton btn) {
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btn.setForeground(Color.WHITE);
+        btn.setBackground(SECONDARY_COLOR);
+        btn.setFocusPainted(false);
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btn.setBorder(null);
+
+        btn.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) { btn.setBackground(SECONDARY_COLOR.darker()); }
+            public void mouseExited(MouseEvent evt) { btn.setBackground(SECONDARY_COLOR); }
         });
 	}
 	
@@ -76,10 +93,13 @@ public class StyleUtil {
 	}
 	
 	public static JPanel createActionsPanel(JButton[] btns) {
-		JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(Color.WHITE);
-        for(JButton btn : btns) panel.add(btn, BorderLayout.EAST);
-        return panel;
+	    JPanel panel = new JPanel(new BorderLayout());
+	    panel.setBackground(Color.WHITE);
+	    JPanel eastPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));
+	    eastPanel.setBackground(Color.WHITE);
+	    for(JButton btn : btns) eastPanel.add(btn);
+	    panel.add(eastPanel, BorderLayout.EAST);
+	    return panel;
 	}
 	
 	public static void setupWindow(JFrame window, JPanel topPanel, JPanel mainPanel, boolean close) {
@@ -116,21 +136,28 @@ public class StyleUtil {
     }
     
     public static void styleMainButton(JButton btn) {
-        StyleUtil.styleAbstractButton(btn);
+        StyleUtil.styleAbstractButtonPC(btn);
         btn.setPreferredSize(new Dimension(300, 45));
         btn.setMaximumSize(new Dimension(Integer.MAX_VALUE, 45));
         btn.setMinimumSize(new Dimension(300, 45));
     }
     
     public static void styleSecondaryButton(JButton btn) {
-        StyleUtil.styleAbstractButton(btn);
+        StyleUtil.styleAbstractButtonPC(btn);
+        btn.setPreferredSize(new Dimension(100, 45));
+        btn.setMaximumSize(new Dimension(Integer.MAX_VALUE, 45));
+        btn.setMinimumSize(new Dimension(100, 45));
+    }
+    
+    public static void styleSecondaryButtonRed(JButton btn) {
+    	StyleUtil.styleAbstractButtonSC(btn);
         btn.setPreferredSize(new Dimension(100, 45));
         btn.setMaximumSize(new Dimension(Integer.MAX_VALUE, 45));
         btn.setMinimumSize(new Dimension(100, 45));
     }
     
     public static void styleLogoutButton(JButton btn) {
-        StyleUtil.styleAbstractButton(btn);
+        StyleUtil.styleAbstractButtonPC(btn);
         btn.setForeground(DANGER_COLOR);
         btn.setBackground(Color.WHITE);
         btn.setPreferredSize(new Dimension(300, 45));

@@ -14,6 +14,7 @@ public class ClasificarIncidenciasView extends JFrame {
     private JTable tablaIncidencias;
     private JButton btnClose;
     private JButton btnValidar;
+    private JButton btnEliminar; 
 
     public ClasificarIncidenciasView() {
         setUndecorated(true);
@@ -42,12 +43,15 @@ public class ClasificarIncidenciasView extends JFrame {
         		return col == 1; 
         	}
         };
+        
         StyleUtil.styleTable(tablaIncidencias);
         scrollPane = new JScrollPane(tablaIncidencias);
         scrollPane.setPreferredSize(new Dimension(700, 300));
         
         btnValidar = new JButton("Validar");
         StyleUtil.styleSecondaryButton(btnValidar);
+        btnEliminar = new JButton("Eliminar");
+        StyleUtil.styleSecondaryButtonRed(btnEliminar);
         
         btnClose = new JButton();
         StyleUtil.styleCloseButton(btnClose);
@@ -56,7 +60,7 @@ public class ClasificarIncidenciasView extends JFrame {
         
         JPanel topPanel = StyleUtil.createTopPanel(this, titleWin, btnClose, this.getWidth());
         
-        JButton[] btns = {btnValidar};
+        JButton[] btns = {btnEliminar, btnValidar};
         JPanel accionesPanel = StyleUtil.createActionsPanel(btns);
 
         JPanel mainPanel = StyleUtil.createMainPanel();
@@ -96,4 +100,6 @@ public class ClasificarIncidenciasView extends JFrame {
     public JButton getBtnClose() { return this.btnClose; }
 
     public JButton getBtnValidar() { return this.btnValidar; }
+    
+    public JButton getBtnEliminar() { return this.btnEliminar; }
 }

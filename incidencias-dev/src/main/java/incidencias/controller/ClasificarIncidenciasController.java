@@ -25,8 +25,11 @@ public class ClasificarIncidenciasController {
 	private static final String[] OPCIONES_INCIDENCIAS= {"Alumbrado", "Limpieza", "Mobiliario urbano", 
 														"Zonas verdes", "Señalización y calzada", "Otro"};
 	
-	private static final String MENSAJE_EXITO = "Incidencia validada correctamente";
-	private static final String MENSAJE_FALLO = "Debe seleccionar una incidencia para validarla"; 
+	private static final String MENSAJE_EXITO_VALIDAR = "Incidencia validada correctamente";
+	private static final String MENSAJE_EXITO_ELIMINAR = "Incidencia eliminada correctamente";
+	private static final String MENSAJE_FALLO_VALIDACION = "Debe seleccionar una incidencia para validarla"; 
+	private static final String MENSAJE_FALLO_ELIMINAR = "Debe seleccionar una incidencia para eliminarla"; 
+	
 	
     public ClasificarIncidenciasController(ClasificarIncidenciasView view, ClasificarIncidenciasModel model, int id, DashboardView viewDsb) {
         this.view = view;
@@ -46,6 +49,7 @@ public class ClasificarIncidenciasController {
     public void initController() {  
     	view.getBtnValidar().addActionListener(e -> validarIncidencia());
     	view.getBtnClose().addActionListener(e -> volverDashboard());
+    	view.getBtnEliminar().addActionListener(e -> eliminarIncidencia());
     	
     }
     
@@ -77,9 +81,9 @@ public class ClasificarIncidenciasController {
     private void validarIncidencia() {
         String idStr = SwingUtil.getSelectedKey(view.getTablaIncidencias());
         String tipoIncidencia = SwingUtil.getSelectedValue(view.getTablaIncidencias(),1);
-        
+        System.out.println(tipoIncidencia);
         if (idStr.isEmpty()) {
-        	SwingUtil.showErrorMessage(view, MENSAJE_FALLO);
+        	SwingUtil.showErrorMessage(view, MENSAJE_FALLO_VALIDACION);
             return;
         }
 
@@ -90,8 +94,34 @@ public class ClasificarIncidenciasController {
         SwingUtil.exceptionWrapper(() -> {
             int id = Integer.parseInt(idStr);
             
-            model.actualizarEstadoIncidencia(id, idUsuario, tipoIncidencia);
-        	SwingUtil.showSuccessMessage(view, MENSAJE_EXITO);
+            model.actualizarEstadoIncidenciaValidar(id, idUsuario, tipoIncidencia);
+        	SwingUtil.showSuccessMessage(view, MENSAJE_EXITO_VALIDAR);
+            
+            listarIncidencias();
+        });
+    }
+    
+    private void eliminarIncidencia() {
+    	String idStr = SwingUtil.getSelectedKey(view.getTablaIncidencias());
+    	String tipoIncidencia = SwingUtil.getSelectedValue(view.getTablaIncidencias(),1);
+    	
+    	if (idStr.isEmpty()) {
+        	SwingUtil.showErrorMessage(view, MENSAJE_FALLO_ELIMINAR);
+            return;
+        }
+    	
+    	
+        String mensajeConfirmacion = String.format("¿Desea eliminar la incidencia: %s?", idStr);
+        
+        String detalleEliminar = SwingUtil.showInputMessage(view, "¿Por qué quiere eliminar la incidencia: %s?");
+        
+        if(!SwingUtil.showQuestionMessage(view, mensajeConfirmacion)) { return; }
+    	
+        SwingUtil.exceptionWrapper(() -> {
+            int id = Integer.parseInt(idStr);
+            
+            model.actualizarEstadoIncidenciaEliminar(id, idUsuario, tipoIncidencia, detalleEliminar);
+        	SwingUtil.showSuccessMessage(view, MENSAJE_EXITO_ELIMINAR);
             
             listarIncidencias();
         });

@@ -25,7 +25,8 @@ public class ClasificarIncidenciasModel {
     private static final String SQL_INSERT_HISTORIAL = "INSERT INTO historia (idIncidencia, idTecnico, idOperador, estado, descripcion) " +
 		    										   "VALUES (?, NULL, ?, ?, ?)";
     
-    private static final String NUEVO_ESTADO_INCIDENCIA = "Validada";
+    private static final String VALIDAR_INCIDENCIA = "Validada";
+    private static final String ELIMINAR_INCIDENCIA = "Rechazado";
     
     public List<IncidenciaDTO> getListaIncidencias() {
     	
@@ -42,9 +43,17 @@ public class ClasificarIncidenciasModel {
     	return incidencias;
     }
         
-    public void actualizarEstadoIncidencia(int idIncidencia, int idOperador, String nuevoTipo) {
+    public void actualizarEstadoIncidenciaValidar(int idIncidencia, int idOperador, String nuevoTipo) {
+    	
         db.executeUpdate(SQL_ACTUALIZAR_TIPO, nuevoTipo, idIncidencia);
-        db.executeUpdate(SQL_INSERT_HISTORIAL, idIncidencia, idOperador, NUEVO_ESTADO_INCIDENCIA,
+        db.executeUpdate(SQL_INSERT_HISTORIAL, idIncidencia, idOperador, VALIDAR_INCIDENCIA,
         				 String.format("Incidencia validada por el operador %d", idOperador));
+    }
+    
+    public void actualizarEstadoIncidenciaEliminar(int idIncidencia, int idOperador, String nuevoTipo, String detalleEliminar) {
+    	
+        db.executeUpdate(SQL_ACTUALIZAR_TIPO, nuevoTipo, idIncidencia);
+        db.executeUpdate(SQL_INSERT_HISTORIAL, idIncidencia, idOperador, ELIMINAR_INCIDENCIA,
+        		detalleEliminar);
     }
 }
