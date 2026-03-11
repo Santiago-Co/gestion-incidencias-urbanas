@@ -25,6 +25,7 @@ CREATE TABLE incidencia (
     descripcionPreviaTrabajo TEXT NULL,
     descripcionFinalTrabajo TEXT NULL,
     CHECK (tipo IN ('Alumbrado', 'Limpieza', 'Mobiliario urbano', 'Zonas verdes', 'Señalización y calzada', 'Otro')),
+    CHECK (localizacion IN ('Centro', 'Norte', 'Sur', 'Este', 'Oeste', 'Parque Central', 'Zona Universitaria', 'Poligono Industrial', 'Estacion', 'Hospital')),
 	FOREIGN KEY (idCiudadano) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 

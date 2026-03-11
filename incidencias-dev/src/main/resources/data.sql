@@ -29,21 +29,22 @@ INSERT INTO usuario (nombre, apellidos, dni, correo, especialidad, rol) VALUES
 -- ============================
 
 -- Incidencias no 'En proceso' (sin notas de tecnico)
+
 INSERT INTO incidencia (tipo, idCiudadano, descripcion, localizacion,
 						horasPrevistas, horasReales, descripcionPreviaTrabajo, descripcionFinalTrabajo) VALUES
-('Alumbrado',    		   1, 'Farola apagada desde hace varios días',    'Calle Mayor 15',         NULL, NULL, NULL, NULL),
-('Zonas verdes', 		   1, 'Árbol caído tras tormenta', 				  'Avenida del Río',        NULL, NULL, NULL, NULL),
-('Limpieza',     		   2, 'Acumulación de basura en parque infantil', 'Parque Central',         NULL, NULL, NULL, NULL),
-('Señalización y calzada', 2, 'Señal de stop caída', 					  'Calle Sol esquina Luna', NULL, NULL, NULL, NULL),
-('Alumbrado', 		       2, 'Farola calle A no funciona', 			  'Calle A, 12', 		    NULL, NULL, NULL, NULL),
-('Mobiliario urbano', 	   2, 'Banca rota en plaza', 					  'Plaza Mayor', 			NULL, NULL, NULL, NULL);
+('Alumbrado',    		   1, 'Farola apagada desde hace varios días',    'Sur',         				NULL, NULL, NULL, NULL),
+('Zonas verdes', 		   1, 'Árbol caído tras tormenta', 				  'Hospital',        			NULL, NULL, NULL, NULL),
+('Limpieza',     		   2, 'Acumulación de basura en parque infantil', 'Zona Universitaria',         NULL, NULL, NULL, NULL),
+('Señalización y calzada', 2, 'Señal de stop caída', 					  'Poligono Industrial', 		NULL, NULL, NULL, NULL),
+('Alumbrado', 		       2, 'Farola calle A no funciona', 			  'Estacion', 		    		NULL, NULL, NULL, NULL),
+('Mobiliario urbano', 	   2, 'Banca rota en plaza', 					  'Oeste', 						NULL, NULL, NULL, NULL);
 
 -- Incidencias 'En proceso' (con horasPrevistas y descripcionTrabajo)
 INSERT INTO incidencia (tipo, idCiudadano, descripcion, localizacion,
 						horasPrevistas, horasReales, descripcionPreviaTrabajo, descripcionFinalTrabajo) VALUES
-('Señalización y calzada', 1, 'Socavón en calle C',     'Calle C, 9',   2, 4,    'Reinstalación de señal vertical',       'Lorem ipsum'),
-('Zonas verdes', 		   2, 'Árbol caído', 			'Parque Sur',   4, NULL, 'Retirada de árbol y revisión de daños', NULL),
-('Mobiliario urbano', 	   2, 'Banco roto en la plaza', 'Plaza España', 3, NULL, 'Sustitución de banco dañado',           NULL);
+('Señalización y calzada', 1, 'Socavón en calle C',     'Zona Universitaria',   2, 4,    'Reinstalación de señal vertical',       'Lorem ipsum'),
+('Zonas verdes', 		   2, 'Árbol caído', 			'Hospital',   			4, NULL, 'Retirada de árbol y revisión de daños', NULL),
+('Mobiliario urbano', 	   2, 'Banco roto en la plaza', 'Sur', 					3, NULL, 'Sustitución de banco dañado',           NULL);
 
 -- ============================
 -- INSERTAR HISTORIAL
