@@ -19,8 +19,8 @@ public class ClasificarIncidenciasController {
 	private DashboardView viewDsb;
 	private int idUsuario;
 	
-    private static final String[] TITULOS_TABLA_INCIDENCIAS_DTO = {"id", "tipo", "descripcion", "fechaCambio"};
-	private static final String[] TITULOS_VISUALES = {"ID", "Tipo", "Descripción", "Fecha/Hora"};
+    private static final String[] TITULOS_TABLA_INCIDENCIAS_DTO = {"id", "tipo", "descripcion", "fechaCambio", "estado"};
+	private static final String[] TITULOS_VISUALES = {"ID", "Tipo", "Descripción", "Fecha/Hora", "Estado"};
 	
 	private static final String[] OPCIONES_INCIDENCIAS= {"Alumbrado", "Limpieza", "Mobiliario urbano", 
 														"Zonas verdes", "Señalización y calzada", "Otro"};
