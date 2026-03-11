@@ -32,7 +32,7 @@ public class ClasificarIncidenciasView extends JFrame {
         final JLabel lblTitle = new JLabel("Nuevas incidencias registradas");
         StyleUtil.styleLabel(lblTitle, 24, true);
         
-        String[] columnas = {"ID", "Tipo", "Descripción", "Fecha/Hora"};
+        String[] columnas = {"ID", "Tipo", "Descripción", "Fecha/Hora", "Estado"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
         tablaIncidencias = new JTable(modelo) {
 			private static final long serialVersionUID = 1L;
