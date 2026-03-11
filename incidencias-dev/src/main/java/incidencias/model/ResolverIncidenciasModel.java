@@ -36,11 +36,11 @@ public class ResolverIncidenciasModel {
 		return incidenciasTecnico;
 	}
 
-	public void resolverIncidencia(int idIncidencia, int idTecnico, Integer horasReales, String descripcionPreviaTrabajo) {
-        db.executeUpdate(SQL_NOTAS_INCIDENCIA, horasReales, descripcionPreviaTrabajo, idIncidencia);
+	public void resolverIncidencia(int idIncidencia, int idTecnico, Integer horasReales, String descripcionFinalTrabajo) {
+        db.executeUpdate(SQL_NOTAS_INCIDENCIA, horasReales, descripcionFinalTrabajo, idIncidencia);
 	    
 	    String comentario = "Resolución: horasReales=" + (horasReales == null ? "N/A" : horasReales)
-	                       + (descripcionPreviaTrabajo == null || descripcionPreviaTrabajo.isEmpty() ? "" : " - " + descripcionPreviaTrabajo);
+	                       + (descripcionFinalTrabajo == null || descripcionFinalTrabajo.isEmpty() ? "" : " - " + descripcionFinalTrabajo);
 	    
 	    db.executeUpdate(SQL_INSERT_HISTORIAL, idIncidencia, idTecnico, comentario);
 	}

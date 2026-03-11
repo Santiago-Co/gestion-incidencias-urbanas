@@ -36,7 +36,7 @@ public class IncidenciaEntity {
 	public void setHorasPrevistas(int horasPrevistas) { this.horasPrevistas = horasPrevistas; }
 
 	public String getDescripcionFinalTrabajo() { return descripcionFinalTrabajo; }
-	public void setDescripcionFinalTrabajo(String descripcionFinalTrabajos) { this.descripcionFinalTrabajo = descripcionFinalTrabajos; }
+	public void setDescripcionFinalTrabajo(String descripcionFinalTrabajo) { this.descripcionFinalTrabajo = descripcionFinalTrabajo; }
 
 	public int getHorasReales() { return horasReales; }
 	public void setHorasReales(int horasReales) { this.horasReales = horasReales; }

@@ -32,7 +32,6 @@ public class HistorialIncidenciaController {
 
     private HistorialIncidenciaView view;
     private HistorialIncidenciaModel model;
-    private int usuarioId;
     private DashboardView viewDsb;
 
     private List<IncidenciaDTO> incidenciaList;
@@ -51,10 +50,9 @@ public class HistorialIncidenciaController {
     private static final String[] TITULOS_TABLA_HISTORIAL_VISTA = 
             new String[] { "Id", "Fecha de cambio", "Descripción", "Estado" };
 
-    public HistorialIncidenciaController(HistorialIncidenciaView view, HistorialIncidenciaModel model, int usuarioId, DashboardView viewDsb) {
+    public HistorialIncidenciaController(HistorialIncidenciaView view, HistorialIncidenciaModel model, DashboardView viewDsb) {
         this.view = view;
         this.model = model;
-        this.usuarioId = usuarioId;
         this.viewDsb = viewDsb;
 
         initView();
@@ -81,8 +79,8 @@ public class HistorialIncidenciaController {
     }
 
     private void listarIncidencias() {
-        LogSystem.logFlow("Historial", "Listando incidencias para usuario " + usuarioId);
-        incidenciaList = model.getIncidenciasUsuario(usuarioId);
+        LogSystem.logFlow("Historial", "Listando incidencias ");
+        incidenciaList = model.getIncidencias();
 
         TableModel tmodel = SwingUtil.getTableModelFromPojos(incidenciaList, TITULOS_TABLA_INCIDENCIAS_POJOS);
         JTable tabla = view.getTablaIncidencias();

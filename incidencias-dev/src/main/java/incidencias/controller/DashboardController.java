@@ -112,7 +112,7 @@ public class DashboardController {
     private void abrirHistorialIncidencia() {
     	HistorialIncidenciaView histView = new HistorialIncidenciaView();
         HistorialIncidenciaModel histModel = new HistorialIncidenciaModel();
-        new HistorialIncidenciaController(histView, histModel, model.getUsuarioActual().getId(), this.view);
+        new HistorialIncidenciaController(histView, histModel, this.view);
         view.setVisible(false);
     }
     
