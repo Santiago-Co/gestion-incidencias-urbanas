@@ -13,7 +13,7 @@ public class ClasificarIncidenciasModel {
     /** Utilizada para los test de la historia
     private String SQL_LISTA_INCIDENCIAS_TODO = "select * from incidencia";
     */
-    private static final String SQL_LISTA_INCIDENCIAS = "SELECT i.id, i.tipo, i.descripcion, h.fechaCambio AS fechaCreacion " +
+    private static final String SQL_LISTA_INCIDENCIAS = "SELECT i.id, i.tipo, i.descripcion, h.fechaCambio " +
     													"FROM incidencia i JOIN historia h ON h.idIncidencia = i.id " +
     													"WHERE h.estado = 'Nueva' " +
     													"AND h.id = (SELECT MIN(h1.id) FROM historia h1 WHERE h1.idIncidencia = i.id) " +

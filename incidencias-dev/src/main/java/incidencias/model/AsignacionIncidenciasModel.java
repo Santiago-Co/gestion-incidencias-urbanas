@@ -12,7 +12,7 @@ public class AsignacionIncidenciasModel {
     private Database db = new Database();
 
     private static final String SQL_INCIDENCIAS_VALIDADAS = "SELECT i.id, tipo, i.descripcion, " +
-														   "hCreacion.fechaCambio AS fechaCreacion, " +
+														   "hCreacion.fechaCambio, " +
 														   "hActual.estado " +
 														   "FROM incidencia i " +
 														   "JOIN historia hCreacion ON hCreacion.id = " +

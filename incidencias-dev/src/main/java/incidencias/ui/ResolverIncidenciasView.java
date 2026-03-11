@@ -58,7 +58,7 @@ public class ResolverIncidenciasView extends JFrame{
         StyleUtil.styleTextField(textFieldHorasReales, 100, 30);
         textFieldHorasReales.setColumns(6);
         
-        final JLabel lblDesc = new JLabel("Descripción general de los trabajos:");
+        final JLabel lblDesc = new JLabel("Descripción general de los trabajos realizados:");
         StyleUtil.styleLabel(lblDesc, 14, false);
         
         textAreaDescripcion = new JTextArea(6, 30);

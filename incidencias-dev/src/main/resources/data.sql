@@ -50,22 +50,22 @@ INSERT INTO incidencia (tipo, idCiudadano, descripcion, localizacion,
 -- ============================
 
 INSERT INTO historia (idIncidencia, idTecnico, idOperador, fechaCambio, estado, descripcion) VALUES
-(1, NULL, NULL, '2026-02-23 09:00:00', 'Nueva', 'Incidencia registrada por el ciudadano 1'),
+(1, NULL, NULL, '2026-02-23 09:00:00', 'Nueva',      'Incidencia registrada por el ciudadano 1'),
 
-(2, NULL, NULL, '2026-01-03 11:10:00', 'Nueva',    'Incidencia registrada por el ciudadano 1'),
-(2, NULL, 3, 	'2026-01-04 18:00:00', 'Validada', 'Incidencia validada por el operador 3'),
+(2, NULL, NULL, '2026-01-03 11:10:00', 'Nueva',      'Incidencia registrada por el ciudadano 1'),
+(2, NULL, 3, 	'2026-01-04 18:00:00', 'Validada',   'Incidencia validada por el operador 3'),
 
-(3, NULL, NULL, '2026-02-15 07:20:00', 'Nueva', 'Incidencia registrada por el ciudadano 2'),
+(3, NULL, NULL, '2026-02-15 07:20:00', 'Nueva',      'Incidencia registrada por el ciudadano 2'),
 
-(4, NULL, NULL, '2026-01-11 19:30:00', 'Nueva',    'Incidencia registrada por el ciudadano 2'),
-(4, NULL, 3, 	'2026-01-12 10:15:00', 'Validada', 'Incidencia validada por el operador 3'),
+(4, NULL, NULL, '2026-01-11 19:30:00', 'Nueva',      'Incidencia registrada por el ciudadano 2'),
+(4, NULL, 3, 	'2026-01-12 10:15:00', 'Validada',   'Incidencia validada por el operador 3'),
 
-(5, NULL, NULL, '2025-12-09 09:40:00', 'Nueva',    'Incidencia registrada por el ciudadano 2'),
-(5, NULL, 3, 	'2025-12-09 17:20:00', 'Validada', 'Incidencia validada por el operador 3'),
-(5, 4, 	  2, 	'2026-01-10 15:00:00', 'Asignada', 'Incidencia asignada por el operador 3 al tecnico 4'),
+(5, NULL, NULL, '2025-12-09 09:40:00', 'Nueva',      'Incidencia registrada por el ciudadano 2'),
+(5, NULL, 3, 	'2025-12-09 17:20:00', 'Validada',   'Incidencia validada por el operador 3'),
+(5, 4, 	  2, 	'2026-01-10 15:00:00', 'Asignada',   'Incidencia asignada por el operador 3 al tecnico 4'),
 
-(6, NULL, NULL, '2025-12-23 09:50:00', 'Nueva',    'Incidencia registrada por el ciudadano 1'),
-(6, NULL, 3, 	'2026-01-08 12:30:00', 'Validada', 'Incidencia validada por el operador 3'),
+(6, NULL, NULL, '2025-12-23 09:50:00', 'Nueva',      'Incidencia registrada por el ciudadano 1'),
+(6, NULL, 3, 	'2026-01-08 12:30:00', 'Validada',   'Incidencia validada por el operador 3'),
 
 (7, NULL, NULL, '2025-11-26 10:00:00', 'Nueva', 	 'Incidencia registrada por el ciudadano 1'),
 (7, NULL, 3, 	'2025-11-27 17:40:00', 'Validada',   'Incidencia validada por el operador 3'),
@@ -79,9 +79,10 @@ INSERT INTO historia (idIncidencia, idTecnico, idOperador, fechaCambio, estado, 
 (8, 7,    3,    '2026-01-13 14:00:00', 'Resuelta',   'Incidencia resuelta. Trabajos realizados: lorem ipsum'),
 (8, 7,    3,    '2026-02-23 15:00:00', 'Cerrada',    'Incidencia cerrada'),
 
-(9, NULL, NULL, '2025-12-07 10:20:00', 'Nueva',    'Incidencia registrada por el ciudadano 2'),
-(9, NULL, 3,    '2025-12-08 11:00:00', 'Validada', 'Incidencia validada por el operador 3'),
-(9, 6,    3,    '2025-12-13 11:30:00', 'Asignada', 'Incidencia asignada por el operador 3 al tecnico 6');
+(9, NULL, NULL, '2025-12-07 10:20:00', 'Nueva',      'Incidencia registrada por el ciudadano 2'),
+(9, NULL, 3,    '2025-12-08 11:00:00', 'Validada',   'Incidencia validada por el operador 3'),
+(9, 6,    3,    '2025-12-13 11:30:00', 'Asignada',   'Incidencia asignada por el operador 3 al tecnico 6'),
+(9, 6,    3,    '2026-02-01 11:30:00', 'En proceso', 'Incidencia en proceso de reparacion');
 
 -- ===============================
 -- INSERTAR TRABAJOS DE INCIDENCIA

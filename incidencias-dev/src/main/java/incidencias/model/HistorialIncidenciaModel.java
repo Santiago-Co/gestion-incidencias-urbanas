@@ -19,7 +19,7 @@ public class HistorialIncidenciaModel {
     private Database db = new Database();
 
     public static final String SQL_LISTA_INCIDENCIAS =
-    	    "SELECT i.id, i.tipo, i.descripcion, h.fechaCambio as fechaCreacion, h.estado " +
+    	    "SELECT i.id, i.tipo, i.descripcion, h.fechaCambio, h.estado " +
     	    "FROM incidencia i " +
     	    "INNER JOIN historia h ON h.idIncidencia = i.id " +
     	    "WHERE h.fechaCambio = (" +

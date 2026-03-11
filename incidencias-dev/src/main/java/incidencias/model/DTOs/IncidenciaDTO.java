@@ -8,9 +8,11 @@ public class IncidenciaDTO {
     private String descripcion;
     private String localizacion;
     private int horasPrevistas;
-    private String descripcionTrabajo;
-    private String fechaCreacion;
-    private String estado;
+    private int horasReales;
+    private String descripcionPreviaTrabajo;
+    private String descripcionFinalTrabajo;
+    private String fechaCambio; // de la clase "Historia"
+    private String estado;      // de la clase "Historia"
     
     public IncidenciaDTO() {}
 
@@ -22,8 +24,8 @@ public class IncidenciaDTO {
         this.descripcion = rowDesc;
         this.localizacion = rowLoc;
         this.horasPrevistas = rowHP;
-        this.descripcionTrabajo = rowDescT;
-        this.fechaCreacion = rowFecha;
+        this.descripcionPreviaTrabajo = rowDescT;
+        this.fechaCambio = rowFecha;
         this.estado = rowEstado;
     }
 
@@ -45,12 +47,18 @@ public class IncidenciaDTO {
     public int getHorasPrevistas() { return horasPrevistas; }
     public void setHorasPrevistas(int horasPrevistas) { this.horasPrevistas = horasPrevistas; }
 
-    public String getDescripcionTrabajo() { return descripcionTrabajo; }
-    public void setDescripcionTrabajo(String descripcionTrabajo) { this.descripcionTrabajo = descripcionTrabajo; }
+    public String getDescripcionPreviaTrabajo() { return descripcionPreviaTrabajo; }
+    public void setDescripcionPreviaTrabajo(String descripcionTrabajo) { this.descripcionPreviaTrabajo = descripcionTrabajo; }
 
-	public String getFechaCambio() { return fechaCreacion; }
-	public void setFechaCreacion(String fechaCreacion) { this.fechaCreacion = fechaCreacion; }
+	public String getFechaCambio() { return fechaCambio; }
+	public void setFechaCambio(String fechaCambio) { this.fechaCambio = fechaCambio; }
 
 	public String getEstado() { return estado; }
 	public void setEstado(String estado) { this.estado = estado; }
+
+	public String getDescripcionFinalTrabajo() { return descripcionFinalTrabajo; }
+	public void setDescripcionFinalTrabajo(String descripcionFinalTrabajo) { this.descripcionFinalTrabajo = descripcionFinalTrabajo; }
+
+	public int getHorasReales() { return horasReales; }
+	public void setHorasReales(int horasReales) { this.horasReales = horasReales; }
 }
