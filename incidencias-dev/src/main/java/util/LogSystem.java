@@ -60,7 +60,7 @@ public class LogSystem {
                 .map(StackWalker.StackFrame::getMethodName)
                 .orElse("unknown");
 
-        String mensajeDecorado = String.format("METODO: %-20s | ACCION: %-10s | DETALLE: %s", 
+        String mensajeDecorado = String.format("METODO: %-30s | ACCION: %-30s | DETALLE: %s", 
                                                 nombreMetodo + "()", 
                                                 action.toUpperCase(), 
                                                 detail);

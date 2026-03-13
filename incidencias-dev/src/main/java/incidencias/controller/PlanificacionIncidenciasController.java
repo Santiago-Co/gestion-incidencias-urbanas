@@ -21,7 +21,8 @@ public class PlanificacionIncidenciasController {
     
     private static final String[] TITULOS_TABLA_INCIDENCIAS = {"ID", "Tipo", "Descripción", "Localización", "Fecha/Hora"};
 	private static final String[] TITULOS_TABLA_POJOS = new String[]{"id", "tipo", "descripcion", "localizacion", "fechaCambio"};
-
+	private static final Object COLUMN_ID = "ID";
+	
 	public PlanificacionIncidenciasController(PlanificacionIncidenciasView view, PlanificacionIncidenciasModel model, int id, DashboardView viewDsb) {
 		this.view = view;
 		this.model = model;
@@ -62,17 +63,14 @@ public class PlanificacionIncidenciasController {
 	        throw new ApplicationException("Seleccione una incidencia de la tabla");
 	    }
 
-	    Object value = tabla.getModel().getValueAt(fila, 0);
-	    if (!(value instanceof Number)) {
-	        throw new ApplicationException("Id de incidencia inválido");
-	    }
-
-	    int idIncidencia = ((Number) value).intValue();
+	    int columnIndex = tabla.getColumnModel().getColumnIndex(COLUMN_ID);
+        int idIncidencia = (int) tabla.getValueAt(fila, columnIndex);
+        String tipo = (String) tabla.getValueAt(fila, tabla.getColumnModel().getColumnIndex("Tipo"));
 
 	    String horasTxt = view.getTextFieldHorasPrevistas().getText().trim();
         Integer horas;
         if (horasTxt.isEmpty()) {
-	        throw new ApplicationException("Las horas previstas son obligatorias");
+	        throw new ApplicationException("Las horas de trabajo previstas son obligatorias");
         }
         try {
             horas = Integer.parseInt(horasTxt);
@@ -80,18 +78,34 @@ public class PlanificacionIncidenciasController {
     	        throw new ApplicationException("Introduce un número de horas válido (>0)");
             }
         } catch (NumberFormatException ex) {
-	        throw new ApplicationException("Las horas previstas deben ser un número entero");
+	        throw new ApplicationException("Las horas de trabajo previstas deben ser un número entero");
         }
 
         String descripcionTrabajo = view.getTextAreaDescripcion().getText().trim();
         if (descripcionTrabajo.isEmpty()) {
-	        throw new ApplicationException("La descripción del trabajo es obligatoria");
+	        throw new ApplicationException("La descripción de los trabajos a realizar es obligatoria");
         }
 
-        model.planificarIncidencia(idIncidencia, idUsuario, horas, descripcionTrabajo);
-
-        SwingUtil.showSuccessMessage(view, "Incidencia planificada correctamente. Estado cambiado a 'En proceso'");
-        listarIncidenciasTecnico();
+        String mensajeConfirmacion = String.format("¿Desea marcar como planificada la incidencia %d?", idIncidencia);
+        if(SwingUtil.showQuestionMessage(view, mensajeConfirmacion)) {
+        	model.planificarIncidencia(idIncidencia, idUsuario, horas, descripcionTrabajo);
+        	String fechaPlanificacion = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(new java.util.Date());
+        	
+        	int longitudMaxima = 30;
+            String resumenConfirmacion = descripcionTrabajo;
+            if (descripcionTrabajo.length() > longitudMaxima) {
+                resumenConfirmacion = descripcionTrabajo.substring(0, longitudMaxima) + "...";
+            }
+        	
+    		String mensajeResumen = "Incidencia planificada correctamente. Estado cambiado a 'En proceso'\n\n"
+    		+ "ID: " + idIncidencia + "\n"
+    		+ "Tipo: " + tipo + "\n"
+    		+ "Fecha Planificación: " + fechaPlanificacion + "\n"
+    		+ "Horas previstas: " + horas + "\n"
+    		+ "Descripción Trabajos: " + resumenConfirmacion;
+            SwingUtil.showSuccessMessage(view, mensajeResumen);
+            listarIncidenciasTecnico();
+    	}
 	}
     
     private void volverDashboard() {

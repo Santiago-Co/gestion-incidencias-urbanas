@@ -19,7 +19,7 @@ public class HistorialIncidenciaModel {
     private Database db = new Database();
 
     public static final String SQL_LISTA_INCIDENCIAS =
-    	    "SELECT i.id, i.tipo, i.descripcion, h.fechaCambio as fechaCreacion, h.estado " +
+    	    "SELECT i.id, i.tipo, i.descripcion, h.fechaCambio, h.estado " +
     	    "FROM incidencia i " +
     	    "INNER JOIN historia h ON h.idIncidencia = i.id " +
     	    "WHERE h.fechaCambio = (" +
@@ -38,8 +38,8 @@ public class HistorialIncidenciaModel {
      * que desea realizar la consulta. Se recoge de la tabla "Historia" el último estado al que ha
      * pasado la incidencia.
      */
-    public List<IncidenciaDTO> getIncidenciasUsuario(int usuarioId) {
-        LogSystem.logFlow("HistorialModel", "Listando incidencias (usuarioId=" + usuarioId + ")");
+    public List<IncidenciaDTO> getIncidencias() {
+        LogSystem.logFlow("HistorialModel", "Listando incidencias ");
         List<IncidenciaDTO> lista = db.executeQueryPojo(IncidenciaDTO.class, SQL_LISTA_INCIDENCIAS);
         return lista;
     }
