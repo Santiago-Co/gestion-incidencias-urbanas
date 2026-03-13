@@ -16,7 +16,7 @@ public class InformesIncidenciasTecnicosModel {
     													"COUNT(DISTINCT CASE " + 
     														"WHEN h.estado = 'Resuelta' THEN h.idIncidencia " + 
     													"END) AS numResueltas, " +
-    													"SUM(DISTINCT CASE " + 
+    													"SUM(CASE " + 
     														"WHEN h.estado = 'Resuelta' THEN i.horasReales " + 
     														"ELSE 0 " +
     													"END) AS horasReales " +

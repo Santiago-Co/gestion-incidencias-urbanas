@@ -24,7 +24,7 @@ public class InformesIncidenciasTecnicosView extends JFrame {
     	
     	// Inicializacion de componentes
 
-        JLabel titleWin = new JLabel("  Informes ...");
+        JLabel titleWin = new JLabel("  Informes de incidencias resueltas por técnicos");
         StyleUtil.styleWindowTitle(titleWin);
         
         final JLabel lblTitle = new JLabel("Número de incidencias resueltas por los técnicos en el último mes:");
