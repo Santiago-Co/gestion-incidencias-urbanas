@@ -6,6 +6,7 @@ import incidencias.model.ConsultaIncidenciasModel;
 import incidencias.model.CrearIncidenciaModel;
 import incidencias.model.DashboardModel;
 import incidencias.model.HistorialIncidenciaModel;
+import incidencias.model.InformesIncidenciasRegistradasModel;
 import incidencias.model.InformesIncidenciasTecnicosModel;
 import incidencias.model.LogInModel;
 import incidencias.model.PlanificacionIncidenciasModel;
@@ -17,6 +18,7 @@ import incidencias.ui.ConsultaIncidenciasView;
 import incidencias.ui.CrearIncidenciaView;
 import incidencias.ui.DashboardView;
 import incidencias.ui.HistorialIncidenciaView;
+import incidencias.ui.InformesIncidenciasRegistradasView;
 import incidencias.ui.InformesIncidenciasTecnicosView;
 import incidencias.ui.LogInView;
 import incidencias.ui.PlanificacionIncidenciasView;
@@ -50,6 +52,7 @@ public class DashboardController {
         // --- Botones Comunes ---
         view.getBtnLogout().addActionListener(e -> cerrarSesion());
         Util.addCloseAction(view.getBtnClose(), "Dashboard");
+        view.getBtnInformesIncidenciasRegistradas().addActionListener(e -> abrirInformesIncidenciasRegistradas());
         
         // --- Botones de CIUDADANO ---
         view.getBtnCrearIncidencia().addActionListener(e -> abrirCrearIncidencia());
@@ -68,7 +71,7 @@ public class DashboardController {
         view.getBtnHistorialIncidencia().addActionListener(e -> abrirHistorialIncidencia());
     }
 
-    private void cerrarSesion() {
+	private void cerrarSesion() {
         
         model.cerrarSesion();
         view.setVisible(false);
@@ -134,4 +137,11 @@ public class DashboardController {
         new InformesIncidenciasTecnicosController(histView, histModel, this.view);
         view.setVisible(false);
     }
+    
+    private void abrirInformesIncidenciasRegistradas() {
+    	InformesIncidenciasRegistradasView histView = new InformesIncidenciasRegistradasView();
+    	InformesIncidenciasRegistradasModel histModel = new InformesIncidenciasRegistradasModel();
+        new InformesIncidenciasRegistradasController(histView, histModel, this.view);
+        view.setVisible(false);
+	}
 }
