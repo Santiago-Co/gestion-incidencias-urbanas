@@ -1,16 +1,14 @@
 package incidencias.controller;
 
 import java.util.List;
-
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-
 import incidencias.model.AsignacionIncidenciasModel;
 import incidencias.model.DTOs.IncidenciaDTO;
-import incidencias.model.DTOs.UsuarioDTO;
+import incidencias.model.DTOs.TecnicoDTO;
 import incidencias.ui.AsignacionIncidenciasView;
 import incidencias.ui.DashboardView;
 import util.Util;
@@ -26,8 +24,8 @@ public class AsignacionIncidenciasController {
 	private static final String[] TITULOS_TABLA_INCIDENCIAS = {"ID", "Tipo", "Descripción", "Fecha/Hora"};
 	private static final String[] TITULOS_TABLA_INCIDENCIAS_POJOS = new String[]{"id", "tipo", "descripcion", "fechaCambio"};
 	
-	private static final String[] TITULOS_TABLA_TECNICOS = {"ID", "Nombre", "Apellidos"};
-	private static final String[] TITULOS_TABLA_TECNICOS_POJOS = new String[]{"id", "nombre", "apellidos"};	
+	private static final String[] TITULOS_TABLA_TECNICOS = {"ID", "Nombre", "Apellidos", "Especialidad"};
+	private static final String[] TITULOS_TABLA_TECNICOS_POJOS = new String[]{"id", "nombre", "apellidos", "especialidad"};	
 
     public AsignacionIncidenciasController(AsignacionIncidenciasView l, AsignacionIncidenciasModel m, int id, DashboardView viewDsb) {
         this.view = l;
@@ -71,8 +69,8 @@ public class AsignacionIncidenciasController {
     }
     
     private void listarTecnicos() {
-    	List<UsuarioDTO> incidencias = model.getListaTecnicos();
-		TableModel tmodel = SwingUtil.getTableModelFromPojos(incidencias, TITULOS_TABLA_TECNICOS_POJOS);
+    	List<TecnicoDTO> tecnicos = model.getListaTecnicos(SwingUtil.getSelectedValue(view.getTablaIncidencias(), 1));
+		TableModel tmodel = SwingUtil.getTableModelFromPojos(tecnicos, TITULOS_TABLA_TECNICOS_POJOS);
 		JTable tabla = view.getTablaTecnicos();
 		tabla.setModel(tmodel);
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();

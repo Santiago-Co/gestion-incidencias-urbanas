@@ -1,10 +1,10 @@
 package incidencias.model;
 
 import java.util.List;
-
 import incidencias.model.DTOs.IncidenciaDTO;
-import incidencias.model.DTOs.UsuarioDTO;
+import incidencias.model.DTOs.TecnicoDTO;
 import util.LogSystem;
+import util.MapEspecialidades;
 import util.database.Database;
 
 public class AsignacionIncidenciasModel {
@@ -28,9 +28,10 @@ public class AsignacionIncidenciasModel {
 														   "WHERE hActual.estado = 'Validada' " +
 														   "ORDER BY hCreacion.fechaCambio";
     
-    private static final String SQL_LISTA_TECNICOS = "SELECT id, nombre, apellidos " +
+    private static final String SQL_LISTA_TECNICOS = "SELECT id, nombre, apellidos, especialidad " +
 		      									     "FROM usuario " +
-		      									     "WHERE rol = 'Tecnico'";
+		      									     "WHERE rol = 'Tecnico' " +
+		      									     "AND especialidad = ?";
     
 	private static final String SQL_INSERT_HISTORIAL = "INSERT INTO historia (idIncidencia, idTecnico, idOperador, estado, descripcion) " +
 													   "VALUES (?, ?, ?, 'Asignada', ?)";
@@ -44,11 +45,11 @@ public class AsignacionIncidenciasModel {
     	return incidencias;
     }
     
-    public List<UsuarioDTO> getListaTecnicos() {
+    public List<TecnicoDTO> getListaTecnicos(String tipoIncidencia) {
     	
     	LogSystem.logFlow("Consulta tecnicos", "ejecución query");
     	
-        List<UsuarioDTO> incidencias = db.executeQueryPojo(UsuarioDTO.class, SQL_LISTA_TECNICOS);
+        List<TecnicoDTO> incidencias = db.executeQueryPojo(TecnicoDTO.class, SQL_LISTA_TECNICOS, MapEspecialidades.getEspecialidad(tipoIncidencia));
     	
     	return incidencias;
     }
