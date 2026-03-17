@@ -4,7 +4,7 @@ package incidencias.model.Entitiy;
 public class IncidenciaEntity {
 	private int id; 
 	private int idCiudadano;
-	private String tipo; 
+	private int tipo; 
 	private String descripcion; 
 	private String localizacion; 
 	private int horasPrevistas;
@@ -20,8 +20,8 @@ public class IncidenciaEntity {
 	public int getIdCiudadano() { return this.idCiudadano; }
 	public void setIdCiudadano(int ciudadanoId) { this.idCiudadano = ciudadanoId; }
 	
-	public String getTipo() { return this.tipo; }
-	public void setTipo(String tipo) { this.tipo = tipo; }
+	public int getTipo() { return this.tipo; }
+	public void setTipo(int tipo) { this.tipo = tipo; }
 	
 	public String getDescripcion() { return this.descripcion; }
 	public void setDescripcion(String descripcion) { this.descripcion = descripcion; }

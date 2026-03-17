@@ -13,6 +13,9 @@ public class CrearIncidenciaModel {
 	private final static String INCIDENCIA_NO_NULA = "El identificador no puede ser nulo";
 	
 	private Database db = new Database();
+	
+	private static final String SQL_TIPO_INCIDENCIA = "SELECT id AS tipo FROM tipoIncidencia " +
+													  "WHERE nombre = ?";
     
 	private static final String SQL_INSERT_INCIDENCIA = "INSERT INTO incidencia (tipo, idCiudadano, descripcion, localizacion) " +
 													    "VALUES (?, ?, ?, ?)";
@@ -22,10 +25,15 @@ public class CrearIncidenciaModel {
 	
 	private static final String SQL_SELECT_INCIDENCIA = "SELECT id, tipo, idCiudadano, descripcion, localizacion " +
 													    "FROM incidencia ORDER BY id DESC LIMIT 1";
-			
+	
+	public int getTipoIncidencia(String tipo) {
+		List<IncidenciaEntity> inc = db.executeQueryPojo(IncidenciaEntity.class, SQL_TIPO_INCIDENCIA, tipo);
+		return inc.get(0).getTipo();
+	}
+	
 	public IncidenciaDTO registrarYRecuperarIncidencia(IncidenciaEntity inc) {
 	    Util.validateNotNull(inc, INCIDENCIA_NO_NULA);
-	    
+	       
 	    db.executeUpdate(SQL_INSERT_INCIDENCIA,
 	    		inc.getTipo(),
 	    		inc.getIdCiudadano(),

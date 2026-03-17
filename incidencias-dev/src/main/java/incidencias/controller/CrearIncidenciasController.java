@@ -31,11 +31,11 @@ public class CrearIncidenciasController {
     
     private void registrarIncidencia() {
 
-        String tipo = (String) view.getCmbTipo().getSelectedItem();
+        int tipo = model.getTipoIncidencia((String) view.getCmbTipo().getSelectedItem());
         String localizacion = view.getTxtLocalizacion().getText().trim();
         String descripcion = view.getTxtDescripcion().getText().trim();
 
-        LogSystem.logFlow("ACTION", "Intento de registro: " + tipo);
+        LogSystem.logFlow("ACTION", String.format("Intento de registro: " + tipo));
 
         
         if (descripcion.isEmpty() || localizacion.isEmpty()) {
