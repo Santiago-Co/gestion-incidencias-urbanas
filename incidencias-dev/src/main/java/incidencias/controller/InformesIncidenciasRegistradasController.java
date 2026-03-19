@@ -1,14 +1,12 @@
 package incidencias.controller;
 
-import java.text.SimpleDateFormat;
+import java.text.SimpleDateFormat; 
 import java.util.List;
 
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
-
-import org.jdatepicker.impl.JDatePickerImpl;
 
 import incidencias.model.InformesIncidenciasRegistradasModel;
 import incidencias.model.DTOs.IncidenciaDTO;

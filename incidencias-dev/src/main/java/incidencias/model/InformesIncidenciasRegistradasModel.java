@@ -28,6 +28,10 @@ public class InformesIncidenciasRegistradasModel {
 			   "AND date(hCreacion.fechaCambio) <= ? " +
 			   "ORDER BY hCreacion.fechaCambio DESC";
 	
+	/**
+	 * Selecciona las incidencias que han sido registradas después de "fechaIni" y antes de
+	 * "fechaFin". Muestra de cada una de ellas sus datos principales.
+	 */
 	public List<IncidenciaDTO> getIncidenciasPorFecha(String fechaIni, String fechaFin) {
 		List<IncidenciaDTO> incidenciasTecnico = db.executeQueryPojo(IncidenciaDTO.class, SQL_LISTAR_INCIDENCIAS_POR_FECHA, fechaIni, fechaFin);
 		return incidenciasTecnico;
