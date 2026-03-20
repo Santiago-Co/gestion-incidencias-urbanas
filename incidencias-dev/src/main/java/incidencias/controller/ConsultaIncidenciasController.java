@@ -20,8 +20,8 @@ public class ConsultaIncidenciasController {
 	private DashboardView viewDsb;
 	private int idUsuario;
 	
-	private static final String[] TITULOS_TABLA_INCIDENCIAS = {"ID", "Tipo", "Descripción", "Fecha/Hora", "Estado"};
-	private static final String[] TITULOS_TABLA_POJOS = new String[]{"id", "tipo", "descripcion", "fechaCambio", "estado"};
+	private static final String[] TITULOS_TABLA_INCIDENCIAS = {"ID", "Tipo", "Descripción", "Fecha/Hora", "Localización", "Estado" };
+	private static final String[] TITULOS_TABLA_POJOS = new String[]{"id", "tipo", "descripcion", "fechaCambio", "localizacion", "estado"};
 			
 	
     public ConsultaIncidenciasController(ConsultaIncidenciasView l, ConsultaIncidenciasModel m, int id, DashboardView viewDsb) {
