@@ -1,9 +1,8 @@
 package incidencias.model;
 
 import java.util.List;
-
 import incidencias.model.DTOs.IncidenciaDTO;
-import incidencias.model.DTOs.UsuarioDTO;
+import incidencias.model.DTOs.TecnicoDTO;
 import util.LogSystem;
 import util.database.Database;
 
@@ -11,10 +10,13 @@ public class AsignacionIncidenciasModel {
 	    
     private Database db = new Database();
 
-    private static final String SQL_INCIDENCIAS_VALIDADAS = "SELECT i.id, tipo, i.descripcion, " +
+    private static final String SQL_INCIDENCIAS_VALIDADAS = "SELECT i.id, " +
+    													   "ti.nombre AS tipo, " +
+    													   "i.descripcion, " +
 														   "hCreacion.fechaCambio, " +
 														   "hActual.estado " +
 														   "FROM incidencia i " +
+	    												   "JOIN tipoIncidencia ti ON i.tipo = ti.id " +
 														   "JOIN historia hCreacion ON hCreacion.id = " +
 														   "( " +
 														   "   SELECT MIN(h1.id) FROM historia h1 " +
@@ -28,9 +30,15 @@ public class AsignacionIncidenciasModel {
 														   "WHERE hActual.estado = 'Validada' " +
 														   "ORDER BY hCreacion.fechaCambio";
     
-    private static final String SQL_LISTA_TECNICOS = "SELECT id, nombre, apellidos " +
-		      									     "FROM usuario " +
-		      									     "WHERE rol = 'Tecnico'";
+    private static final String SQL_LISTA_TECNICOS = "SELECT u.id, u.nombre, u.apellidos, " +
+    												 "ti.nombre AS tipo " +
+		      									     "FROM usuario u " +
+		      									     "JOIN tipoIncidenciaTecnico tit " +
+		      									     "ON u.id = tit.idTecnico " +
+		      									     "JOIN tipoIncidencia ti " +
+		      									     "ON tit.idTipo = ti.id " +
+		      									     "WHERE rol = 'Tecnico' " +
+		      									     "AND ti.nombre = ?";
     
 	private static final String SQL_INSERT_HISTORIAL = "INSERT INTO historia (idIncidencia, idTecnico, idOperador, estado, descripcion) " +
 													   "VALUES (?, ?, ?, 'Asignada', ?)";
@@ -44,11 +52,11 @@ public class AsignacionIncidenciasModel {
     	return incidencias;
     }
     
-    public List<UsuarioDTO> getListaTecnicos() {
+    public List<TecnicoDTO> getListaTecnicos(String tipoIncidencia) {
     	
     	LogSystem.logFlow("Consulta tecnicos", "ejecución query");
     	
-        List<UsuarioDTO> incidencias = db.executeQueryPojo(UsuarioDTO.class, SQL_LISTA_TECNICOS);
+        List<TecnicoDTO> incidencias = db.executeQueryPojo(TecnicoDTO.class, SQL_LISTA_TECNICOS, tipoIncidencia);
     	
     	return incidencias;
     }

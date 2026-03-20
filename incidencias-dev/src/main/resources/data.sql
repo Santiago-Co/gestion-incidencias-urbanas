@@ -1,4 +1,6 @@
 DELETE FROM usuario;
+DELETE FROM tipoIncidencia;
+DELETE FROM tipoIncidenciaTecnico;
 DELETE FROM incidencia;
 DELETE FROM historia;
 DELETE FROM trabajo;
@@ -7,49 +9,69 @@ DELETE FROM trabajo;
 -- INSERTAR USUARIOS
 -- ============================
 
-INSERT INTO usuario (nombre, apellidos, dni, correo, especialidad, rol) VALUES
+INSERT INTO usuario (nombre, apellidos, dni, correo, rol) VALUES
 -- Ciudadanos
-('Juan',  'Perez Garcia',    '87654321Z', 'juan.perez@email.com', NULL, 'Ciudadano'),
-('Maria', 'Fernandez Gomez', '88776655Y', 'maria@email.com',      NULL, 'Ciudadano'),
+('Juan',  'Perez Garcia',    '87654321Z', 'juan.perez@email.com', 'Ciudadano'),
+('Maria', 'Fernandez Gomez', '88776655Y', 'maria@email.com',      'Ciudadano'),
 -- Operadores
-(NULL, NULL, '12345678A', 'operador@email.com', NULL, 'Operador'),
+(NULL, NULL, '12345678A', 'operador@email.com', 'Operador'),
 -- Técnicos
-('Luis',      'Garcia Garcia',       '11223344B', 'tecnico1@email.com', 'Electricidad urbana',    'Tecnico'),
-('Francisco', 'Sanchez Sanchez',     '11223344C', 'tecnico2@email.com', 'Servicios de limpieza',  'Tecnico'),
-('Laura',     'Fernandez Fernandez', '11223344D', 'tecnico3@email.com', 'Mantenimiento',          'Tecnico'),
-('Javier',    'Gomez Torres',        '11223344E', 'tecnico4@email.com', 'Jardineria',             'Tecnico'),
-('Paula',     'Lopez Perez',         '11223344G', 'tecnico5@email.com', 'Seguridad vial',         'Tecnico');
+('Luis',      'Garcia Garcia',       '11223344B', 'tecnico1@email.com', 'Tecnico'),
+('Francisco', 'Sanchez Sanchez',     '11223344C', 'tecnico2@email.com', 'Tecnico'),
+('Laura',     'Fernandez Fernandez', '11223344D', 'tecnico3@email.com', 'Tecnico'),
+('Javier',    'Gomez Torres',        '11223344E', 'tecnico4@email.com', 'Tecnico'),
+('Paula',     'Lopez Perez',         '11223344G', 'tecnico5@email.com', 'Tecnico');
+
+-- =============================
+-- INSERTAR TIPOS DE INCIDENCIAS
+-- =============================
+
+INSERT INTO tipoIncidencia (nombre) VALUES
+("Alumbrado"),
+("Limpieza"),
+("Mobiliario urbano"),
+("Zonas verdes"),
+("Señalización y calzada"),
+("Otro");
+
+-- ==================================
+-- INSERTAR ASIGNACION DE INCIDENCIAS
+-- ==================================
+INSERT INTO tipoIncidenciaTecnico (idTipo, idTecnico) VALUES
+(1, 4),
+(2, 5),
+(3, 6),
+(4, 7),
+(5, 8);
 
 -- ============================
 -- INSERTAR INCIDENCIAS
 -- ============================
 
-
--- Incidencias no 'En proceso' (sin notas de tecnico)
-
-INSERT INTO incidencia (tipo, idCiudadano, descripcion, localizacion,
+INSERT INTO incidencia (tipo, idCiudadano, idAsignacion, descripcion, localizacion,
 						horasPrevistas, horasReales, descripcionPreviaTrabajo, descripcionFinalTrabajo) VALUES
 -- Incidencias antiguas (febrero 2026 y anteriores)
-('Alumbrado',    		   1, 'Farola apagada desde hace varios días',    'Hospital', 		NULL, NULL, NULL,									 NULL),
-('Zonas verdes', 		   1, 'Árbol caído tras tormenta', 				  'Hospital', 		NULL, NULL, NULL, 									 NULL),
-('Limpieza',     		   2, 'Acumulación de basura en parque infantil', 'Hospital', 		NULL, NULL, NULL, 									 NULL),
-('Señalización y calzada', 2, 'Señal de stop caída', 					  'Hospital', NULL, NULL, NULL, 									 NULL),
-('Alumbrado', 		       2, 'Farola calle A no funciona', 			  'Hospital', 			NULL, NULL, NULL, 									 NULL),
-('Mobiliario urbano', 	   2, 'Banca rota en plaza', 					  'Hospital', 			NULL, NULL, NULL, 									 NULL),
-('Señalización y calzada', 1, 'Socavón en calle C',     				  'Hospital',   			2,    NULL, 'Reinstalación de señal vertical',       NULL),
-('Zonas verdes', 		   2, 'Árbol caído', 							  'Hospital',   			4,    5,    'Retirada de árbol y revisión de daños', 'Lorem ipsum'),
-('Mobiliario urbano', 	   2, 'Banco roto en la plaza', 			      'Hospital', 			3,    NULL, 'Sustitución de banco dañado',           NULL),
--- Incidencias marzo 2026
-('Alumbrado',    		   1, 'Farola intermitente en calle B', 		'Hospital',   2,    3,    'Revisión de cableado', 'Dolor sit'),
-('Limpieza',     		   2, 'Papelera desbordada', 					'Hospital',  1,    NULL, 'Retirada de residuos', NULL),
-('Zonas verdes', 		   1, 'Rama caída tras viento fuerte',  		'Hospital', NULL, NULL, NULL,                   NULL),
-('Señalización y calzada', 2, 'Pintura de paso de peatones desgastada', 'Hospital', 	 4,    NULL, 'Repintado',            NULL),
--- Incidencias abril 2026
-('Mobiliario urbano', 	   1, 'Papeleras rotas en plaza', 	   'Hospital',   2,    1,    'Sustitución de papeleras', 'No se me ocurre'),
-('Zonas verdes', 	  	   2, 'Setos sin podar',			   'Hospital',   NULL, NULL, NULL,                       NULL),
-('Alumbrado', 		  	   1, 'Luz parpadeante en túnel',      'Hospital', 5,    NULL, 'Revisión de luminarias',   NULL),
-('Señalización y calzada', 2, 'Señal de ceda el paso doblada', 'Hospital',   2,    2,    'Recolocación de señal',    'Piensa en algo');
+(1, 1, NULL, 'Farola apagada desde hace varios días',    'Hospital', NULL, NULL, NULL,									  NULL),
+(4, 1, NULL, 'Árbol caído tras tormenta', 			     'Hospital', NULL, NULL, NULL, 									  NULL),
+(2, 2, NULL, 'Acumulación de basura en parque infantil', 'Hospital', NULL, NULL, NULL, 									  NULL),
+(5, 2, NULL, 'Señal de stop caída', 				     'Hospital', NULL, NULL, NULL, 									  NULL),
+(1, 2, 1,    'Farola calle A no funciona', 			     'Hospital', NULL, NULL, NULL, 									  NULL),
+(3, 2, NULL, 'Banca rota en plaza', 				     'Hospital', NULL, NULL, NULL, 								      NULL),
+(5, 1, NULL, 'Socavón en calle C',     			 	     'Hospital', 2,    NULL, 'Reinstalación de señal vertical',       NULL),
+(4, 2, 5,    'Árbol caído', 						     'Hospital', 4,    5,    'Retirada de árbol y revisión de daños', 'Lorem ipsum'),
+(3, 2, 3,    'Banco roto en la plaza', 			         'Hospital', 3,    NULL, 'Sustitución de banco dañado',           NULL),
 
+-- Incidencias marzo 2026
+(1, 1, NULL, 'Farola intermitente en calle B', 		   'Hospital', 2,    3,    'Revisión de cableado', 'Dolor sit'),
+(2, 2, 2,    'Papelera desbordada', 				   'Hospital', 1,    NULL, 'Retirada de residuos', NULL),
+(4, 1, 4,    'Rama caída tras viento fuerte',  		   'Hospital', NULL, NULL, NULL,                   NULL),
+(5, 2, 5,    'Pintura de paso de peatones desgastada', 'Hospital', 4,    NULL, 'Repintado',            NULL),
+
+-- Incidencias abril 2026
+(3, 1, NULL, 'Papeleras rotas en plaza', 	  'Hospital', 2,    1,    'Sustitución de papeleras', 'No se me ocurre'),
+(4, 2, 4,    'Setos sin podar',			      'Hospital', NULL, NULL, NULL,                       NULL),
+(1, 1, 1,    'Luz parpadeante en túnel',      'Hospital', 5,    NULL, 'Revisión de luminarias',   NULL),
+(5, 2, NULL, 'Señal de ceda el paso doblada', 'Hospital', 2,    2,    'Recolocación de señal',    'Piensa en algo');
 
 -- ============================
 -- INSERTAR HISTORIAL
@@ -58,22 +80,21 @@ INSERT INTO incidencia (tipo, idCiudadano, descripcion, localizacion,
 INSERT INTO historia (idIncidencia, idTecnico, idOperador, fechaCambio, estado, descripcion) VALUES
 -- Incidencias antiguas (febrero 2026 y anteriores)
 (1, NULL, NULL, '2026-02-23 09:00:00', 'Nueva', 'Incidencia registrada por el ciudadano 1'),
-(1, NULL, NULL, '2026-02-23 09:00:00', 'Nueva',      'Incidencia registrada por el ciudadano 1'),
 
-(2, NULL, NULL, '2026-01-03 11:10:00', 'Nueva',      'Incidencia registrada por el ciudadano 1'),
-(2, NULL, 3, 	'2026-01-04 18:00:00', 'Validada',   'Incidencia validada por el operador 3'),
+(2, NULL, NULL, '2026-01-03 11:10:00', 'Nueva',    'Incidencia registrada por el ciudadano 1'),
+(2, NULL, 3, 	'2026-01-04 18:00:00', 'Validada', 'Incidencia validada por el operador 3'),
 
-(3, NULL, NULL, '2026-02-15 07:20:00', 'Nueva',      'Incidencia registrada por el ciudadano 2'),
+(3, NULL, NULL, '2026-02-15 07:20:00', 'Nueva', 'Incidencia registrada por el ciudadano 2'),
 
-(4, NULL, NULL, '2026-01-11 19:30:00', 'Nueva',      'Incidencia registrada por el ciudadano 2'),
-(4, NULL, 3, 	'2026-01-12 10:15:00', 'Validada',   'Incidencia validada por el operador 3'),
+(4, NULL, NULL, '2026-01-11 19:30:00', 'Nueva',    'Incidencia registrada por el ciudadano 2'),
+(4, NULL, 3, 	'2026-01-12 10:15:00', 'Validada', 'Incidencia validada por el operador 3'),
 
 (5, NULL, NULL, '2026-02-09 09:40:00', 'Nueva',    'Incidencia registrada por el ciudadano 2'),
 (5, NULL, 3, 	'2026-02-09 17:20:00', 'Validada', 'Incidencia validada por el operador 3'),
 (5, 4, 	  3, 	'2026-02-10 15:00:00', 'Asignada', 'Incidencia asignada por el operador 3 al tecnico 4'),
 
-(6, NULL, NULL, '2025-12-23 09:50:00', 'Nueva',      'Incidencia registrada por el ciudadano 1'),
-(6, NULL, 3, 	'2026-01-08 12:30:00', 'Validada',   'Incidencia validada por el operador 3'),
+(6, NULL, NULL, '2025-12-23 09:50:00', 'Nueva',    'Incidencia registrada por el ciudadano 1'),
+(6, NULL, 3, 	'2026-01-08 12:30:00', 'Validada', 'Incidencia validada por el operador 3'),
 
 (7, NULL, NULL, '2025-11-26 10:00:00', 'Nueva', 	 'Incidencia registrada por el ciudadano 1'),
 (7, NULL, 3, 	'2025-11-27 17:40:00', 'Validada',   'Incidencia validada por el operador 3'),

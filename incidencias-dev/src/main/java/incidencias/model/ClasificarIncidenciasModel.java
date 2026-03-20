@@ -1,8 +1,8 @@
 package incidencias.model;
 
 import java.util.List;
-
 import incidencias.model.DTOs.IncidenciaDTO;
+import incidencias.model.Entitiy.IncidenciaEntity;
 import util.LogSystem;
 import util.database.Database;
 
@@ -14,8 +14,15 @@ public class ClasificarIncidenciasModel {
     private String SQL_LISTA_INCIDENCIAS_TODO = "select * from incidencia";
     */
 
-    private static final String SQL_LISTA_INCIDENCIAS = "SELECT i.id, i.tipo, i.descripcion, h.fechaCambio, h.estado " +
-    													"FROM incidencia i JOIN historia h ON h.idIncidencia = i.id " +
+	private static final String SQL_TIPO_INCIDENCIA = "SELECT id AS tipo FROM tipoIncidencia " +
+			  										  "WHERE nombre = ?";
+    
+    private static final String SQL_LISTA_INCIDENCIAS = "SELECT i.id, " +
+    													"ti.nombre AS tipo, " +
+    													"i.descripcion, h.fechaCambio, h.estado " +
+    													"FROM incidencia i " +
+    													"JOIN tipoIncidencia ti ON i.tipo = ti.id " +
+    													"JOIN historia h ON h.idIncidencia = i.id " +
     													"WHERE h.estado = 'Nueva' " +
     													"AND h.id = (SELECT MIN(h1.id) FROM historia h1 WHERE h1.idIncidencia = i.id) " +
     													"AND h.id = (SELECT MAX(h2.id) FROM historia h2 WHERE h2.idIncidencia = i.id) " +
@@ -28,6 +35,11 @@ public class ClasificarIncidenciasModel {
     
     private static final String VALIDAR_INCIDENCIA = "Validada";
     private static final String ELIMINAR_INCIDENCIA = "Rechazado";
+    
+	private int getTipoIncidencia(String tipo) {
+		List<IncidenciaEntity> inc = db.executeQueryPojo(IncidenciaEntity.class, SQL_TIPO_INCIDENCIA, tipo);
+		return inc.get(0).getTipo();
+	}
     
     public List<IncidenciaDTO> getListaIncidencias() {
     	
@@ -46,14 +58,14 @@ public class ClasificarIncidenciasModel {
         
     public void actualizarEstadoIncidenciaValidar(int idIncidencia, int idOperador, String nuevoTipo) {
     	
-        db.executeUpdate(SQL_ACTUALIZAR_TIPO, nuevoTipo, idIncidencia);
+        db.executeUpdate(SQL_ACTUALIZAR_TIPO, getTipoIncidencia(nuevoTipo), idIncidencia);
         db.executeUpdate(SQL_INSERT_HISTORIAL, idIncidencia, idOperador, VALIDAR_INCIDENCIA,
         				 String.format("Incidencia validada por el operador %d", idOperador));
     }
     
     public void actualizarEstadoIncidenciaEliminar(int idIncidencia, int idOperador, String nuevoTipo, String detalleEliminar) {
     	
-        db.executeUpdate(SQL_ACTUALIZAR_TIPO, nuevoTipo, idIncidencia);
+        db.executeUpdate(SQL_ACTUALIZAR_TIPO, getTipoIncidencia(nuevoTipo), idIncidencia);
         db.executeUpdate(SQL_INSERT_HISTORIAL, idIncidencia, idOperador, ELIMINAR_INCIDENCIA,
         		detalleEliminar);
     }

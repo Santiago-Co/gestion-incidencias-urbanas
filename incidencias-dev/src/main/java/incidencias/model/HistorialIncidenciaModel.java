@@ -19,8 +19,11 @@ public class HistorialIncidenciaModel {
     private Database db = new Database();
 
     public static final String SQL_LISTA_INCIDENCIAS =
-    	    "SELECT i.id, i.tipo, i.descripcion, h.fechaCambio, h.estado " +
+    	    "SELECT i.id, " +
+    	    "ti.nombre AS tipo, " +
+    	    "i.descripcion, h.fechaCambio, h.estado " +
     	    "FROM incidencia i " +
+			"INNER JOIN tipoIncidencia ti ON i.tipo = ti.id " +
     	    "INNER JOIN historia h ON h.idIncidencia = i.id " +
     	    "WHERE h.fechaCambio = (" +
     	    "   SELECT MAX(h2.fechaCambio) FROM historia h2 WHERE h2.idIncidencia = i.id" +

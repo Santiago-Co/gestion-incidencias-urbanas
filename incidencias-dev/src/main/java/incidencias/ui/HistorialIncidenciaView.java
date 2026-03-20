@@ -52,7 +52,7 @@ public class HistorialIncidenciaView extends JFrame {
         tablaIncidencias = new JTable();
         StyleUtil.styleTable(tablaIncidencias);
         scrollInc = new JScrollPane(tablaIncidencias);
-        scrollInc.setPreferredSize(new Dimension(655, 300));
+        scrollInc.setPreferredSize(new Dimension(675, 300));
         scrollInc.setBorder(BorderFactory.createLineBorder(TABLE_BORDER, 2));
         
         tablaHistorial = new JTable();

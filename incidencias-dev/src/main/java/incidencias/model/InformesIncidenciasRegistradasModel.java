@@ -9,11 +9,13 @@ public class InformesIncidenciasRegistradasModel {
 
 	Database db = new Database();
 	
-	private static final String SQL_LISTAR_INCIDENCIAS_POR_FECHA = "SELECT i.id, tipo, i.descripcion, " +
+	private static final String SQL_LISTAR_INCIDENCIAS_POR_FECHA = "SELECT i.id, ti.nombre AS tipo, " +
+			   "i.descripcion, " +
 			   "i.localizacion, " +
 			   "hCreacion.fechaCambio, " +
 			   "hActual.estado " +
 			   "FROM incidencia i " +
+			   "JOIN tipoIncidencia ti ON i.tipo = ti.id " +
 			   "JOIN historia hCreacion ON hCreacion.id = " +
 			   "( " +
 			   "   SELECT MIN(h1.id) FROM historia h1 " +

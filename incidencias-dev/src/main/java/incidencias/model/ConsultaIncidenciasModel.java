@@ -10,10 +10,13 @@ public class ConsultaIncidenciasModel {
 	    
     private Database db = new Database();
     
-    private static final String SQL_LISTA_INCIDENCIAS = "SELECT i.id, tipo, i.descripcion, " +
-    												   "hCreacion.fechaCambio AS fechaCreacion, " +
+    private static final String SQL_LISTA_INCIDENCIAS = "SELECT i.id, " +
+    												   "ti.nombre AS tipo, " +
+    												   "i.descripcion, " +
+    												   "hCreacion.fechaCambio, " +
     												   "hActual.estado, localizacion " +
     	    										   "FROM incidencia i " +
+    												   "JOIN tipoIncidencia ti ON i.tipo = ti.id " +
     	    										   "JOIN historia hCreacion ON hCreacion.id = " +
     	    										   "( " +
     	    										   "   SELECT MIN(h1.id) FROM historia h1 " +
@@ -27,10 +30,13 @@ public class ConsultaIncidenciasModel {
     	    										   "WHERE idCiudadano = ? " +
     	    										   "ORDER BY hCreacion.fechaCambio DESC";
 	
-	private static final String SQL_FILTRA_INCIDENCIAS = "SELECT i.id, tipo, i.descripcion, " +
-														"hCreacion.fechaCambio AS fechaCreacion, " +
+	private static final String SQL_FILTRA_INCIDENCIAS = "SELECT i.id, " +
+														"ti.nombre AS tipo, " +
+														"i.descripcion, " +
+														"hCreacion.fechaCambio, " +
 														"hActual.estado, localizacion " +
 			   											"FROM incidencia i " +
+	    												"JOIN tipoIncidencia ti ON i.tipo = ti.id " +
 			   											"JOIN historia hCreacion ON hCreacion.id = " +
 			   											"( " +
 			   											"   SELECT MIN(h1.id) FROM historia h1 " +

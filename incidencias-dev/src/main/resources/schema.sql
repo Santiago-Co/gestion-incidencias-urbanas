@@ -2,6 +2,8 @@
 DROP TABLE IF EXISTS trabajo;
 DROP TABLE IF EXISTS historia;
 DROP TABLE IF EXISTS incidencia;
+DROP TABLE IF EXISTS tipoIncidenciaTecnico;
+DROP TABLE IF EXISTS tipoIncidencia;
 DROP TABLE IF EXISTS usuario;
 
 CREATE TABLE usuario (
@@ -10,23 +12,37 @@ CREATE TABLE usuario (
     apellidos TEXT NULL,
     dni TEXT UNIQUE NOT NULL,
     correo TEXT UNIQUE NOT NULL,
-    especialidad TEXT NULL CHECK (especialidad IN ('Electricidad urbana', 'Servicios de limpieza', 'Mantenimiento', 'Jardineria', 'Seguridad vial')), 
     rol TEXT NOT NULL CHECK (rol IN ('Ciudadano', 'Operador', 'Tecnico', 'Tecnico responsable'))
+);
+
+CREATE TABLE tipoIncidencia (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	nombre TEXT
+);
+
+CREATE TABLE tipoIncidenciaTecnico (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	idTipo INTEGER NOT NULL,
+	idTecnico INTEGER NOT NULL,
+	FOREIGN KEY (idTipo) REFERENCES tipoIncidencia(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (idTecnico) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE incidencia (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    tipo TEXT NOT NULL,
+    tipo INTEGER NOT NULL,
 	idCiudadano INTEGER NOT NULL,
+	idAsignacion INTEGER NULL,
     descripcion TEXT NOT NULL,
     localizacion TEXT NOT NULL,
     horasPrevistas INTEGER NULL,
     horasReales INTEGER NULL,
     descripcionPreviaTrabajo TEXT NULL,
     descripcionFinalTrabajo TEXT NULL,
-    CHECK (tipo IN ('Alumbrado', 'Limpieza', 'Mobiliario urbano', 'Zonas verdes', 'Señalización y calzada', 'Otro')),
     CHECK (localizacion IN ('Centro', 'Norte', 'Sur', 'Este', 'Oeste', 'Parque Central', 'Zona Universitaria', 'Poligono Industrial', 'Estacion', 'Hospital')),
-	FOREIGN KEY (idCiudadano) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (tipo) REFERENCES tipoIncidencia(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (idCiudadano) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (idAsignacion) REFERENCES tipoIncidenciaTecnico(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE historia (
