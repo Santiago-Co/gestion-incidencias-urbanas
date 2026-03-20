@@ -15,6 +15,7 @@ public class PlanificacionIncidenciasView extends JFrame {
     private JTextArea textAreaDescripcion;
     private JButton btnGuardar;
     private JButton btnClose;
+    private JButton btnEliminar;
 
     public PlanificacionIncidenciasView() {
         setUndecorated(true);
@@ -56,6 +57,9 @@ public class PlanificacionIncidenciasView extends JFrame {
         btnGuardar = new JButton("Guardar");
         StyleUtil.styleSecondaryButton(btnGuardar);
         
+        btnEliminar = new JButton("Eliminar");
+        StyleUtil.styleSecondaryButtonRed(btnEliminar);
+        
         btnClose = new JButton();
         StyleUtil.styleCloseButton(btnClose);
         
@@ -65,7 +69,7 @@ public class PlanificacionIncidenciasView extends JFrame {
         
         JPanel horasPanel = StyleUtil.createAbstractPanel();
         
-        JButton[] btns = {btnGuardar};
+        JButton[] btns = {btnEliminar, btnGuardar};
         JPanel accionesPanel = StyleUtil.createActionsPanel(btns);
         
         JPanel mainPanel = StyleUtil.createMainPanel();
@@ -133,4 +137,5 @@ public class PlanificacionIncidenciasView extends JFrame {
     public JTextArea getTextAreaDescripcion() { return this.textAreaDescripcion; }
     public JButton getBtnGuardar() { return this.btnGuardar; }
     public JButton getBtnClose() { return this.btnClose; }
+    public JButton getBtnEliminar() { return this.btnEliminar; }
 }

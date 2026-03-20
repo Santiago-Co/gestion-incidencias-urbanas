@@ -28,6 +28,7 @@ public class ResolverIncidenciasView extends JFrame{
     private JTextArea textAreaDescripcion;
     private JButton btnGuardar;
     private JButton btnClose;
+    private JButton btnEliminar;
 	
 	public ResolverIncidenciasView() {
 		setUndecorated(true);
@@ -68,6 +69,9 @@ public class ResolverIncidenciasView extends JFrame{
         btnGuardar = new JButton("Guardar");
         StyleUtil.styleSecondaryButton(btnGuardar);
         
+        btnEliminar = new JButton("Eliminar");
+        StyleUtil.styleSecondaryButtonRed(btnEliminar);
+        
         btnClose = new JButton();
         StyleUtil.styleCloseButton(btnClose);
         
@@ -77,7 +81,7 @@ public class ResolverIncidenciasView extends JFrame{
         
         JPanel horasPanel = StyleUtil.createAbstractPanel();
         
-        JButton[] btns = {btnGuardar};
+        JButton[] btns = {btnEliminar, btnGuardar};
         JPanel accionesPanel = StyleUtil.createActionsPanel(btns);
         
         JPanel mainPanel = StyleUtil.createMainPanel();
@@ -152,4 +156,5 @@ public class ResolverIncidenciasView extends JFrame{
 	public void setBtnGuardar(JButton btnGuardar) {	this.btnGuardar = btnGuardar; }
 	public JButton getBtnClose() { return btnClose;	}
 	public void setBtnClose(JButton btnClose) {	this.btnClose = btnClose; }
+	public JButton getBtnEliminar() { return this.btnEliminar; }
 }

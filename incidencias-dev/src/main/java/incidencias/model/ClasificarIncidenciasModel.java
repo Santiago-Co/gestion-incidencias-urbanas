@@ -57,4 +57,7 @@ public class ClasificarIncidenciasModel {
         db.executeUpdate(SQL_INSERT_HISTORIAL, idIncidencia, idOperador, ELIMINAR_INCIDENCIA,
         		detalleEliminar);
     }
+    
+    
+    
 }

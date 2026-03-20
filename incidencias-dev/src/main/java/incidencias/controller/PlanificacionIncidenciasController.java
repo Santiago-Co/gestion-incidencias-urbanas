@@ -23,6 +23,12 @@ public class PlanificacionIncidenciasController {
 	private static final String[] TITULOS_TABLA_POJOS = new String[]{"id", "tipo", "descripcion", "localizacion", "fechaCambio"};
 	private static final Object COLUMN_ID = "ID";
 	
+	private static final String MENSAJE_EXITO_ELIMINAR = "Incidencia eliminada correctamente";
+	private static final String MENSAJE_FALLO_ELIMINAR = "Debe seleccionar una incidencia para eliminarla"; 
+	private static final String MENSAJE_CONFIRMAR_ELIMINAR = "¿Desea eliminar la incidencia: %s?";
+	private static final String MENSAJE_DETALLE_ELIMINAR = "¿Por qué quiere eliminar la incidencia: %s?";
+	
+	
 	public PlanificacionIncidenciasController(PlanificacionIncidenciasView view, PlanificacionIncidenciasModel model, int id, DashboardView viewDsb) {
 		this.view = view;
 		this.model = model;
@@ -40,7 +46,8 @@ public class PlanificacionIncidenciasController {
 
 	public void initController() {
 		view.getBtnGuardar().addActionListener(e -> SwingUtil.exceptionWrapper(() -> guardarPlanificacion()));
-    	view.getBtnClose().addActionListener(e -> volverDashboard());
+    	view.getBtnClose().addActionListener(e -> SwingUtil.exceptionWrapper(() -> volverDashboard()));
+    	view.getBtnEliminar().addActionListener(e -> SwingUtil.exceptionWrapper(() -> eliminarIncidencia()));
 	}
 	
 	private void listarIncidenciasTecnico() {
@@ -108,6 +115,39 @@ public class PlanificacionIncidenciasController {
     	}
 	}
     
+	private void eliminarIncidencia() {
+
+		String idStr = SwingUtil.getSelectedKey(view.getTablaIncidencias());
+		String tipoIncidencia = SwingUtil.getSelectedValue(view.getTablaIncidencias(), 1);
+
+		if (idStr.isEmpty() || idStr == null) {
+			SwingUtil.showErrorMessage(view, MENSAJE_FALLO_ELIMINAR);
+			return;
+		}
+
+		// solucionar
+		String mensajeConfirmacion = String.format(MENSAJE_CONFIRMAR_ELIMINAR, idStr);
+
+		String detalleEliminar = SwingUtil.showInputMessage(view, String.format(MENSAJE_DETALLE_ELIMINAR, idStr));
+		if (detalleEliminar == null) {
+			return;
+		}
+
+		if (!SwingUtil.showQuestionMessage(view, mensajeConfirmacion)) {
+			return;
+		}
+
+		SwingUtil.exceptionWrapper(() -> {
+			int id = Integer.parseInt(idStr);
+
+			model.actualizarEstadoIncidenciaEliminar(id, idUsuario, tipoIncidencia, detalleEliminar);
+			SwingUtil.showSuccessMessage(view, MENSAJE_EXITO_ELIMINAR);
+
+			listarIncidenciasTecnico();
+		});
+
+	}
+	
     private void volverDashboard() {
     	view.dispose(); 
         viewDsb.setVisible(true);
