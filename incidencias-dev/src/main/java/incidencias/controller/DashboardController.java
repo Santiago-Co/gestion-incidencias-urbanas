@@ -6,8 +6,11 @@ import incidencias.model.ConsultaIncidenciasModel;
 import incidencias.model.CrearIncidenciaModel;
 import incidencias.model.DashboardModel;
 import incidencias.model.HistorialIncidenciaModel;
+import incidencias.model.InformesIncidenciasRegistradasModel;
+import incidencias.model.InformesIncidenciasTecnicosModel;
 import incidencias.model.LogInModel;
 import incidencias.model.PlanificacionIncidenciasModel;
+import incidencias.model.ResolverIncidenciasModel;
 import incidencias.model.DTOs.UsuarioDTO;
 import incidencias.ui.AsignacionIncidenciasView;
 import incidencias.ui.ClasificarIncidenciasView;
@@ -15,8 +18,11 @@ import incidencias.ui.ConsultaIncidenciasView;
 import incidencias.ui.CrearIncidenciaView;
 import incidencias.ui.DashboardView;
 import incidencias.ui.HistorialIncidenciaView;
+import incidencias.ui.InformesIncidenciasRegistradasView;
+import incidencias.ui.InformesIncidenciasTecnicosView;
 import incidencias.ui.LogInView;
 import incidencias.ui.PlanificacionIncidenciasView;
+import incidencias.ui.ResolverIncidenciasView;
 import util.Util;
 
 public class DashboardController {
@@ -46,8 +52,12 @@ public class DashboardController {
         // --- Botones Comunes ---
         view.getBtnLogout().addActionListener(e -> cerrarSesion());
         Util.addCloseAction(view.getBtnClose(), "Dashboard");
-        view.getBtnConsultarMisIncidencias().addActionListener(e -> abrirConsultarMisIncidencias());
+        view.getBtnInformesIncidenciasRegistradas().addActionListener(e -> abrirInformesIncidenciasRegistradas());
+        
+        // --- Botones de CIUDADANO ---
         view.getBtnCrearIncidencia().addActionListener(e -> abrirCrearIncidencia());
+        view.getBtnConsultarMisIncidencias().addActionListener(e -> abrirConsultarMisIncidencias());
+        view.getBtnInformesIncidenciasTecnicos().addActionListener(e -> abrirInformesIncidenciasTecnicos());
 
         // --- Botones de OPERADOR ---
         view.getBtnClasificarIncidencia().addActionListener(e -> abrirValidarIncidencias());
@@ -55,12 +65,13 @@ public class DashboardController {
         
         // --- Botones de TECNICO ---
         view.getBtnPlanificarIncidencia().addActionListener(e -> abrirPlanificarIncidencias());
+        view.getBtnResolverIncidencia().addActionListener(e -> abrirResolverIncidencia());
         
         // --- Botones de OPERADOR Y TECNICO ---
         view.getBtnHistorialIncidencia().addActionListener(e -> abrirHistorialIncidencia());
     }
 
-    private void cerrarSesion() {
+	private void cerrarSesion() {
         
         model.cerrarSesion();
         view.setVisible(false);
@@ -109,7 +120,28 @@ public class DashboardController {
     private void abrirHistorialIncidencia() {
     	HistorialIncidenciaView histView = new HistorialIncidenciaView();
         HistorialIncidenciaModel histModel = new HistorialIncidenciaModel();
-        new HistorialIncidenciaController(histView, histModel, model.getUsuarioActual().getId(), this.view);
+        new HistorialIncidenciaController(histView, histModel, this.view);
         view.setVisible(false);
     }
+    
+    private void abrirResolverIncidencia() {
+    	ResolverIncidenciasView histView = new ResolverIncidenciasView();
+        ResolverIncidenciasModel histModel = new ResolverIncidenciasModel();
+        new ResolverIncidenciasController(histView, histModel, model.getUsuarioActual().getId(), this.view);
+        view.setVisible(false);
+    }
+    
+    private void abrirInformesIncidenciasTecnicos() {
+    	InformesIncidenciasTecnicosView histView = new InformesIncidenciasTecnicosView();
+    	InformesIncidenciasTecnicosModel histModel = new InformesIncidenciasTecnicosModel();
+        new InformesIncidenciasTecnicosController(histView, histModel, this.view);
+        view.setVisible(false);
+    }
+    
+    private void abrirInformesIncidenciasRegistradas() {
+    	InformesIncidenciasRegistradasView histView = new InformesIncidenciasRegistradasView();
+    	InformesIncidenciasRegistradasModel histModel = new InformesIncidenciasRegistradasModel();
+        new InformesIncidenciasRegistradasController(histView, histModel, this.view);
+        view.setVisible(false);
+	}
 }
