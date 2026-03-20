@@ -31,6 +31,10 @@ public class ClasificarIncidenciasController {
 	private static final String MENSAJE_FALLO_ELIMINAR = "Debe seleccionar una incidencia para eliminarla"; 
 	
 	
+	private static final String MENSAJE_CONFIRMAR_ELIMINAR = "¿Desea eliminar la incidencia: %s?";
+	private static final String MENSAJE_CONFIRIRMAR_VALIDACION =  "¿Desea validar la incidencia: %s?";
+	private static final String MENSAJE_DETALLE_ELIMINAR = "¿Por qué quiere eliminar la incidencia: %s?";
+	
     public ClasificarIncidenciasController(ClasificarIncidenciasView view, ClasificarIncidenciasModel model, int id, DashboardView viewDsb) {
         this.view = view;
         this.model = model;
@@ -45,12 +49,11 @@ public class ClasificarIncidenciasController {
     	listarIncidencias();
     	view.setVisible(true);
     }
-
+    
     public void initController() {  
-    	view.getBtnValidar().addActionListener(e -> validarIncidencia());
-    	view.getBtnClose().addActionListener(e -> volverDashboard());
-    	view.getBtnEliminar().addActionListener(e -> eliminarIncidencia());
-    	
+    	view.getBtnValidar().addActionListener(e -> SwingUtil.exceptionWrapper(() -> validarIncidencia()));
+    	view.getBtnClose().addActionListener(e -> SwingUtil.exceptionWrapper(() -> volverDashboard()));
+    	view.getBtnEliminar().addActionListener(e -> SwingUtil.exceptionWrapper(() -> eliminarIncidencia()));
     }
     
     private void listarIncidencias() {
@@ -87,7 +90,7 @@ public class ClasificarIncidenciasController {
             return;
         }
 
-        String mensajeConfirmacion = String.format("¿Desea validar la incidencia: %s?", idStr);
+        String mensajeConfirmacion = String.format(MENSAJE_CONFIRIRMAR_VALIDACION, idStr);
         
         if(!SwingUtil.showQuestionMessage(view, mensajeConfirmacion)) { return; }
         
@@ -105,15 +108,16 @@ public class ClasificarIncidenciasController {
     	String idStr = SwingUtil.getSelectedKey(view.getTablaIncidencias());
     	String tipoIncidencia = SwingUtil.getSelectedValue(view.getTablaIncidencias(),1);
     	
-    	if (idStr.isEmpty()) {
+    	if (idStr.isEmpty() || idStr == null) {
         	SwingUtil.showErrorMessage(view, MENSAJE_FALLO_ELIMINAR);
             return;
         }
     	
-    	
-        String mensajeConfirmacion = String.format("¿Desea eliminar la incidencia: %s?", idStr);
+    	// solucionar 
+        String mensajeConfirmacion = String.format(MENSAJE_CONFIRMAR_ELIMINAR, idStr);
         
-        String detalleEliminar = SwingUtil.showInputMessage(view, "¿Por qué quiere eliminar la incidencia: %s?");
+        String detalleEliminar = SwingUtil.showInputMessage(view, String.format(MENSAJE_DETALLE_ELIMINAR, idStr));
+        if(detalleEliminar == null) { return; }
         
         if(!SwingUtil.showQuestionMessage(view, mensajeConfirmacion)) { return; }
     	
