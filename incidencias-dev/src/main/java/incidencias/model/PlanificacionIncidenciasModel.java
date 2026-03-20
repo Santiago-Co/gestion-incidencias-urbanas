@@ -63,12 +63,12 @@ public class PlanificacionIncidenciasModel {
 	    db.executeUpdate(SQL_INSERT_HISTORIAL, idIncidencia, idTecnico, comentario);
 	}
 
-	 public void actualizarEstadoIncidenciaEliminar(int idIncidencia, int idTecnico, String nuevoTipo, String detalleEliminar) {
+	 public void actualizarEstadoIncidenciaEliminar(int idIncidencia, int idTecnico, String detalleEliminar) {
 	    	
 	        List<Object[]> result = db.executeQueryArray(SQL_OBTENER_OPERADOR, idIncidencia);
 	        
-	        if (result.isEmpty()) {
-	            // Puede que genere errores 
+	        if (result.isEmpty() || result == null) {
+	            return ; 
 	        }
 
 	        Integer idOperador = (Integer) result.get(0)[0];

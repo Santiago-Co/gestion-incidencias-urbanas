@@ -60,7 +60,7 @@ public class ResolverIncidenciasModel {
 	    db.executeUpdate(SQL_INSERT_HISTORIAL, idIncidencia, idTecnico, comentario);
 	}
 	
-	public void actualizarEstadoIncidenciaEliminar(int idIncidencia, int idTecnico, String nuevoTipo, String detalleEliminar) {
+	public void actualizarEstadoIncidenciaEliminar(int idIncidencia, int idTecnico, String detalleEliminar) {
     	
         List<Object[]> result = db.executeQueryArray(SQL_OBTENER_OPERADOR, idIncidencia);
         

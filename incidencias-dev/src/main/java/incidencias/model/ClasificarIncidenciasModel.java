@@ -56,8 +56,7 @@ public class ClasificarIncidenciasModel {
     	return incidencias;
     }
         
-    public void actualizarEstadoIncidenciaValidar(int idIncidencia, int idOperador, String nuevoTipo) {
-    	
+    public void actualizarEstadoIncidenciaValidar(int idIncidencia, int idOperador, String nuevoTipo) {    	
         db.executeUpdate(SQL_ACTUALIZAR_TIPO, getTipoIncidencia(nuevoTipo), idIncidencia);
         db.executeUpdate(SQL_INSERT_HISTORIAL, idIncidencia, idOperador, VALIDAR_INCIDENCIA,
         				 String.format("Incidencia validada por el operador %d", idOperador));
@@ -69,7 +68,4 @@ public class ClasificarIncidenciasModel {
         db.executeUpdate(SQL_INSERT_HISTORIAL, idIncidencia, idOperador, ELIMINAR_INCIDENCIA,
         		detalleEliminar);
     }
-    
-    
-    
 }

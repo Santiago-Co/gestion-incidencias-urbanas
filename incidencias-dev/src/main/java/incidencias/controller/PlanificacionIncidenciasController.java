@@ -118,7 +118,6 @@ public class PlanificacionIncidenciasController {
 	private void eliminarIncidencia() {
 
 		String idStr = SwingUtil.getSelectedKey(view.getTablaIncidencias());
-		String tipoIncidencia = SwingUtil.getSelectedValue(view.getTablaIncidencias(), 1);
 
 		if (idStr.isEmpty() || idStr == null) {
 			SwingUtil.showErrorMessage(view, MENSAJE_FALLO_ELIMINAR);
@@ -140,7 +139,7 @@ public class PlanificacionIncidenciasController {
 		SwingUtil.exceptionWrapper(() -> {
 			int id = Integer.parseInt(idStr);
 
-			model.actualizarEstadoIncidenciaEliminar(id, idUsuario, tipoIncidencia, detalleEliminar);
+			model.actualizarEstadoIncidenciaEliminar(id, idUsuario, detalleEliminar);
 			SwingUtil.showSuccessMessage(view, MENSAJE_EXITO_ELIMINAR);
 
 			listarIncidenciasTecnico();
