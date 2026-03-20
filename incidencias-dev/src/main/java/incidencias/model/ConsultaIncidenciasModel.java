@@ -14,7 +14,7 @@ public class ConsultaIncidenciasModel {
     												   "ti.nombre AS tipo, " +
     												   "i.descripcion, " +
     												   "hCreacion.fechaCambio, " +
-    												   "hActual.estado " +
+    												   "hActual.estado, localizacion " +
     	    										   "FROM incidencia i " +
     												   "JOIN tipoIncidencia ti ON i.tipo = ti.id " +
     	    										   "JOIN historia hCreacion ON hCreacion.id = " +
@@ -34,7 +34,7 @@ public class ConsultaIncidenciasModel {
 														"ti.nombre AS tipo, " +
 														"i.descripcion, " +
 														"hCreacion.fechaCambio, " +
-														"hActual.estado " +
+														"hActual.estado, localizacion " +
 			   											"FROM incidencia i " +
 	    												"JOIN tipoIncidencia ti ON i.tipo = ti.id " +
 			   											"JOIN historia hCreacion ON hCreacion.id = " +

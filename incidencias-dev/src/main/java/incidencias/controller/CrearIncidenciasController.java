@@ -32,10 +32,10 @@ public class CrearIncidenciasController {
     private void registrarIncidencia() {
 
         int tipo = model.getTipoIncidencia((String) view.getCmbTipo().getSelectedItem());
-        String localizacion = view.getTxtLocalizacion().getText().trim();
+        String localizacion = (String) view.getCmbLocalizacion().getSelectedItem();
         String descripcion = view.getTxtDescripcion().getText().trim();
 
-        LogSystem.logFlow("ACTION", String.format("Intento de registro: " + tipo));
+        LogSystem.logFlow("ACTION", String.format("Intento de registro: %d", tipo));
 
         
         if (descripcion.isEmpty() || localizacion.isEmpty()) {
@@ -76,7 +76,7 @@ public class CrearIncidenciasController {
     }
     
     private void limpiarFormulario() {
-        view.getTxtLocalizacion().setText("");
+        view.getCmbLocalizacion().setSelectedIndex(0);
         view.getTxtDescripcion().setText("");
         view.getCmbTipo().setSelectedIndex(0);
     }

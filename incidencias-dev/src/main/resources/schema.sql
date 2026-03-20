@@ -39,6 +39,7 @@ CREATE TABLE incidencia (
     horasReales INTEGER NULL,
     descripcionPreviaTrabajo TEXT NULL,
     descripcionFinalTrabajo TEXT NULL,
+    CHECK (localizacion IN ('Centro', 'Norte', 'Sur', 'Este', 'Oeste', 'Parque Central', 'Zona Universitaria', 'Poligono Industrial', 'Estacion', 'Hospital')),
     FOREIGN KEY (tipo) REFERENCES tipoIncidencia(id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (idCiudadano) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (idAsignacion) REFERENCES tipoIncidenciaTecnico(id) ON DELETE CASCADE ON UPDATE CASCADE
@@ -52,7 +53,7 @@ CREATE TABLE historia (
 	fechaCambio DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	estado TEXT NOT NULL,
 	descripcion TEXT NOT NULL,
-	CHECK (estado IN ('Nueva', 'Validada', 'Asignada', 'En proceso', 'Resuelta', 'Cerrada')),
+	CHECK (estado IN ('Nueva', 'Validada', 'Asignada', 'En proceso', 'Resuelta', 'Cerrada', 'Rechazado')),
 	FOREIGN KEY (idIncidencia) REFERENCES incidencia(id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (idTecnico) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (idOperador) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE

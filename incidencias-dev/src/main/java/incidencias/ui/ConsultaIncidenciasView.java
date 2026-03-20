@@ -35,7 +35,7 @@ public class ConsultaIncidenciasView extends JFrame {
         StyleUtil.styleLabel(lblFiltro, 14, false);
         
         cbFiltroEstado = new JComboBox<>(new String[]{
-                "Todos los estados", "Nueva", "Validada", "Asignada", "En proceso", "Resuelta", "Cerrada"
+                "Todos los estados", "Nueva", "Validada", "Asignada", "En proceso", "Resuelta", "Cerrada", "Rechazado"
         });
         StyleUtil.styleComboBox(cbFiltroEstado, 200, 35);
 

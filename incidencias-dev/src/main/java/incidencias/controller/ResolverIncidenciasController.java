@@ -1,11 +1,10 @@
 package incidencias.controller;
 
-import java.util.List;
+import java.util.List; 
 
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import exceptions.ApplicationException;

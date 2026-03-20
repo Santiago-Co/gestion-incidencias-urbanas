@@ -86,6 +86,20 @@ public class SwingUtil {
     	return answer == JOptionPane.YES_OPTION;
 	}
 	
+	public static String showInputMessage(JFrame window, String message) {
+	    String input;
+	    do {
+	        input = JOptionPane.showInputDialog(
+	            window,
+	            message,
+	            "Ingrese información",
+	            JOptionPane.QUESTION_MESSAGE
+	        );
+	        if (input == null) return null; 
+	    } while (input.isBlank());
+	    return input;
+	}
+	
     public static void showSummaryMessage(JFrame window, String mensaje, String resumen) {
     	LogSystem.logFlow("SUCCESS", resumen);
         JOptionPane.showMessageDialog(window, mensaje, "Incidencia registrada", JOptionPane.INFORMATION_MESSAGE);

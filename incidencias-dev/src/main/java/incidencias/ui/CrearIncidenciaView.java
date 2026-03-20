@@ -9,7 +9,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import util.LogSystem;
 import util.swing.StyleUtil;
 
@@ -18,7 +17,7 @@ public class CrearIncidenciaView extends javax.swing.JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private JComboBox<String> cmbTipo;
-    private JTextField txtLocalizacion;
+    private JComboBox<String> cmbLocalizacion;
     private JTextArea txtDescripcion;
     private JButton btnEnviar;
     private JButton btnClose;
@@ -58,8 +57,20 @@ public class CrearIncidenciaView extends javax.swing.JFrame {
         final JLabel lblLocalizacion = new JLabel("Localización");
         StyleUtil.styleLabel(lblLocalizacion, 12, false);
         
-        txtLocalizacion = new JTextField();
-        StyleUtil.styleTextField(txtLocalizacion, 300, 45);
+        cmbLocalizacion = new JComboBox<>(new String[] {
+        	    "Centro",
+        	    "Norte",
+        	    "Sur",
+        	    "Este",
+        	    "Oeste",
+        	    "Parque Central",
+        	    "Zona Universitaria",
+        	    "Poligono Industrial",
+        	    "Estacion",
+        	    "Hospital",
+        });
+        
+        StyleUtil.styleComboBox(cmbLocalizacion, 300, 40);
         
         final JLabel lblDescripcion = new JLabel("Descripción de la incidencia");
         StyleUtil.styleLabel(lblDescripcion, 12, false);
@@ -115,7 +126,7 @@ public class CrearIncidenciaView extends javax.swing.JFrame {
         gbcTxtLocalizacion.gridy = 4;
         gbcTxtLocalizacion.insets = new Insets(0, 0, 15, 0);
         gbcTxtLocalizacion.fill = GridBagConstraints.BOTH;
-        mainPanel.add(txtLocalizacion, gbcTxtLocalizacion);
+        mainPanel.add(cmbLocalizacion, gbcTxtLocalizacion);
 
         GridBagConstraints gbcDescripcion = new GridBagConstraints();
         gbcDescripcion.gridx = 0;
@@ -147,7 +158,7 @@ public class CrearIncidenciaView extends javax.swing.JFrame {
     
     public int getCiudadanoId() { return this.ciudadanoId; }
     public JComboBox<String> getCmbTipo() { return this.cmbTipo; }
-    public JTextField getTxtLocalizacion() { return this.txtLocalizacion; }
+    public JComboBox<String> getCmbLocalizacion() { return this.cmbLocalizacion; }
     public JTextArea getTxtDescripcion() { return this.txtDescripcion; }
     public JButton getBtnEnviar() { return this.btnEnviar; }
     public JButton getBtnClose() { return this.btnClose; }
