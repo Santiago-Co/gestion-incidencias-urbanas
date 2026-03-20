@@ -11,7 +11,7 @@ public class ConsultaIncidenciasModel {
     private Database db = new Database();
     
     private static final String SQL_LISTA_INCIDENCIAS = "SELECT i.id, tipo, i.descripcion, " +
-    												   "hCreacion.fechaCambio AS fechaCreacion, " +
+    												   "hCreacion.fechaCambio, " +
     												   "hActual.estado, localizacion " +
     	    										   "FROM incidencia i " +
     	    										   "JOIN historia hCreacion ON hCreacion.id = " +
