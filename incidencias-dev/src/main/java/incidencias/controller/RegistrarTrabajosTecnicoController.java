@@ -35,8 +35,8 @@ public class RegistrarTrabajosTecnicoController {
 		this.viewDsb = viewDsb;
 		this.idUsuario = idUsuario;
 		
-		initView();
 		initController();
+		initView();
     }
 
 	private void initController() {
@@ -49,9 +49,8 @@ public class RegistrarTrabajosTecnicoController {
 
 	private void initView() {
 		SwingUtil.exceptionWrapper(() -> listarIncidenciasTecnico());
-        view.getTextAreaComentarios().setEnabled(false);
         view.setVisible(true);
-        setComentariosEnabled(true);
+        setComentariosEnabled(false);
 	}
 	
 	private void listarIncidenciasTecnico() {
