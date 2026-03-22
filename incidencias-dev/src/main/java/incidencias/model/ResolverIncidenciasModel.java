@@ -33,16 +33,9 @@ public class ResolverIncidenciasModel {
 	private static final String SQL_INSERT_HISTORIAL = "INSERT INTO historia (idIncidencia, idTecnico, idOperador, estado, descripcion) " +
 			   										   "VALUES (?, ?, NULL, 'Resuelta', ?)";
 	
-	// Recoge el valor del id del último operador que trabajo en la indidencia 
-	private static final String SQL_OBTENER_OPERADOR = "SELECT idOperador "+
-															"FROM historia " + 
-															"WHERE idIncidencia = ? "+
-															"AND idOperador IS NOT NULL " +
-															"ORDER BY fechaCambio DESC " +
-															"LIMIT 1";
-	
 	private static final String SQL_INSERT_HISTORIAL_ELIMINAR = "INSERT INTO historia (idIncidencia, idTecnico, idOperador, estado, descripcion) " +
-				   "VALUES (?, ?, ?, ?, ?)";
+				   												"VALUES (?, ?, NULL, ?, ?)";
+	
 	private static final String ELIMINAR_INCIDENCIA = "Rechazado";
 	
 	public List<IncidenciaDTO> getIncidenciasTecnico(int id) {
@@ -61,16 +54,7 @@ public class ResolverIncidenciasModel {
 	}
 	
 	public void actualizarEstadoIncidenciaEliminar(int idIncidencia, int idTecnico, String detalleEliminar) {
-    	
-        List<Object[]> result = db.executeQueryArray(SQL_OBTENER_OPERADOR, idIncidencia);
-        
-        if (result.isEmpty()) {
-            // Puede que genere errores 
-        }
-
-        Integer idOperador = (Integer) result.get(0)[0];
-        db.executeUpdate(SQL_INSERT_HISTORIAL_ELIMINAR, idIncidencia, idTecnico, idOperador, ELIMINAR_INCIDENCIA,
-        		detalleEliminar);
+        db.executeUpdate(SQL_INSERT_HISTORIAL_ELIMINAR, idIncidencia, idTecnico, ELIMINAR_INCIDENCIA, detalleEliminar);
     }
 
 }
