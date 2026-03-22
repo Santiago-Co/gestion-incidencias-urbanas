@@ -25,8 +25,6 @@ import javax.swing.table.TableModel;
 import org.apache.commons.beanutils.PropertyUtils;
 import exceptions.ApplicationException;
 import exceptions.UnexpectedException;
-import incidencias.ui.DashboardView;
-import incidencias.ui.RegistrarTrabajosTecnicoView;
 import util.LogSystem;
 
 /**

@@ -14,7 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 import util.swing.StyleUtil;
 
@@ -50,7 +49,7 @@ public class RegistrarTrabajosTecnicoView extends JFrame {
         scrollIncidencias.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1));
         scrollIncidencias.setPreferredSize(new Dimension(500, 250));
         
-        final JLabel lblTrabajos = new JLabel("Comentarios registrados en la incidencia");
+        final JLabel lblTrabajos = new JLabel("Trabajos registrados de la incidencia");
         StyleUtil.styleLabel(lblTrabajos, 26, false);
         
         tablaTrabajos = new JTable();
@@ -68,7 +67,7 @@ public class RegistrarTrabajosTecnicoView extends JFrame {
         JScrollPane scrollComentarios = new JScrollPane(textAreaComentarios);
         StyleUtil.styleTextArea(textAreaComentarios, scrollComentarios, 860, 120);
         
-        btnGuardar = new JButton("Guardar Comentario");
+        btnGuardar = new JButton("Guardar");
         StyleUtil.styleSecondaryButton(btnGuardar);
         
         btnClose = new JButton();
