@@ -10,6 +10,7 @@ import incidencias.model.InformesIncidenciasRegistradasModel;
 import incidencias.model.InformesIncidenciasTecnicosModel;
 import incidencias.model.LogInModel;
 import incidencias.model.PlanificacionIncidenciasModel;
+import incidencias.model.RegistrarTrabajosTecnicoModel;
 import incidencias.model.ResolverIncidenciasModel;
 import incidencias.model.DTOs.UsuarioDTO;
 import incidencias.ui.AsignacionIncidenciasView;
@@ -22,6 +23,7 @@ import incidencias.ui.InformesIncidenciasRegistradasView;
 import incidencias.ui.InformesIncidenciasTecnicosView;
 import incidencias.ui.LogInView;
 import incidencias.ui.PlanificacionIncidenciasView;
+import incidencias.ui.RegistrarTrabajosTecnicoView;
 import incidencias.ui.ResolverIncidenciasView;
 import util.Util;
 
@@ -66,6 +68,7 @@ public class DashboardController {
         // --- Botones de TECNICO ---
         view.getBtnPlanificarIncidencia().addActionListener(e -> abrirPlanificarIncidencias());
         view.getBtnResolverIncidencia().addActionListener(e -> abrirResolverIncidencia());
+        view.getBtnRegistrarTrabajosTecnico().addActionListener(e -> abrirRegistrarTrabajosTecnico());
         
         // --- Botones de OPERADOR Y TECNICO ---
         view.getBtnHistorialIncidencia().addActionListener(e -> abrirHistorialIncidencia());
@@ -144,4 +147,11 @@ public class DashboardController {
         new InformesIncidenciasRegistradasController(histView, histModel, this.view);
         view.setVisible(false);
 	}
+    
+    private void abrirRegistrarTrabajosTecnico() {
+    	RegistrarTrabajosTecnicoView histView = new RegistrarTrabajosTecnicoView();
+    	RegistrarTrabajosTecnicoModel histModel = new RegistrarTrabajosTecnicoModel();
+        new RegistrarTrabajosTecnicoController(histView, histModel, this.view, model.getUsuarioActual().getId());
+        view.setVisible(false);
+    }
 }
