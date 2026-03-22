@@ -35,7 +35,7 @@ public class DashboardView extends javax.swing.JFrame {
     	
     	// Inicializacion de componentes
         
-        final JLabel titleWin = new JLabel("  Sistema de Gestión de Incidencias - Panel Principal");
+        final JLabel titleWin = new JLabel("Sistema de Gestión de Incidencias - Panel Principal");
         StyleUtil.styleWindowTitle(titleWin);
         
         lblBienvenida = new JLabel("Bienvenido, Usuario");

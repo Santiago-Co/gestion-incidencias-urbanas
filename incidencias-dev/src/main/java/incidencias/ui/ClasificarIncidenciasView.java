@@ -27,7 +27,7 @@ public class ClasificarIncidenciasView extends JFrame {
     	
     	// Inicializacion de componentes
 
-        JLabel titleWin = new JLabel("  Clasificación de incidencias");
+        JLabel titleWin = new JLabel("Clasificación de incidencias");
         StyleUtil.styleWindowTitle(titleWin);
         
         final JLabel lblTitle = new JLabel("Nuevas incidencias registradas");

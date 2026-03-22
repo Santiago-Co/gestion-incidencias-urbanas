@@ -37,7 +37,7 @@ public class HistorialIncidenciaView extends JFrame {
     	
     	// Inicializacion de componentes
 
-        final JLabel titleWin = new JLabel("  Historial de incidencias");
+        final JLabel titleWin = new JLabel("Historial de incidencias");
         StyleUtil.styleWindowTitle(titleWin);
         
         final JLabel lblTitle = new JLabel("Seguimiento de incidencias");

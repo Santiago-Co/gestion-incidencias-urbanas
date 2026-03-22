@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -24,6 +25,8 @@ import javax.swing.table.TableModel;
 import org.apache.commons.beanutils.PropertyUtils;
 import exceptions.ApplicationException;
 import exceptions.UnexpectedException;
+import incidencias.ui.DashboardView;
+import incidencias.ui.RegistrarTrabajosTecnicoView;
 import util.LogSystem;
 
 /**
@@ -277,5 +280,12 @@ public class SwingUtil {
 	            );
 	        }
 	    });
+	}
+
+	public static void volverDashboard(JButton btn, JFrame view, JFrame viewDsb) {
+		btn.addActionListener(e -> exceptionWrapper(() -> {
+			view.dispose();
+			viewDsb.setVisible(true);
+		}));
 	}
 }

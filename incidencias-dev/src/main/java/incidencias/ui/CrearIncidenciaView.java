@@ -35,7 +35,7 @@ public class CrearIncidenciaView extends javax.swing.JFrame {
     	
     	// Inicializacion de componentes
         
-        final JLabel titleWin = new JLabel("  Creación de incidencias");
+        final JLabel titleWin = new JLabel("Creación de incidencias");
         StyleUtil.styleWindowTitle(titleWin);
         
         final JLabel lblTitle = new JLabel("Nueva Incidencia");

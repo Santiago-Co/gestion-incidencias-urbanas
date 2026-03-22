@@ -49,7 +49,7 @@ public class ResolverIncidenciasController {
 
 	private void initController() {
 		view.getBtnGuardar().addActionListener(e -> SwingUtil.exceptionWrapper(() -> guardarResolucion()));
-    	view.getBtnClose().addActionListener(e -> SwingUtil.exceptionWrapper(() -> volverDashboard()));
+		SwingUtil.volverDashboard(view.getBtnClose(), view, viewDsb);
     	view.getBtnEliminar().addActionListener(e -> SwingUtil.exceptionWrapper(() -> eliminarIncidencia()));
 	}
 
@@ -149,9 +149,4 @@ public class ResolverIncidenciasController {
 		});
 
 	}
-	
-	private void volverDashboard() {
-        view.dispose(); 
-        viewDsb.setVisible(true);
-    }
 }

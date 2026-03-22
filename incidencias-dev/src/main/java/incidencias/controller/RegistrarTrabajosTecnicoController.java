@@ -23,16 +23,11 @@ public class RegistrarTrabajosTecnicoController {
     }
 
 	private void initController() {
-		view.getBtnClose().addActionListener(e -> SwingUtil.exceptionWrapper(() -> volverDashboard()));
+		SwingUtil.volverDashboard(view.getBtnClose(), view, viewDsb);
 	}
 	
 	private void initView() {
 		//SwingUtil.exceptionWrapper(() -> listarIncidenciasTecnico());
 		view.setVisible(true);
 	}
-    
-	private void volverDashboard() {
-    	view.dispose(); 
-        viewDsb.setVisible(true);
-    }
 }

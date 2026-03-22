@@ -26,7 +26,7 @@ public class CrearIncidenciasController {
     public void initController() {
         view.getBtnEnviar().addActionListener(e -> registrarIncidencia());
 
-        view.getBtnClose().addActionListener(e -> volverDashboard());
+        SwingUtil.volverDashboard(view.getBtnClose(), view, viewDsb);
     }
     
     private void registrarIncidencia() {
@@ -69,12 +69,7 @@ public class CrearIncidenciasController {
             SwingUtil.showErrorMessage(view, "Hubo un error al guardar la incidencia en la base de datos.");
         }
     }
-    
-    private void volverDashboard() {
-        view.dispose(); 
-        viewDsb.setVisible(true);
-    }
-    
+
     private void limpiarFormulario() {
         view.getCmbLocalizacion().setSelectedIndex(0);
         view.getTxtDescripcion().setText("");

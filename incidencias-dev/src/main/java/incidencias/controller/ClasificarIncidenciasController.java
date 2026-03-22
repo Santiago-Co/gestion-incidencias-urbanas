@@ -52,7 +52,7 @@ public class ClasificarIncidenciasController {
     
     public void initController() {  
     	view.getBtnValidar().addActionListener(e -> SwingUtil.exceptionWrapper(() -> validarIncidencia()));
-    	view.getBtnClose().addActionListener(e -> SwingUtil.exceptionWrapper(() -> volverDashboard()));
+    	SwingUtil.volverDashboard(view.getBtnClose(), view, viewDsb);
     	view.getBtnEliminar().addActionListener(e -> SwingUtil.exceptionWrapper(() -> eliminarIncidencia()));
     }
     
@@ -129,10 +129,5 @@ public class ClasificarIncidenciasController {
             
             listarIncidencias();
         });
-    }
-    
-    private void volverDashboard() {
-    	view.dispose(); 
-        viewDsb.setVisible(true);
     }
 }

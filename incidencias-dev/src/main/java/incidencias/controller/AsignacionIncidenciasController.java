@@ -53,7 +53,7 @@ public class AsignacionIncidenciasController {
     	    }
     	});
     	view.getBtnAsignar().addActionListener(e -> SwingUtil.exceptionWrapper(() -> asignarIncidencia()));    	
-    	view.getBtnClose().addActionListener(e -> SwingUtil.exceptionWrapper(() -> volverDashboard()));
+    	SwingUtil.volverDashboard(view.getBtnClose(), view, viewDsb);
     }
 
     private void listarIncidenciasValidadas() {
@@ -104,10 +104,4 @@ public class AsignacionIncidenciasController {
     		SwingUtil.showSuccessMessage(view, mensajeExito);
     	}
     }
-    
-    private void volverDashboard() {
-    	view.dispose(); 
-        viewDsb.setVisible(true);
-    }
-    
 }

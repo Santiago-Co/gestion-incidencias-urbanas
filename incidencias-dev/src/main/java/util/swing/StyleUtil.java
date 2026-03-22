@@ -113,6 +113,7 @@ public class StyleUtil {
 	public static void styleWindowTitle(JLabel title) {
         title.setFont(new Font("Segoe UI", Font.BOLD, 12));
         title.setForeground(TOP_PANEL_TEXT_COLOR);
+        title.setText("  " + title.getText().trim());
 	}
 	
     public static void styleCloseButton(JButton btn) {

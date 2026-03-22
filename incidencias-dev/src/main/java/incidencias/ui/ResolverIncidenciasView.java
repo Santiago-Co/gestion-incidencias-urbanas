@@ -40,7 +40,7 @@ public class ResolverIncidenciasView extends JFrame{
 	public void initComponents() {
         // Inicializacion de componentes
     	
-        final JLabel titleWin = new JLabel("  Resolución de incidencias");
+        final JLabel titleWin = new JLabel("Resolución de incidencias");
         StyleUtil.styleWindowTitle(titleWin);
         
         final JLabel lblTitle = new JLabel("Mis incidencias asignadas");

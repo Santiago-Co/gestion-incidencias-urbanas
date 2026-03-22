@@ -75,7 +75,7 @@ public class HistorialIncidenciaController {
             }
         });
 
-        view.getBtnClose().addActionListener(e -> volverDashboard());
+        SwingUtil.volverDashboard(view.getBtnClose(), view, viewDsb);
     }
 
     private void listarIncidencias() {
@@ -121,10 +121,5 @@ public class HistorialIncidenciaController {
 		SwingUtil.setTableStyle(tabla, centerRenderer, titulos);
 		SwingUtil.setDescriptionColumnStyle(tabla, tabla.getColumnModel().getColumnIndex(DESC_ID), 250);
 		SwingUtil.autoAdjustColumns(tabla, view.getScrollHist());
-    }
-    
-    private void volverDashboard() {
-    	view.dispose(); 
-        viewDsb.setVisible(true);
     }
 }

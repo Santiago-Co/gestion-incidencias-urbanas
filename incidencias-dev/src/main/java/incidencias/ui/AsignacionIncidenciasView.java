@@ -29,7 +29,7 @@ public class AsignacionIncidenciasView extends JFrame {
     	
     	// Inicializacion de componentes
         
-        final JLabel titleWin = new JLabel("  Asignación de incidencias");
+        final JLabel titleWin = new JLabel("Asignación de incidencias");
         StyleUtil.styleWindowTitle(titleWin);
         
         final JLabel lblTitle = new JLabel("Asignación de incidencias");

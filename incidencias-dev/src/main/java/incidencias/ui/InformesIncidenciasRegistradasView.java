@@ -52,7 +52,7 @@ public class InformesIncidenciasRegistradasView extends JFrame {
 
     	// Inicializacion de componentes
 		
-	    final JLabel titleWin = new JLabel("  Informe de las incidencias registradas");
+	    final JLabel titleWin = new JLabel("Informe de las incidencias registradas");
 	    StyleUtil.styleWindowTitle(titleWin);
 
 	    final JLabel lblTitle = new JLabel("Consulta de incidencias por periodo");

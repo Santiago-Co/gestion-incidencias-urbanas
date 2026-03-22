@@ -38,7 +38,7 @@ public class InformesIncidenciasTecnicosController {
     }
 
     public void initController() {  
-    	view.getBtnClose().addActionListener(e -> volverDashboard());    	
+    	SwingUtil.volverDashboard(view.getBtnClose(), view, viewDsb); 	
     }
     
     private void generarInforme() {
@@ -59,10 +59,5 @@ public class InformesIncidenciasTecnicosController {
             
     		SwingUtil.autoAdjustColumns(tabla, view.getScrollIncidencias());
         });
-    }
-    
-    private void volverDashboard() {
-    	view.dispose(); 
-        viewDsb.setVisible(true);
     }
 }

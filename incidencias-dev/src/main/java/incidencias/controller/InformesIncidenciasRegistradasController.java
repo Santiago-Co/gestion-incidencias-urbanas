@@ -43,13 +43,8 @@ public class InformesIncidenciasRegistradasController {
 			}
 		});
 		view.getBtnEstadisticas().addActionListener(e -> SwingUtil.exceptionWrapper(() -> mostrarEstadisticas()));
-		view.getBtnClose().addActionListener(e -> volverDashboard());
+		SwingUtil.volverDashboard(view.getBtnClose(), view, viewDsb);
 	}
-	
-	private void volverDashboard() {
-    	view.dispose(); 
-        viewDsb.setVisible(true);
-    }
 
 	private void initView() {
 		view.setVisible(true);

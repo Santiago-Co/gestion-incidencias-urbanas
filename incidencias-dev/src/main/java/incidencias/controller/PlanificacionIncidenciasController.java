@@ -46,7 +46,7 @@ public class PlanificacionIncidenciasController {
 
 	public void initController() {
 		view.getBtnGuardar().addActionListener(e -> SwingUtil.exceptionWrapper(() -> guardarPlanificacion()));
-    	view.getBtnClose().addActionListener(e -> SwingUtil.exceptionWrapper(() -> volverDashboard()));
+		SwingUtil.volverDashboard(view.getBtnClose(), view, viewDsb);
     	view.getBtnEliminar().addActionListener(e -> SwingUtil.exceptionWrapper(() -> eliminarIncidencia()));
 	}
 	
@@ -146,9 +146,4 @@ public class PlanificacionIncidenciasController {
 		});
 
 	}
-	
-    private void volverDashboard() {
-    	view.dispose(); 
-        viewDsb.setVisible(true);
-    }
 }

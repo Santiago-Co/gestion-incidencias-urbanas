@@ -26,7 +26,7 @@ public class LogInView extends javax.swing.JFrame {
     	
     	// Inicializacion de componentes
     	
-        final JLabel titleWin = new JLabel("  Sistema de Gestión de Incidencias");
+        final JLabel titleWin = new JLabel("Sistema de Gestión de Incidencias");
         StyleUtil.styleWindowTitle(titleWin);
         
         final JLabel lblTitle = new JLabel("Bienvenido");

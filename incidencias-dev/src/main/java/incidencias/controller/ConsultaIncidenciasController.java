@@ -48,7 +48,7 @@ public class ConsultaIncidenciasController {
     		else SwingUtil.exceptionWrapper(() -> filtrarIncidencias(filtro));
     	});
     	
-    	view.getBtnClose().addActionListener(e -> SwingUtil.exceptionWrapper(() -> volverDashboard()));
+    	SwingUtil.volverDashboard(view.getBtnClose(), view, viewDsb);
     }
 
     private void listarIncidencias() {
@@ -75,10 +75,4 @@ public class ConsultaIncidenciasController {
 		SwingUtil.setDescriptionColumnStyle(tabla, 2, 250);
 		SwingUtil.autoAdjustColumns(tabla, view.getScrollIncidencias());
     }
-    
-    private void volverDashboard() {
-    	view.dispose(); 
-        viewDsb.setVisible(true);
-    }
-    
 }

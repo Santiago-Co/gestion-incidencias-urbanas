@@ -38,7 +38,7 @@ public class RegistrarTrabajosTecnicoView extends JFrame {
 
     	// Inicializacion de componentes
     	
-        final JLabel titleWin = new JLabel("  Registro de trabajos diarios");
+        final JLabel titleWin = new JLabel("Registro de trabajos diarios");
         StyleUtil.styleWindowTitle(titleWin);
         
         final JLabel lblIncidencias = new JLabel("Mis incidencias en curso");

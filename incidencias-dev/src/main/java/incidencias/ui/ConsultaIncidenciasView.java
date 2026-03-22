@@ -25,7 +25,7 @@ public class ConsultaIncidenciasView extends JFrame {
     	
     	// Inicializacion de componentes
         
-        final JLabel titleWin = new JLabel("  Consulta de incidencias");
+        final JLabel titleWin = new JLabel("Consulta de incidencias");
         StyleUtil.styleWindowTitle(titleWin);
         
         final JLabel lblTitle = new JLabel("Mis incidencias registradas");
