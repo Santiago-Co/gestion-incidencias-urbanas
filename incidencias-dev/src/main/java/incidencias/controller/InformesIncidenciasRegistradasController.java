@@ -106,7 +106,7 @@ public class InformesIncidenciasRegistradasController {
 		String param = (String) view.getListaFiltros().getSelectedItem();
 		
 		JTable tablaEstadisticas = view.getTablaEstadisticas();
-		String[] titulos = {param, "Porcentaje"};
+		String[] titulos = {param, "Porcentaje de aparición"};
 		DefaultTableModel modelEstadisticas = new DefaultTableModel(titulos, 0);
 	    
 		List<String> tipos = new ArrayList<>();

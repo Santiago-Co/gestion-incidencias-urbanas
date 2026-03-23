@@ -55,7 +55,7 @@ public class InformesIncidenciasRegistradasView extends JFrame {
 	    final JLabel titleWin = new JLabel("Informe de las incidencias registradas");
 	    StyleUtil.styleWindowTitle(titleWin);
 
-	    final JLabel lblTitle = new JLabel("Consulta de incidencias por periodo");
+	    final JLabel lblTitle = new JLabel("Informe de incidencias por periodo");
 	    StyleUtil.styleLabel(lblTitle, 26, true);
 
 	    tablaIncidencias = new JTable();
@@ -99,7 +99,7 @@ public class InformesIncidenciasRegistradasView extends JFrame {
 	    final JLabel lblEst = new JLabel("Mostrar estadísticas:");
 	    StyleUtil.styleLabel(lblEst, 14, false);
 
-	    final JLabel lblFiltro = new JLabel("Selecciona un parámetro:");
+	    final JLabel lblFiltro = new JLabel("Selecciona un parámetro de incidencia:");
 	    StyleUtil.styleLabel(lblFiltro, 14, true);
 
 	    cbFiltro = new JComboBox<>(new String[]{"Tipo", "Localización", "Estado"});
@@ -121,6 +121,9 @@ public class InformesIncidenciasRegistradasView extends JFrame {
 	    
 	    JPanel topPanel = StyleUtil.createTopPanel(this, titleWin, btnClose, this.getWidth());
 	    
+	    JPanel fechasPanel = StyleUtil.createAbstractPanel();
+	    fechasPanel.setLayout(new GridBagLayout());
+	    
 	    JPanel informePanel = StyleUtil.createAbstractPanel();
 	    informePanel.setLayout(new GridBagLayout()); 
 
@@ -130,6 +133,42 @@ public class InformesIncidenciasRegistradasView extends JFrame {
 	    JPanel mainPanel = StyleUtil.createMainPanel();
 
         // Colocacion de los componentes de la pantalla
+	    
+	    // Panel de date pickers
+	    GridBagConstraints gbcLblIni = new GridBagConstraints();
+	    gbcLblIni.gridx = 0;
+	    gbcLblIni.gridy = 0;
+	    gbcLblIni.anchor = GridBagConstraints.WEST;
+	    gbcLblIni.insets = new Insets(0, 0, 5, 5);
+	    fechasPanel.add(lblFechaIni, gbcLblIni);
+
+	    GridBagConstraints gbcDateInicio = new GridBagConstraints();
+	    gbcDateInicio.gridx = 0;
+	    gbcDateInicio.gridy = 1;
+	    gbcDateInicio.anchor = GridBagConstraints.WEST;
+	    gbcDateInicio.insets = new Insets(0, 0, 10, 10);
+	    fechasPanel.add(datePickerInicio, gbcDateInicio);
+
+	    GridBagConstraints gbcLblFin = new GridBagConstraints();
+	    gbcLblFin.gridx = 1;
+	    gbcLblFin.gridy = 0;
+	    gbcLblFin.anchor = GridBagConstraints.WEST;
+	    gbcLblFin.insets = new Insets(0, 0, 5, 0);
+	    fechasPanel.add(lblFechaFin, gbcLblFin);
+
+	    GridBagConstraints gbcDateFin = new GridBagConstraints();
+	    gbcDateFin.gridx = 1;
+	    gbcDateFin.gridy = 1;
+	    gbcDateFin.anchor = GridBagConstraints.WEST;
+	    gbcDateFin.insets = new Insets(0, 0, 10, 10);
+	    fechasPanel.add(datePickerFin, gbcDateFin);
+	    
+	    GridBagConstraints gbcBtnBuscar = new GridBagConstraints();
+	    gbcBtnBuscar.gridx = 2;
+	    gbcBtnBuscar.gridy = 1;
+	    gbcBtnBuscar.anchor = GridBagConstraints.WEST;
+	    gbcBtnBuscar.insets = new Insets(0, 0, 10, 0);
+	    fechasPanel.add(btnBuscar, gbcBtnBuscar);
 	    
 	    // Panel de resumen de informe
 	    GridBagConstraints gbcLblTotal = new GridBagConstraints();
@@ -180,7 +219,7 @@ public class InformesIncidenciasRegistradasView extends JFrame {
 	    gbcLblEst.gridy = 0;
 	    gbcLblEst.gridwidth = 2; 
 	    gbcLblEst.anchor = GridBagConstraints.WEST;
-	    gbcLblEst.insets = new Insets(0, 0, 7, 0);
+	    gbcLblEst.insets = new Insets(0, 0, 0, 0);
 	    estadisticasPanel.add(lblEst, gbcLblEst);
 
 	    GridBagConstraints gbcLblFiltro = new GridBagConstraints();
@@ -208,7 +247,7 @@ public class InformesIncidenciasRegistradasView extends JFrame {
 	    GridBagConstraints gbcTitle = new GridBagConstraints();
 	    gbcTitle.gridx = 0;
 	    gbcTitle.gridy = 0;
-	    gbcTitle.gridwidth = 3;
+	    gbcTitle.gridwidth = 2;
 	    gbcTitle.insets = new Insets(0, 0, 30, 0);
 	    gbcTitle.fill = GridBagConstraints.HORIZONTAL;
 	    mainPanel.add(lblTitle, gbcTitle);
@@ -216,7 +255,7 @@ public class InformesIncidenciasRegistradasView extends JFrame {
 	    GridBagConstraints gbcScrollTabla = new GridBagConstraints();
 	    gbcScrollTabla.gridx = 0;
 	    gbcScrollTabla.gridy = 1;
-	    gbcScrollTabla.gridheight = 7;
+	    gbcScrollTabla.gridheight = 6;
 	    gbcScrollTabla.weightx = 1.0;
 	    gbcScrollTabla.weighty = 1.0;
 	    gbcScrollTabla.fill = GridBagConstraints.BOTH;
@@ -226,75 +265,45 @@ public class InformesIncidenciasRegistradasView extends JFrame {
 	    GridBagConstraints gbcLblFechas = new GridBagConstraints();
 	    gbcLblFechas.gridx = 1;
 	    gbcLblFechas.gridy = 1;
-	    gbcLblFechas.gridwidth = 2;
 	    gbcLblFechas.anchor = GridBagConstraints.WEST;
 	    gbcLblFechas.insets = new Insets(0, 0, 10, 0);
 	    mainPanel.add(lblFechas, gbcLblFechas);
-
-	    GridBagConstraints gbcLblIni = new GridBagConstraints();
-	    gbcLblIni.gridx = 1;
-	    gbcLblIni.gridy = 2;
-	    gbcLblIni.anchor = GridBagConstraints.WEST;
-	    gbcLblIni.insets = new Insets(0, 0, 5, 5);
-	    mainPanel.add(lblFechaIni, gbcLblIni);
-
-	    GridBagConstraints gbcDateInicio = new GridBagConstraints();
-	    gbcDateInicio.gridx = 1;
-	    gbcDateInicio.gridy = 3;
-	    gbcDateInicio.anchor = GridBagConstraints.WEST;
-	    gbcDateInicio.insets = new Insets(0, 0, 10, 10);
-	    mainPanel.add(datePickerInicio, gbcDateInicio);
-
-	    GridBagConstraints gbcLblFin = new GridBagConstraints();
-	    gbcLblFin.gridx = 2;
-	    gbcLblFin.gridy = 2;
-	    gbcLblFin.anchor = GridBagConstraints.WEST;
-	    gbcLblFin.insets = new Insets(0, 0, 5, 0);
-	    mainPanel.add(lblFechaFin, gbcLblFin);
-
-	    GridBagConstraints gbcDateFin = new GridBagConstraints();
-	    gbcDateFin.gridx = 2;
-	    gbcDateFin.gridy = 3;
-	    gbcDateFin.anchor = GridBagConstraints.WEST;
-	    gbcDateFin.insets = new Insets(0, 0, 10, 10);
-	    mainPanel.add(datePickerFin, gbcDateFin);
 	    
-	    GridBagConstraints gbcBtnBuscar = new GridBagConstraints();
-	    gbcBtnBuscar.gridx = 3;
-	    gbcBtnBuscar.gridy = 3;
-	    gbcBtnBuscar.anchor = GridBagConstraints.WEST;
-	    gbcBtnBuscar.insets = new Insets(0, 0, 10, 0);
-	    mainPanel.add(btnBuscar, gbcBtnBuscar);
+	    GridBagConstraints gbcPnlFech = new GridBagConstraints();
+	    gbcPnlFech.gridx = 1;
+	    gbcPnlFech.gridy = 2;
+	    gbcPnlFech.gridwidth = 1;
+	    gbcPnlFech.fill = GridBagConstraints.HORIZONTAL;
+	    gbcPnlFech.anchor = GridBagConstraints.WEST;
+	    gbcPnlFech.insets = new Insets(0, 0, 0, 0);
+	    mainPanel.add(fechasPanel, gbcPnlFech);
 
 	    GridBagConstraints gbcLblInforme = new GridBagConstraints();
 	    gbcLblInforme.gridx = 1;
-	    gbcLblInforme.gridy = 4;
-	    gbcLblInforme.gridwidth = 2;
+	    gbcLblInforme.gridy = 3;
 	    gbcLblInforme.anchor = GridBagConstraints.WEST;
 	    gbcLblInforme.insets = new Insets(10, 0, 7, 0);
 	    mainPanel.add(lblInforme, gbcLblInforme);
 
 	    GridBagConstraints gbcPnlInforme = new GridBagConstraints();
 	    gbcPnlInforme.gridx = 1;
-	    gbcPnlInforme.gridy = 5;
-	    gbcPnlInforme.gridwidth = 3;
-	    gbcPnlInforme.fill = GridBagConstraints.HORIZONTAL;
+	    gbcPnlInforme.gridy = 4;
+	    gbcPnlInforme.gridwidth = 1;
 	    gbcPnlInforme.anchor = GridBagConstraints.WEST;
 	    gbcPnlInforme.insets = new Insets(0, 0, 15, 0);
 	    mainPanel.add(informePanel, gbcPnlInforme);
 	    
 	    GridBagConstraints gbcPnlEst = new GridBagConstraints();
 	    gbcPnlEst.gridx = 1;
-	    gbcPnlEst.gridy = 6;
-	    gbcPnlEst.gridwidth = 3;
-	    gbcPnlEst.fill = GridBagConstraints.HORIZONTAL;
+	    gbcPnlEst.gridy = 5;
+	    gbcPnlEst.gridwidth = 1;
 	    gbcPnlEst.anchor = GridBagConstraints.WEST;
-	    gbcPnlEst.insets = new Insets(10, 0, 10, 0);
+	    gbcPnlEst.insets = new Insets(0, 0, 0, 0);
 	    mainPanel.add(estadisticasPanel, gbcPnlEst);
 	    
 	    GridBagConstraints gbcScrollEst = new GridBagConstraints();
 	    gbcScrollEst.gridx = 1;
-	    gbcScrollEst.gridy = 7;
+	    gbcScrollEst.gridy = 6;
 	    gbcScrollEst.gridwidth = 3;
 	    gbcScrollEst.fill = GridBagConstraints.BOTH;
 	    gbcScrollEst.insets = new Insets(0, 0, 10, 0);
