@@ -44,7 +44,7 @@ public class AsignacionIncidenciasView extends JFrame {
         tablaIncidencias = new JTable();
         StyleUtil.styleTable(tablaIncidencias);
         scrollIncidencias = new JScrollPane(tablaIncidencias);
-        scrollIncidencias.setPreferredSize(new Dimension(575, 300));
+        scrollIncidencias.setPreferredSize(new Dimension(630, 300));
         scrollIncidencias.setBorder(BorderFactory.createLineBorder(TABLE_BORDER, 2));
         
         tablaTecnicos = new JTable();

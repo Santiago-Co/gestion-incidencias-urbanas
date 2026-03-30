@@ -21,8 +21,8 @@ public class AsignacionIncidenciasController {
 	private DashboardView viewDsb;
 	private int idUsuario;
 	
-	private static final String[] TITULOS_TABLA_INCIDENCIAS = {"ID", "Tipo", "Descripción", "Fecha/Hora"};
-	private static final String[] TITULOS_TABLA_INCIDENCIAS_POJOS = new String[]{"id", "tipo", "descripcion", "fechaCambio"};
+	private static final String[] TITULOS_TABLA_INCIDENCIAS = {"ID", "Tipo", "Descripción", "Fecha/Hora", "Estado"};
+	private static final String[] TITULOS_TABLA_INCIDENCIAS_POJOS = new String[]{"id", "tipo", "descripcion", "fechaCambio", "estado"};
 	
 	private static final String[] TITULOS_TABLA_TECNICOS = {"ID", "Nombre", "Apellidos", "Especialidad"};
 	private static final String[] TITULOS_TABLA_TECNICOS_POJOS = new String[]{"id", "nombre", "apellidos", "tipo"};	
