@@ -157,6 +157,13 @@ public class StyleUtil {
         btn.setMinimumSize(new Dimension(100, 45));
     }
     
+    public static void styleSmallButton(JButton btn) {
+    	StyleUtil.styleAbstractButtonPC(btn);
+        btn.setPreferredSize(new Dimension(100, 26));
+        btn.setMaximumSize(new Dimension(Integer.MAX_VALUE, 26));
+        btn.setMinimumSize(new Dimension(100, 26));
+	}
+    
     public static void styleLogoutButton(JButton btn) {
         StyleUtil.styleAbstractButtonPC(btn);
         btn.setForeground(DANGER_COLOR);

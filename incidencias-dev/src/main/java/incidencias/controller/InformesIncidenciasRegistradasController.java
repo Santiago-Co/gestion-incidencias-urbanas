@@ -33,23 +33,88 @@ public class InformesIncidenciasRegistradasController {
         initView();
 	}
 
+	@SuppressWarnings("deprecation")
 	private void initController() {
-		view.getBtnBuscar().addActionListener(e -> {
+		view.getListaFiltros().addActionListener(e -> {
+			SwingUtil.exceptionWrapper(() -> seleccionarFiltro());
+			if(view.getInformePanel().isShowing()) view.getInformePanel().hide();
+			if(view.getEstadisticasPanel().isShowing()) view.getEstadisticasPanel().hide();
+			view.getTablaIncidencias().setModel(new DefaultTableModel());
+			view.setTxtFiltro("");
+			actualizarPantalla();
+		});
+		view.getBtnBuscar1().addActionListener(e -> {
+			SwingUtil.exceptionWrapper(() -> listarIncidenciasPorParametro());
+			if(!incidencias.isEmpty()) {
+				SwingUtil.exceptionWrapper(() -> actualizarResumenInforme());
+				view.getInformePanel().show();
+				SwingUtil.exceptionWrapper(() -> mostrarEstadisticas());
+				view.getEstadisticasPanel().show();
+				actualizarPantalla();
+			} else {
+				view.getInformePanel().hide();
+				view.getEstadisticasPanel().hide();
+			}
+		});
+		view.getBtnBuscar2().addActionListener(e -> {
 			SwingUtil.exceptionWrapper(() -> listarIncidenciasPorFecha());
 			if(!incidencias.isEmpty()) {
 				SwingUtil.exceptionWrapper(() -> actualizarResumenInforme());
-				view.getEstadisticasPanel().setVisible(true);
-				view.getTablaEstadisticas().setVisible(true);
+				view.getInformePanel().show();
+				SwingUtil.exceptionWrapper(() -> mostrarEstadisticas());
+				view.getEstadisticasPanel().show();
+				actualizarPantalla();
+			}
+			else {
+				view.getInformePanel().hide();
+				view.getEstadisticasPanel().hide();
 			}
 		});
-		view.getBtnEstadisticas().addActionListener(e -> SwingUtil.exceptionWrapper(() -> mostrarEstadisticas()));
 		SwingUtil.volverDashboard(view.getBtnClose(), view, viewDsb);
 	}
 
+	@SuppressWarnings("deprecation")
 	private void initView() {
 		view.setVisible(true);
-		view.getEstadisticasPanel().setVisible(false);
-		view.getTablaEstadisticas().setVisible(false);
+		view.getTxtPanel().hide();
+		view.getFechasPanel().hide();
+		view.getInformePanel().hide();
+		view.getEstadisticasPanel().hide();
+		actualizarPantalla();
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void seleccionarFiltro() {
+		String filtro = (String) view.getListaFiltros().getSelectedItem();
+		if(filtro.equals("Fecha")) {
+			if(view.getTxtPanel().isShowing()) view.getTxtPanel().hide();
+			view.getFechasPanel().show();
+		}
+		else {
+			if(view.getFechasPanel().isShowing()) view.getFechasPanel().hide();
+			view.getTxtPanel().show();
+		}
+	}
+	
+	public void listarIncidenciasPorParametro() {
+		String parametro = view.getTxtFiltro();
+		if(parametro.isBlank()) {
+			SwingUtil.showErrorMessage(view, "Por favor, introduzca un valor para el parámetro seleccionado.");
+	        return;
+		}
+		
+		String filtro = (String) view.getListaFiltros().getSelectedItem();
+		incidencias = model.getIncidenciasPorFiltro(filtro, parametro);
+		
+		TableModel tmodel = SwingUtil.getTableModelFromPojos(incidencias, TITULOS_TABLA_POJOS);
+		JTable tabla = view.getTablaIncidencias();
+		tabla.setModel(tmodel);
+		
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		SwingUtil.setTableStyle(tabla, centerRenderer, TITULOS_TABLA_INCIDENCIAS);
+		SwingUtil.setDescriptionColumnStyle(tabla, 2, 250);
+		SwingUtil.autoAdjustColumns(tabla, view.getScrollTabla());
 	}
 	
 	public void listarIncidenciasPorFecha() {
@@ -70,7 +135,7 @@ public class InformesIncidenciasRegistradasController {
 	    }
 	    
 	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		incidencias = model.getIncidenciasPorFecha(sdf.format(fechaIni), sdf.format(fechaFin));
+		incidencias = model.getIncidenciasPorFiltro("Fecha", sdf.format(fechaIni), sdf.format(fechaFin));
 		
 		TableModel tmodel = SwingUtil.getTableModelFromPojos(incidencias, TITULOS_TABLA_POJOS);
 		JTable tabla = view.getTablaIncidencias();
@@ -100,19 +165,57 @@ public class InformesIncidenciasRegistradasController {
 	}
 	
 	private void mostrarEstadisticas() {
+		String[] filtros = { "Tipo", "Localización", "Estado" };
+		
+		JTable tablaEstTipos = view.getEstadisticasTipo();
+		String[] titulosTipo = {filtros[0], "Porcentaje de aparición"};
+		DefaultTableModel modelTipo = new DefaultTableModel(titulosTipo, 0);
+	    
+		JTable tablaEstLocalizacion = view.getEstadisticasLocalizacion();
+		String[] titulosLoc = {filtros[1], "Porcentaje de aparición"};
+		DefaultTableModel modelLoc = new DefaultTableModel(titulosLoc, 0);
+		
+		JTable tablaEstEstado = view.getEstadisticasEstado();
+		String[] titulosEstado = {filtros[2], "Porcentaje de aparición"};
+		DefaultTableModel modelEstado = new DefaultTableModel(titulosEstado, 0);
+		
+		DefaultTableModel[] models = { modelTipo, modelLoc, modelEstado };
+		
+		List<String> tipos = new ArrayList<>();
+		List<Integer> cuantos = new ArrayList<>();
+		
+		for(int i=0; i<filtros.length; i++) {
+			contarCategorias(tipos, cuantos, filtros[i]);
+			porcentajes(tipos, cuantos, models[i]);
+			tipos.clear();
+			cuantos.clear();
+		}
+		
+		tablaEstTipos.setModel(modelTipo);
+		DefaultTableCellRenderer rendererTipo = new DefaultTableCellRenderer();
+		rendererTipo.setHorizontalAlignment(SwingConstants.CENTER);
+		SwingUtil.setTableStyle(tablaEstTipos, rendererTipo, titulosTipo);
+		SwingUtil.autoAdjustColumns(tablaEstTipos, view.getScrollEstTipo());
+		
+		tablaEstLocalizacion.setModel(modelLoc);
+		DefaultTableCellRenderer rendererLoc = new DefaultTableCellRenderer();
+		rendererLoc.setHorizontalAlignment(SwingConstants.CENTER);
+		SwingUtil.setTableStyle(tablaEstLocalizacion, rendererLoc, titulosLoc);
+		SwingUtil.autoAdjustColumns(tablaEstLocalizacion, view.getScrollEstLocalizacion());
+		
+		tablaEstEstado.setModel(modelEstado);
+		DefaultTableCellRenderer rendererEstado = new DefaultTableCellRenderer();
+		rendererEstado.setHorizontalAlignment(SwingConstants.CENTER);
+		SwingUtil.setTableStyle(tablaEstEstado, rendererEstado, titulosEstado);
+		SwingUtil.autoAdjustColumns(tablaEstEstado, view.getScrollEstEstado());
+	}
+	
+	private void contarCategorias(List<String> tipos, List<Integer> cuantos, String filtro) {
 		JTable tablaIncidencias = view.getTablaIncidencias();
 		DefaultTableModel modelIncidencias = (DefaultTableModel)tablaIncidencias.getModel();
 		
-		String param = (String) view.getListaFiltros().getSelectedItem();
-		
-		JTable tablaEstadisticas = view.getTablaEstadisticas();
-		String[] titulos = {param, "Porcentaje de aparición"};
-		DefaultTableModel modelEstadisticas = new DefaultTableModel(titulos, 0);
-	    
-		List<String> tipos = new ArrayList<>();
-		List<Integer> cuantos = new ArrayList<>();
 		for (int i=0; i < modelIncidencias.getRowCount(); i++) {
-			int col = tablaIncidencias.getColumnModel().getColumnIndex(param);
+			int col = tablaIncidencias.getColumnModel().getColumnIndex(filtro);
 			String tipo = modelIncidencias.getValueAt(i, col).toString();
 			if(!tipos.contains(tipo)) {
 				tipos.add(tipo);
@@ -122,18 +225,19 @@ public class InformesIncidenciasRegistradasController {
 				cuantos.set(tipos.indexOf(tipo), anterior+1); 
 			}
 		}
-		
+	}
+	
+	private void porcentajes(List<String> tipos, List<Integer> cuantos, DefaultTableModel modelEstadisticas) {
 		int total = Integer.parseInt(view.getTxtTotalVal().getText());
 		
 		for(int i=0; i < tipos.size(); i++) {
 			double porcentaje = cuantos.get(i).doubleValue()/total*100;
 			modelEstadisticas.addRow(new Object[]{tipos.get(i), String.valueOf(porcentaje)});
 		}
-		
-		tablaEstadisticas.setModel(modelEstadisticas);
-		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-		SwingUtil.setTableStyle(tablaEstadisticas, centerRenderer, titulos);
-		SwingUtil.autoAdjustColumns(tablaEstadisticas, view.getScrollEstadisticas());
+	}
+	
+	private void actualizarPantalla() {
+		view.revalidate();
+		view.repaint();
 	}
 }
