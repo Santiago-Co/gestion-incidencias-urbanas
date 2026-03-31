@@ -6,14 +6,16 @@ public class TecnicoDTO {
     private String nombre;
     private String apellidos;
     private String tipo;
+    private int numAsignadas;
     
     public TecnicoDTO() {}
     
-    public TecnicoDTO(int id, String nombre, String apellidos, String tipo) {
+    public TecnicoDTO(int id, String nombre, String apellidos, String tipo, int numAsignadas) {
     	this.id = id;
     	this.nombre = nombre;
     	this.apellidos = apellidos;
     	this.tipo = tipo;
+    	this.numAsignadas = numAsignadas; 
     }
     
 	public int getId() { return id; }
@@ -24,4 +26,6 @@ public class TecnicoDTO {
 	public void setApellidos(String apellidos) { this.apellidos = apellidos; }
 	public String getTipo() { return tipo; }
 	public void setTipo(String tipo) { this.tipo = tipo; }
+	public int getNumAsignadas() { return numAsignadas; }
+	public void setNumAsignadas(int numAsignadas) { this.numAsignadas = numAsignadas; }
 }

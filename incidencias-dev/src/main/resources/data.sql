@@ -15,12 +15,18 @@ INSERT INTO usuario (nombre, apellidos, dni, correo, rol) VALUES
 ('Maria', 'Fernandez Gomez', '88776655Y', 'maria@email.com',      'Ciudadano'),
 -- Operadores
 (NULL, NULL, '12345678A', 'operador@email.com', 'Operador'),
--- Técnicos
+-- Tecnicos
 ('Luis',      'Garcia Garcia',       '11223344B', 'tecnico1@email.com', 'Tecnico'),
 ('Francisco', 'Sanchez Sanchez',     '11223344C', 'tecnico2@email.com', 'Tecnico'),
 ('Laura',     'Fernandez Fernandez', '11223344D', 'tecnico3@email.com', 'Tecnico'),
 ('Javier',    'Gomez Torres',        '11223344E', 'tecnico4@email.com', 'Tecnico'),
-('Paula',     'Lopez Perez',         '11223344G', 'tecnico5@email.com', 'Tecnico');
+('Paula',     'Lopez Perez',         '11223344F', 'tecnico5@email.com', 'Tecnico'),
+-- Tecnicos de relleno
+('Pedro',   'Garcia Estevez', '11223344G', 'tecnico6@email.com',  'Tecnico'),
+('Maria',   'Garcia Marquez', '11223344H', 'tecnico7@email.com',  'Tecnico'),
+('Jose',    'Suarez Suarez',  '11223344I', 'tecnico8@email.com',  'Tecnico'),
+('Alba',    'Menendez Gil',   '11223344J', 'tecnico9@email.com',  'Tecnico'),
+('Antonio', 'Perez Perez',    '11223344K', 'tecnico10@email.com', 'Tecnico');
 
 -- =============================
 -- INSERTAR TIPOS DE INCIDENCIAS
@@ -42,7 +48,12 @@ INSERT INTO tipoIncidenciaTecnico (idTipo, idTecnico) VALUES
 (2, 5),
 (3, 6),
 (4, 7),
-(5, 8);
+(5, 8),
+(1, 9),
+(2, 10),
+(3, 11),
+(4, 12),
+(5, 13);
 
 -- ============================
 -- INSERTAR INCIDENCIAS
