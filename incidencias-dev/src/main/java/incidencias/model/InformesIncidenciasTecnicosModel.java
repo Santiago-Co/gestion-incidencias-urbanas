@@ -21,9 +21,10 @@ public class InformesIncidenciasTecnicosModel {
     														"ELSE 0 " +
     													"END) AS horasReales " +
     													"FROM usuario u " +
+    													"LEFT JOIN equipoTecnicos et ON u.id = et.idTecnico " +
     													"LEFT JOIN historia h ON " +
     													"( " +
-    													"   h.idTecnico = u.id " +
+    													"   et.idHistoria = h.id " +
     													"   AND h.fechaCambio >= date('now','start of month','-1 month') " +
     													"   AND h.fechaCambio <  date('now','start of month') " +
     													")" +
