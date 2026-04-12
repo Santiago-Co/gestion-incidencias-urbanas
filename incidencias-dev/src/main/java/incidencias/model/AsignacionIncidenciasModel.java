@@ -31,20 +31,21 @@ public class AsignacionIncidenciasModel {
 														   "WHERE hActual.estado = 'Validada' " +
 														   "ORDER BY hCreacion.fechaCambio";
     
+
     private static final String SQL_LISTA_TECNICOS = "SELECT u.id, u.nombre, u.apellidos, " +
-    												 "ti.nombre AS tipo, " +
-    												 "COUNT(i.id) AS numAsignadas " +
-		      									     "FROM usuario u " +
-		      									     "JOIN tipoIncidenciaTecnico tit " +
-		      									     "ON u.id = tit.idTecnico " +
-		      									     "JOIN tipoIncidencia ti " +
-		      									     "ON tit.idTipo = ti.id " +
-		      									     "LEFT JOIN incidencia i " +
-		      									     "ON i.idAsignacion = tit.id " +
-		      									     "WHERE rol = 'Tecnico' " +
-		      									     "AND ti.nombre = ? " +
-		      									     "GROUP BY u.id, u.nombre, u.apellidos, ti.nombre " +
-		      									     "ORDER BY numAsignadas ASC";
+            										"ti.nombre AS tipo, " +
+                                                    "COUNT(DISTINCT h.idIncidencia) AS numAsignadas " +
+                                                    "FROM usuario u " +
+            										"JOIN tipoIncidencia ti ON tit.idTipo = ti.id " +
+            										"JOIN tipoIncidenciaTecnico tit ON u.id = tit.idTecnico " +
+            										"LEFT JOIN equipoTecnicos et ON u.id = et.idTecnico " +
+           										    "LEFT JOIN historia h ON et.idHistoria = h.id " +
+            										"  AND h.id = (SELECT MAX(id) FROM historia WHERE idIncidencia = h.idIncidencia) " +
+           										    "  AND h.estado IN ('Asignada', 'En proceso') " +
+            										"WHERE u.rol = 'Tecnico' AND ti.nombre = ? " +
+            										"GROUP BY u.id, u.nombre, u.apellidos, ti.nombre " +
+            										"ORDER BY numAsignadas ASC";
+    
     
     private static final String SQL_ID_ASIGNACION = "SELECT tit.id, tit.idTipo, tit.idTecnico " +
     												"FROM incidencia i " +
