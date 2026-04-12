@@ -20,8 +20,8 @@ public class CrearIncidenciaModel {
 	private static final String SQL_INSERT_INCIDENCIA = "INSERT INTO incidencia (tipo, idCiudadano, descripcion, localizacion) " +
 													    "VALUES (?, ?, ?, ?)";
 	
-	private static final String SQL_INSERT_HISTORIAL  = "INSERT INTO historia (idIncidencia, idTecnico, idOperador, estado, descripcion) " +
-													    "VALUES (?, NULL, NULL, ?, ?)";
+	private static final String SQL_INSERT_HISTORIAL  = "INSERT INTO historia (idIncidencia, idOperador, estado, descripcion) " +
+													    "VALUES (?, NULL, ?, ?)";
 	
 	private static final String SQL_SELECT_INCIDENCIA = "SELECT id, tipo, idCiudadano, descripcion, localizacion " +
 													    "FROM incidencia ORDER BY id DESC LIMIT 1";
