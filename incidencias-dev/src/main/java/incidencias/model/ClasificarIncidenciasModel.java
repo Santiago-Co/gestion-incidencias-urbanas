@@ -30,8 +30,8 @@ public class ClasificarIncidenciasModel {
 
     private static final String SQL_ACTUALIZAR_TIPO = "UPDATE incidencia SET tipo = ? WHERE id = ?";
     
-    private static final String SQL_INSERT_HISTORIAL = "INSERT INTO historia (idIncidencia, idTecnico, idOperador, estado, descripcion) " +
-		    										   "VALUES (?, NULL, ?, ?, ?)";
+    private static final String SQL_INSERT_HISTORIAL = "INSERT INTO historia (idIncidencia, idOperador, estado, descripcion) " +
+		    										   "VALUES (?, ?, ?, ?)";
     
     private static final String VALIDAR_INCIDENCIA = "Validada";
     private static final String ELIMINAR_INCIDENCIA = "Rechazado";
