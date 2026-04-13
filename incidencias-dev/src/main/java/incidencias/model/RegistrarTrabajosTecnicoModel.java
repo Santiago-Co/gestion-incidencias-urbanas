@@ -26,7 +26,8 @@ public class RegistrarTrabajosTecnicoModel {
 			 "   SELECT MAX(h2.id) FROM historia h2 " +
 			 "   WHERE h2.idIncidencia = i.id " +
 			 ") " +
-			 "WHERE hActual.idTecnico = ? AND hActual.estado = 'En proceso' " +
+			 "JOIN equipoTecnicos et ON et.idHistoria = hActual.id " +
+			 "WHERE et.idTecnico = ? AND hActual.estado = 'En proceso' " +
 			 "ORDER BY hCreacion.fechaCambio DESC";
 	
 	private static final String SQL_LISTAR_TRABAJOS = "SELECT t.id, t.fecha, t.descripcion "

@@ -25,25 +25,24 @@ public class PlanificacionIncidenciasModel {
 			   											 "   SELECT MAX(h2.id) FROM historia h2 " +
 			   											 "   WHERE h2.idIncidencia = i.id " +
 			   											 ") " +
-			   											 "WHERE hActual.idTecnico = ? AND hActual.estado = 'Asignada' " +
+			   											 "JOIN equipoTecnicos et ON et.idHistoria = hActual.id " +
+			   											 "WHERE et.idTecnico = ? AND hActual.estado = 'Asignada' " +
 			   											 "ORDER BY hCreacion.fechaCambio";
 	
 	private static final String SQL_NOTAS_INCIDENCIA = "UPDATE incidencia SET horasPrevistas = ?, descripcionPreviaTrabajo = ? WHERE id = ?";
 	
-	private static final String SQL_INSERT_HISTORIAL = "INSERT INTO historia (idIncidencia, idTecnico, idOperador, estado, descripcion) " +
-			   										   "VALUES (?, ?, NULL, 'En proceso', ?)";
+	private static final String SQL_INSERT_HISTORIAL = "INSERT INTO historia (idIncidencia, idOperador, estado, descripcion) " +
+			   										   "VALUES (?, NULL, ?, ?)";
     
-    private static final String SQL_INSERT_HISTORIAL_ELIMINAR = "INSERT INTO historia (idIncidencia, idTecnico, idOperador, estado, descripcion) " +
-		    										   			"VALUES (?, ?, NULL, ?, ?)";
-    
-    private static final String ELIMINAR_INCIDENCIA = "Rechazado";
+	private static final String SQL_GET_LAST_HISTORIA_ID = "SELECT MAX(id) FROM historia WHERE idIncidencia = ?";
+	
+    private static final String SQL_INSERT_EQUIPO_TECNICO = "INSERT INTO equipoTecnicos (idTecnico, idHistoria) VALUES (?, ?)";
     
 	/*
 	 * Obtiene las incidencias asociadas a un tecnico
 	 */
 	public List<IncidenciaDTO> getIncidenciasTecnico(int id) {
         List<IncidenciaDTO> incidenciasTecnico = db.executeQueryPojo(IncidenciaDTO.class, SQL_LISTAR_INCIDENCIAS, id);
-
 		return incidenciasTecnico;
 	}
 	
@@ -53,10 +52,17 @@ public class PlanificacionIncidenciasModel {
 	    String comentario = "Planificación: horasPrevistas=" + (horasPrevistas == null ? "N/A" : horasPrevistas)
 	                       + (descripcionTrabajo == null || descripcionTrabajo.isEmpty() ? "" : " - " + descripcionTrabajo);
 	    
-	    db.executeUpdate(SQL_INSERT_HISTORIAL, idIncidencia, idTecnico, comentario);
+	    db.executeUpdate(SQL_INSERT_HISTORIAL, idIncidencia, "En proceso", comentario);
+	    
+	    // Obtenemos el id de la nueva historia
+        int idHistoria = (int) db.executeQueryArray(SQL_GET_LAST_HISTORIA_ID, idIncidencia).get(0)[0];
+
+        db.executeUpdate(SQL_INSERT_EQUIPO_TECNICO, idTecnico, idHistoria);
 	}
 
-	 public void actualizarEstadoIncidenciaEliminar(int idIncidencia, int idTecnico, String detalleEliminar) {
-	        db.executeUpdate(SQL_INSERT_HISTORIAL_ELIMINAR, idIncidencia, idTecnico, ELIMINAR_INCIDENCIA, detalleEliminar);
-	 }
+    public void actualizarEstadoIncidenciaEliminar(int idIncidencia, int idTecnico, String detalleEliminar) {
+    	db.executeUpdate(SQL_INSERT_HISTORIAL, idIncidencia, "Rechazado", detalleEliminar);
+        int idHistoria = (int) db.executeQueryArray(SQL_GET_LAST_HISTORIA_ID, idIncidencia).get(0)[0];
+        db.executeUpdate(SQL_INSERT_EQUIPO_TECNICO, idTecnico, idHistoria);
+    }
 }
