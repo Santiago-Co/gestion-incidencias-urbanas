@@ -1,6 +1,7 @@
 package incidencias.controller;
 
 import incidencias.model.AsignacionIncidenciasModel;
+import incidencias.model.CerrarIncidenciasEspecialidadModel;
 import incidencias.model.ClasificarIncidenciasModel;
 import incidencias.model.ConsultaIncidenciasModel;
 import incidencias.model.CrearIncidenciaModel;
@@ -14,6 +15,7 @@ import incidencias.model.RegistrarTrabajosTecnicoModel;
 import incidencias.model.ResolverIncidenciasModel;
 import incidencias.model.DTOs.UsuarioDTO;
 import incidencias.ui.AsignacionIncidenciasView;
+import incidencias.ui.CerrarIncidenciasEspecialidadView;
 import incidencias.ui.ClasificarIncidenciasView;
 import incidencias.ui.ConsultaIncidenciasView;
 import incidencias.ui.CrearIncidenciaView;
@@ -69,6 +71,9 @@ public class DashboardController {
         view.getBtnPlanificarIncidencia().addActionListener(e -> abrirPlanificarIncidencias());
         view.getBtnResolverIncidencia().addActionListener(e -> abrirResolverIncidencia());
         view.getBtnRegistrarTrabajosTecnico().addActionListener(e -> abrirRegistrarTrabajosTecnico());
+        
+        // --- Botones de TECNICO RESPONSABLE
+        view.getBtnCerrarIncidenciasEspecialidad().addActionListener(e -> abrirCerrarIncidenciasEspecialidad());
         
         // --- Botones de OPERADOR Y TECNICO ---
         view.getBtnHistorialIncidencia().addActionListener(e -> abrirHistorialIncidencia());
@@ -152,6 +157,13 @@ public class DashboardController {
     	RegistrarTrabajosTecnicoView histView = new RegistrarTrabajosTecnicoView();
     	RegistrarTrabajosTecnicoModel histModel = new RegistrarTrabajosTecnicoModel();
         new RegistrarTrabajosTecnicoController(histView, histModel, this.view, model.getUsuarioActual().getId());
+        view.setVisible(false);
+    }
+    
+    private void abrirCerrarIncidenciasEspecialidad() {
+    	CerrarIncidenciasEspecialidadView histView = new CerrarIncidenciasEspecialidadView();
+    	CerrarIncidenciasEspecialidadModel histModel = new CerrarIncidenciasEspecialidadModel();
+        new CerrarIncidenciasEspecialidadController(histView, histModel, this.view, model.getUsuarioActual().getId());
         view.setVisible(false);
     }
 }

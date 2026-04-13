@@ -31,7 +31,9 @@ INSERT INTO usuario (nombre, apellidos, dni, correo, rol) VALUES
 ('Maria',   'Garcia Marquez', '11223344H', 'tecnico7@email.com',  'Tecnico'),
 ('Jose',    'Suarez Suarez',  '11223344I', 'tecnico8@email.com',  'Tecnico'),
 ('Alba',    'Menendez Gil',   '11223344J', 'tecnico9@email.com',  'Tecnico'),
-('Antonio', 'Perez Perez',    '11223344K', 'tecnico10@email.com', 'Tecnico');
+('Antonio', 'Perez Perez',    '11223344K', 'tecnico10@email.com', 'Tecnico'),
+-- Tecnicos responsables
+('Pedro', 'Alvarez Suarez', '44332211A', 'tecnicoresp1@email.com', 'Tecnico responsable');
 
 -- =============================
 -- INSERTAR TIPOS DE INCIDENCIAS
