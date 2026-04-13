@@ -1,5 +1,7 @@
 package incidencias.controller;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.swing.JTable;
@@ -117,10 +119,23 @@ public class RegistrarTrabajosTecnicoController {
 	        throw new ApplicationException("Los comentarios de los trabajos del día son obligatorios");
         }
         
+        Object valFecha = view.getDatePickerFecha().getModel().getValue();
+        if (valFecha == null) {
+        	throw new ApplicationException("La fecha en que se realizaron los comentarios es obligatoria");
+        }
+        
+        java.util.Date dateFecha = (java.util.Date) valFecha;
+        
+        if (dateFecha.after(new java.util.Date())) {
+        	throw new ApplicationException("La fecha en que se realizaron los comentarios debe ser la de hoy o una anterior");
+        }
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        
         String mensajeConfirmacion = String.format("¿Desea añadir los trabajos del día a la incidencia %d?", idIncidencia);
         if(SwingUtil.showQuestionMessage(view, mensajeConfirmacion)) {
-    		model.registrarTrabajo(idIncidencia, comentariosTxt);
-    		String fechaComentario = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(new java.util.Date());
+        	String txtFecha = sdf.format(dateFecha);
+    		model.registrarTrabajo(idIncidencia, txtFecha, comentariosTxt);
     		
     		int longitudMaxima = 30;
             String resumenTrabajos = comentariosTxt;
@@ -131,7 +146,7 @@ public class RegistrarTrabajosTecnicoController {
     		String mensajeResumen = "Comentarios añadidos correctamente. \n\n"
     		+ "ID incidencia: " + idIncidencia + "\n"
     		+ "Tipo: " + tipo + "\n"
-    		+ "Fecha de trabajos: " + fechaComentario + "\n"
+    		+ "Fecha de trabajos: " + txtFecha + "\n"
     		+ "Comentarios del día: " + resumenTrabajos;
             SwingUtil.showSuccessMessage(view, mensajeResumen);
             listarComentariosIncidencia(idIncidencia);
@@ -141,6 +156,7 @@ public class RegistrarTrabajosTecnicoController {
 	
 	private void setComentariosEnabled(boolean enabled) {
 	    view.getTextAreaComentarios().setEnabled(enabled);
+	    view.getDatePickerFecha().setEnabled(enabled);
 	    view.getBtnGuardar().setEnabled(enabled);
 	    if (!enabled) {
 	        view.getTextAreaComentarios().setText("");

@@ -20,6 +20,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import util.swing.DateLabelFormatter;
 import util.swing.StyleUtil;
+import util.swing.SwingUtil;
 
 /**
  * Se ha modificado pom.xml para añadir la dependencia correspondiente al DatePicker
@@ -80,11 +81,11 @@ public class InformesIncidenciasRegistradasView extends JFrame {
 
 	    final JLabel lblFechaIni = new JLabel("Fecha de inicio:");
 	    StyleUtil.styleLabel(lblFechaIni, 14, true);
-	    datePickerInicio = crearDatePicker();
+	    datePickerInicio = SwingUtil.crearDatePicker();
 
 	    final JLabel lblFechaFin = new JLabel("Fecha de fin:");
 	    StyleUtil.styleLabel(lblFechaFin, 14, true);
-	    datePickerFin = crearDatePicker();
+	    datePickerFin = SwingUtil.crearDatePicker();
 	    
 	    btnBuscar1 = new JButton("Buscar");
 	    StyleUtil.styleSmallButton(btnBuscar1);
@@ -373,16 +374,6 @@ public class InformesIncidenciasRegistradasView extends JFrame {
 	    
 	    StyleUtil.setupWindow(this, topPanel, mainPanel, false);
 	}
-	
-	private JDatePickerImpl crearDatePicker() {
-        UtilDateModel model = new UtilDateModel();
-        Properties p = new Properties();
-        p.put("text.today", "Hoy");
-        p.put("text.month", "Mes");
-        p.put("text.year", "Año");
-        JDatePanelImpl panel = new JDatePanelImpl(model, p);
-        return new JDatePickerImpl(panel, new DateLabelFormatter());
-    }
 
 	public JButton getBtnClose() { return btnClose;	}
 	public void setBtnClose(JButton btnClose) {	this.btnClose = btnClose; }

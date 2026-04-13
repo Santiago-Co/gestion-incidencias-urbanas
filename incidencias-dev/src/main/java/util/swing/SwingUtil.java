@@ -7,6 +7,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Properties;
+
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
@@ -23,6 +25,10 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
+
 import exceptions.ApplicationException;
 import exceptions.UnexpectedException;
 import util.LogSystem;
@@ -286,4 +292,14 @@ public class SwingUtil {
 			viewDsb.setVisible(true);
 		}));
 	}
+	
+	public static JDatePickerImpl crearDatePicker() {
+        UtilDateModel model = new UtilDateModel();
+        Properties p = new Properties();
+        p.put("text.today", "Hoy");
+        p.put("text.month", "Mes");
+        p.put("text.year", "Año");
+        JDatePanelImpl panel = new JDatePanelImpl(model, p);
+        return new JDatePickerImpl(panel, new DateLabelFormatter());
+    }
 }

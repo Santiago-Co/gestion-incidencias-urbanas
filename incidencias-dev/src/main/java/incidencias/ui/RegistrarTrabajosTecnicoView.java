@@ -15,7 +15,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 
+import org.jdatepicker.impl.JDatePickerImpl;
+
 import util.swing.StyleUtil;
+import util.swing.SwingUtil;
 
 public class RegistrarTrabajosTecnicoView extends JFrame {
 
@@ -25,6 +28,7 @@ public class RegistrarTrabajosTecnicoView extends JFrame {
     private JTable tablaIncidencias, tablaTrabajos;
     private JTextArea textAreaComentarios;
     private JButton btnGuardar, btnClose;
+    private JDatePickerImpl datePickerFecha;
 	
 	public RegistrarTrabajosTecnicoView() {
 		setUndecorated(true);
@@ -57,6 +61,10 @@ public class RegistrarTrabajosTecnicoView extends JFrame {
         scrollTrabajos = new JScrollPane(tablaTrabajos);
         scrollTrabajos.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1));
         scrollTrabajos.setPreferredSize(new Dimension(500, 250));
+        
+        final JLabel lblFecha = new JLabel("Introduce la fecha en que se realizaron los trabajos:");
+	    StyleUtil.styleLabel(lblFecha, 14, false);
+	    datePickerFecha = SwingUtil.crearDatePicker();
         
         final JLabel lblComentarios = new JLabel("Introduce los comentarios de hoy:");
         StyleUtil.styleLabel(lblComentarios, 14, false);
@@ -117,9 +125,23 @@ public class RegistrarTrabajosTecnicoView extends JFrame {
         gbcScrollTrabajos.insets = new Insets(0, 10, 15, 0);
         mainPanel.add(scrollTrabajos, gbcScrollTrabajos);
 
+        GridBagConstraints gbcLblFecha = new GridBagConstraints();
+        gbcLblFecha.gridx = 0;
+        gbcLblFecha.gridy = 2;
+        gbcLblFecha.anchor = GridBagConstraints.EAST;
+        gbcLblFecha.insets = new Insets(0, 0, 0, 10);
+        mainPanel.add(lblFecha, gbcLblFecha);
+        
+        GridBagConstraints gbcDatePickerFecha = new GridBagConstraints();
+        gbcDatePickerFecha.gridx = 1;
+        gbcDatePickerFecha.gridy = 2;
+        gbcDatePickerFecha.anchor = GridBagConstraints.WEST;
+        gbcDatePickerFecha.insets = new Insets(0, 0, 0, 0);
+        mainPanel.add(datePickerFecha, gbcDatePickerFecha);
+        
         GridBagConstraints gbcLblComentarios = new GridBagConstraints();
         gbcLblComentarios.gridx = 0;
-        gbcLblComentarios.gridy = 2;
+        gbcLblComentarios.gridy = 3;
         gbcLblComentarios.gridwidth = 2;
         gbcLblComentarios.anchor = GridBagConstraints.WEST;
         gbcLblComentarios.insets = new Insets(5, 0, 5, 0);
@@ -127,7 +149,7 @@ public class RegistrarTrabajosTecnicoView extends JFrame {
 
         GridBagConstraints gbcScrollComentarios = new GridBagConstraints();
         gbcScrollComentarios.gridx = 0;
-        gbcScrollComentarios.gridy = 3;
+        gbcScrollComentarios.gridy = 4;
         gbcScrollComentarios.gridwidth = 2;
         gbcScrollComentarios.weightx = 1.0;
         gbcScrollComentarios.weighty = 0.15;
@@ -137,7 +159,7 @@ public class RegistrarTrabajosTecnicoView extends JFrame {
 
         GridBagConstraints gbcPnlAcciones = new GridBagConstraints();
         gbcPnlAcciones.gridx = 0;
-        gbcPnlAcciones.gridy = 4;
+        gbcPnlAcciones.gridy = 5;
         gbcPnlAcciones.gridwidth = 2;
         gbcPnlAcciones.anchor = GridBagConstraints.CENTER;
         gbcPnlAcciones.insets = new Insets(5, 0, 0, 0);
@@ -162,4 +184,6 @@ public class RegistrarTrabajosTecnicoView extends JFrame {
 	public void setTablaTrabajos(JTable tablaTrabajos) { this.tablaTrabajos = tablaTrabajos; }
 	public JTextArea getTextAreaComentarios() { return textAreaComentarios; }
 	public void setTextAreaComentarios(JTextArea textAreaComentarios) {	this.textAreaComentarios = textAreaComentarios; }
+	public JDatePickerImpl getDatePickerFecha() { return datePickerFecha; }
+	public void setDatePickerFecha(JDatePickerImpl datePickerFecha) { this.datePickerFecha = datePickerFecha; }
 }

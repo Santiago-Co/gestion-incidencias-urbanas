@@ -36,7 +36,7 @@ public class RegistrarTrabajosTecnicoModel {
 			+ "ORDER BY t.fecha DESC, t.id DESC";
 	
 	private static final String SQL_INSERT_COMENTARIO =
-		    "INSERT INTO trabajo (idIncidencia, fecha, descripcion) VALUES (?, datetime('now','localtime'), ?)";
+		    "INSERT INTO trabajo (idIncidencia, fecha, descripcion) VALUES (?, ?, ?)";
 	
 	public List<IncidenciaDTO> getIncidenciasTecnico(int id) {
 		return db.executeQueryPojo(IncidenciaDTO.class, SQL_LISTAR_INCIDENCIAS, id);
@@ -46,7 +46,7 @@ public class RegistrarTrabajosTecnicoModel {
 	    return db.executeQueryPojo(TrabajoDTO.class, SQL_LISTAR_TRABAJOS, idIncidencia);
 	}
 
-	public void registrarTrabajo(int idIncidencia, String comentario) {
-	    db.executeUpdate(SQL_INSERT_COMENTARIO, idIncidencia, comentario.trim());
+	public void registrarTrabajo(int idIncidencia, String fecha,  String comentario) {
+	    db.executeUpdate(SQL_INSERT_COMENTARIO, idIncidencia, fecha, comentario.trim());
 	}
 }
