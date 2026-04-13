@@ -65,6 +65,7 @@ public class ResolverIncidenciasController {
         int idIncidencia = (int) tabla.getValueAt(fila, columnIndex);
         String tipo = (String) tabla.getValueAt(fila, tabla.getColumnModel().getColumnIndex("Tipo"));
         
+        // Validar horas
 	    String horasTxt = view.getTextFieldHorasReales().getText().trim();
         Integer horas;
         if (horasTxt.isEmpty()) {
@@ -79,14 +80,30 @@ public class ResolverIncidenciasController {
 	        throw new ApplicationException("Las horas de trabajo finales deben ser un número entero");
         }
 
+        // Validar descripción
         String descripcionTrabajo = view.getTextAreaDescripcion().getText().trim();
         if (descripcionTrabajo.isEmpty()) {
 	        throw new ApplicationException("La descripción de los trabajos realizados es obligatoria");
         }
         
-        String mensajeConfirmacion = String.format("¿Desea marcar como resuelta la incidencia %d?", idIncidencia);
-        if(SwingUtil.showQuestionMessage(view, mensajeConfirmacion)) {
-    		model.resolverIncidencia(idIncidencia, usuarioId, horas, descripcionTrabajo);
+        // Validar coste
+        String costeTxt = view.getTextFieldCoste().getText().trim();
+        double costeMateriales;
+        if (costeTxt.isEmpty()) throw new ApplicationException("El coste de materiales es obligatorio");
+        try {
+            costeMateriales = Double.parseDouble(costeTxt.replace(",", "."));
+            if (costeMateriales < 0) throw new ApplicationException("El coste no puede ser negativo");
+        } catch (NumberFormatException e) {
+            throw new ApplicationException("El coste de materiales debe ser un número");
+        }
+        
+        double precioHora = model.getPrecioHoraSistema();
+        double costeTotal = (horas * precioHora) + costeMateriales;
+
+        String msg = String.format("Resumen de costes:\n- Mano de obra (%dh): %.2f€\n- Materiales: %.2f€\n- TOTAL: %.2f€\n\n¿Confirmar resolución de la incidencia %d?", 
+                                   horas, (horas * precioHora), costeMateriales, costeTotal, idIncidencia);
+        if(SwingUtil.showQuestionMessage(view, msg)) {
+    		model.resolverIncidencia(idIncidencia, usuarioId, horas, descripcionTrabajo, costeMateriales, costeTotal);
     		String fechaResolucion = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(new java.util.Date());
     		
     		int longitudMaxima = 30;
@@ -100,7 +117,8 @@ public class ResolverIncidenciasController {
     		+ "Tipo: " + tipo + "\n"
     		+ "Fecha Resolución: " + fechaResolucion + "\n"
     		+ "Horas dedicadas: " + horas + "\n"
-    		+ "Descripción Trabajos: " + resumenConfirmacion;
+    		+ "Descripción Trabajos: " + resumenConfirmacion + "\n"
+    		+ "Coste Total: " + costeTotal + " euros";
             SwingUtil.showSuccessMessage(view, mensajeResumen);
             listarIncidenciasTecnico();
     	}

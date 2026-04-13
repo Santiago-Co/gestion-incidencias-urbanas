@@ -13,6 +13,8 @@ public class IncidenciaDTO {
     private String descripcionFinalTrabajo;
     private String fechaCambio; // de la clase "Historia"
     private String estado;      // de la clase "Historia"
+    private double costeMateriales;
+    private double costeTotal;
     
     public IncidenciaDTO() {}
 
@@ -61,4 +63,10 @@ public class IncidenciaDTO {
 
 	public int getHorasReales() { return horasReales; }
 	public void setHorasReales(int horasReales) { this.horasReales = horasReales; }
+
+	public double getCosteMateriales() { return costeMateriales; }
+	public void setCosteMateriales(double costeMateriales) { this.costeMateriales = costeMateriales; }
+
+	public double getCosteTotal() { return costeTotal; }
+	public void setCosteTotal(double costeTotal) {	this.costeTotal = costeTotal; }
 }

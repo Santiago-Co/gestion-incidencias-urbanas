@@ -24,7 +24,7 @@ public class ResolverIncidenciasView extends JFrame{
 
 	private JScrollPane scrollTabla;
     private JTable tablaIncidencias;
-    private JTextField textFieldHorasReales;
+    private JTextField textFieldHorasReales, textFieldCoste;
     private JTextArea textAreaDescripcion;
     private JButton btnGuardar;
     private JButton btnClose;
@@ -66,6 +66,13 @@ public class ResolverIncidenciasView extends JFrame{
         JScrollPane scrollDesc = new JScrollPane(textAreaDescripcion);
         StyleUtil.styleTextArea(textAreaDescripcion, scrollDesc, 400, 200);
         
+        final JLabel lblCoste = new JLabel("Coste de los materiales empleados:");
+        StyleUtil.styleLabel(lblCoste, 14, false);
+        
+        textFieldCoste = new JTextField();
+        StyleUtil.styleTextField(textFieldCoste, 100, 30);
+        textFieldCoste.setColumns(6);
+        
         btnGuardar = new JButton("Guardar");
         StyleUtil.styleSecondaryButton(btnGuardar);
         
@@ -80,6 +87,8 @@ public class ResolverIncidenciasView extends JFrame{
         JPanel topPanel = StyleUtil.createTopPanel(this, titleWin, btnClose, this.getWidth());
         
         JPanel horasPanel = StyleUtil.createAbstractPanel();
+        
+        JPanel costePanel = StyleUtil.createAbstractPanel();
         
         JButton[] btns = {btnEliminar, btnGuardar};
         JPanel accionesPanel = StyleUtil.createActionsPanel(btns);
@@ -121,9 +130,16 @@ public class ResolverIncidenciasView extends JFrame{
         gbcScrollDescripcion.insets = new Insets(0, 0, 15, 0);
         mainPanel.add(scrollDesc, gbcScrollDescripcion);
         
+        GridBagConstraints gbcPnlCoste = new GridBagConstraints();
+        gbcPnlCoste.gridx = 1;
+        gbcPnlCoste.gridy = 4;
+        gbcPnlCoste.insets = new Insets(0, 0, 15, 0);
+        gbcPnlCoste.anchor = GridBagConstraints.WEST;
+        mainPanel.add(costePanel, gbcPnlCoste);
+        
         GridBagConstraints gbcPnlAcciones = new GridBagConstraints();
         gbcPnlAcciones.gridx = 1;
-        gbcPnlAcciones.gridy = 4;
+        gbcPnlAcciones.gridy = 5;
         gbcPnlAcciones.fill = GridBagConstraints.HORIZONTAL;
         mainPanel.add(accionesPanel, gbcPnlAcciones);
         
@@ -138,6 +154,18 @@ public class ResolverIncidenciasView extends JFrame{
         gbcTxtHoras.gridy = 0;
         gbcTxtHoras.insets = new Insets(0, 10, 0, 0);
         horasPanel.add(textFieldHorasReales, gbcTxtHoras);
+        
+        GridBagConstraints gbcLblCoste = new GridBagConstraints();
+        gbcLblCoste.gridx = 0;
+        gbcLblCoste.gridy = 0;
+        gbcLblCoste.anchor = GridBagConstraints.WEST;
+        costePanel.add(lblCoste, gbcLblHoras);
+        
+        GridBagConstraints gbcTxtCoste = new GridBagConstraints();
+        gbcTxtCoste.gridx = 1;
+        gbcTxtCoste.gridy = 0;
+        gbcTxtCoste.insets = new Insets(0, 10, 0, 0);
+        costePanel.add(textFieldCoste, gbcTxtCoste);
 
         // Inicializacion del JFrame
         
@@ -157,4 +185,6 @@ public class ResolverIncidenciasView extends JFrame{
 	public JButton getBtnClose() { return btnClose;	}
 	public void setBtnClose(JButton btnClose) {	this.btnClose = btnClose; }
 	public JButton getBtnEliminar() { return this.btnEliminar; }
+	public JTextField getTextFieldCoste() { return textFieldCoste; }
+	public void setTextFieldCoste(JTextField textFieldCoste) { this.textFieldCoste = textFieldCoste; }
 }

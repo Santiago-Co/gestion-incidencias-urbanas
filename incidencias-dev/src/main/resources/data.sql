@@ -6,6 +6,11 @@ DELETE FROM historia;
 DELETE FROM trabajo;
 
 -- ============================
+-- INSERTAR PARAMETROS
+-- ============================
+INSERT INTO parametros (clave, valor) VALUES ('PRECIO_HORA_TECNICO', '15.0');
+
+-- ============================
 -- INSERTAR USUARIOS
 -- ============================
 

@@ -6,6 +6,12 @@ DROP TABLE IF EXISTS incidencia;
 DROP TABLE IF EXISTS tipoIncidenciaTecnico;
 DROP TABLE IF EXISTS tipoIncidencia;
 DROP TABLE IF EXISTS usuario;
+DROP TABLE IF EXISTS parametros;
+
+CREATE TABLE parametros (
+    clave TEXT PRIMARY KEY,
+    valor TEXT NOT NULL
+);
 
 CREATE TABLE usuario (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -39,6 +45,8 @@ CREATE TABLE incidencia (
     horasReales INTEGER NULL,
     descripcionPreviaTrabajo TEXT NULL,
     descripcionFinalTrabajo TEXT NULL,
+    costeMateriales DECIMAL NULL,
+    costeTotal DECIMAL NULL,
     CHECK (localizacion IN ('Centro', 'Norte', 'Sur', 'Este', 'Oeste', 'Parque Central', 'Zona Universitaria', 'Poligono Industrial', 'Estacion', 'Hospital')),
     FOREIGN KEY (tipo) REFERENCES tipoIncidencia(id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (idCiudadano) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE

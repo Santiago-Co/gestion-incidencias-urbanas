@@ -29,7 +29,8 @@ public class ResolverIncidenciasModel {
 				 "WHERE et.idTecnico = ? AND hActual.estado = 'En proceso' " +
 				 "ORDER BY hCreacion.fechaCambio";
 	
-    private static final String SQL_NOTAS_INCIDENCIA = "UPDATE incidencia SET horasReales = ?, descripcionFinalTrabajo = ? WHERE id = ?";
+	private static final String SQL_NOTAS_INCIDENCIA = 
+		    "UPDATE incidencia SET horasReales = ?, descripcionFinalTrabajo = ?, costeMateriales = ?, costeTotal = ? WHERE id = ?";
 	
     private static final String SQL_INSERT_HISTORIAL = "INSERT INTO historia (idIncidencia, idOperador, estado, descripcion) " +
     		 										   "VALUES (?, NULL, ?, ?)";
@@ -39,24 +40,33 @@ public class ResolverIncidenciasModel {
     private static final String SQL_INSERT_EQUIPO_TECNICO = "INSERT INTO equipoTecnicos (idTecnico, idHistoria) " +
     													    "VALUES (?, ?)";
 	
+    private static final String SQL_GET_PRECIO_HORA = "SELECT valor FROM parametros WHERE clave = 'PRECIO_HORA_TECNICO'";
+    
 	public List<IncidenciaDTO> getIncidenciasTecnico(int id) {
 		List<IncidenciaDTO> incidenciasTecnico = db.executeQueryPojo(IncidenciaDTO.class, SQL_LISTAR_INCIDENCIAS, id);
 		return incidenciasTecnico;
 	}
 
-	public void resolverIncidencia(int idIncidencia, int idTecnico, Integer horasReales, String descripcionFinalTrabajo) {
-        db.executeUpdate(SQL_NOTAS_INCIDENCIA, horasReales, descripcionFinalTrabajo, idIncidencia);
+	public void resolverIncidencia(int idIncidencia, int idTecnico, Integer horasReales, String descripcionFinalTrabajo, double costeMateriales, double costeTotal) {
+        db.executeUpdate(SQL_NOTAS_INCIDENCIA, horasReales, descripcionFinalTrabajo, idIncidencia, costeMateriales, costeTotal);
 	    
 	    String comentario = "Resolución: horasReales=" + (horasReales == null ? "N/A" : horasReales)
 	                       + (descripcionFinalTrabajo == null || descripcionFinalTrabajo.isEmpty() ? "" : " - " + descripcionFinalTrabajo);
 	    
 	    db.executeUpdate(SQL_INSERT_HISTORIAL, idIncidencia, "Resuelta", comentario);
         int idHistoria = (int) db.executeQueryArray(SQL_GET_LAST_HISTORIA_ID, idIncidencia).get(0)[0];
-        db.executeUpdate(SQL_INSERT_EQUIPO_TECNICO, idTecnico, idHistoria);	}
+        db.executeUpdate(SQL_INSERT_EQUIPO_TECNICO, idTecnico, idHistoria);
+    }
 	
 	public void actualizarEstadoIncidenciaEliminar(int idIncidencia, int idTecnico, String detalleEliminar) {
 		db.executeUpdate(SQL_INSERT_HISTORIAL, idIncidencia, "Rechazado", detalleEliminar);
         int idHistoria = (int) db.executeQueryArray(SQL_GET_LAST_HISTORIA_ID, idIncidencia).get(0)[0];
-        db.executeUpdate(SQL_INSERT_EQUIPO_TECNICO, idTecnico, idHistoria);    }
+        db.executeUpdate(SQL_INSERT_EQUIPO_TECNICO, idTecnico, idHistoria);
+    }
+
+	public double getPrecioHoraSistema() {
+		String precioStr = db.executeQueryArray(SQL_GET_PRECIO_HORA).get(0)[0].toString();
+		return Double.parseDouble(precioStr);
+	}
 
 }
