@@ -168,6 +168,7 @@ public class DashboardView extends javax.swing.JFrame {
             	addButtonToPanel(btnRegistrarTrabajosTecnico);
                 break;
             case "Tecnico responsable":
+            	addButtonToPanel(btnHistorialIncidencia);
             	addButtonToPanel(btnCerrarIncidenciasEspecialidad);
             	break;
             default:

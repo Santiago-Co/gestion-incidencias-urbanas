@@ -60,7 +60,8 @@ INSERT INTO tipoIncidenciaTecnico (idTipo, idTecnico) VALUES
 (2, 10),
 (3, 11),
 (4, 12),
-(5, 13);
+(5, 13),
+(5, 14);
 
 -- ============================
 -- INSERTAR INCIDENCIAS

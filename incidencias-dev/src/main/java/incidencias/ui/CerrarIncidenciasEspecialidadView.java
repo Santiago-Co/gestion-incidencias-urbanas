@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 
 import util.swing.StyleUtil;
 
@@ -24,20 +26,23 @@ public class CerrarIncidenciasEspecialidadView extends JFrame{
 	private JTable tablaIncidencias;
     private JButton btnCerrar, btnClose;
     private JScrollPane scrollTabla;
+	private JLabel lblTitle;
 	
 	public CerrarIncidenciasEspecialidadView() {
 		setUndecorated(true);
         initComponents();
         setLocationRelativeTo(null);
+
+        this.setSize(900, 700); 
 	}
 
 	private void initComponents() {
         // Inicializacion de componentes
     	
-        final JLabel titleWin = new JLabel("Cierre de incidencias de una especialidad"); // AÑADIR LA ESPECIALIDAD DEL TECNICO
+        final JLabel titleWin = new JLabel("Cierre de incidencias de mi especialidad");
         StyleUtil.styleWindowTitle(titleWin);
         
-        final JLabel lblTitle = new JLabel("Incidencias resueltas en la especialidad:");
+        lblTitle = new JLabel("Incidencias resueltas en la especialidad:");
         StyleUtil.styleLabel(lblTitle, 26, true);
         
         tablaIncidencias = new JTable();
@@ -45,6 +50,7 @@ public class CerrarIncidenciasEspecialidadView extends JFrame{
         scrollTabla = new JScrollPane(tablaIncidencias);
         scrollTabla.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1));
         scrollTabla.setPreferredSize(new Dimension(500, 400));
+        tablaIncidencias.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION); // Permite múltiple selección con CTRL o SHIFT
         
         btnCerrar = new JButton("Cerrar");
         StyleUtil.styleSecondaryButtonRed(btnCerrar);
@@ -92,4 +98,6 @@ public class CerrarIncidenciasEspecialidadView extends JFrame{
 	public JTable getTablaIncidencias() { return tablaIncidencias; }
     public JButton getBtnCerrar() { return btnCerrar; }
     public JButton getBtnClose() { return btnClose; }
+    public JScrollPane getScrollTabla() { return scrollTabla; }
+	public JLabel getLblTitle() { return lblTitle; }
 }
