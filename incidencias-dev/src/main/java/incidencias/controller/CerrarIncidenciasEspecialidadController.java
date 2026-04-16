@@ -73,17 +73,37 @@ public class CerrarIncidenciasEspecialidadController {
 	    }
 
 	    if (SwingUtil.showQuestionMessage(view, mensaje)) {
-	        int exitos = 0;
+            int idIncBase = (int) tabla.getValueAt(filas[0], COL_ID);
+            Object[] infoBase = model.getInfoCierreIncidencia(idIncBase);
+            int idTipo = Integer.parseInt(infoBase[0].toString());
+            
+            double costeTotal = 0.0;
+            for (int fila : filas) {
+                Object[] info = model.getInfoCierreIncidencia((int) tabla.getValueAt(fila, COL_ID));
+                costeTotal += Double.parseDouble(info[1].toString());
+            }
+            
+            Double disponible = model.getPresupuestoRestante(idTipo);
+            
+            if (disponible == null) {
+            	SwingUtil.showErrorMessage(view, "No existe un presupuesto activo para la tipología de esta(s) incidencia(s).");
+            	return;
+            }
+	        if (costeTotal > disponible) {
+	        	SwingUtil.showErrorMessage(view, "El coste total de las incidencias seleccionadas supera el presupuesto disponible para la tipología:\n\n" 
+	        			+ "Presupuesto disponible: " + disponible + " €\n"
+	        			+ "Coste total: " + costeTotal + " €");
+                return;
+            }
+            
 	        for (int fila : filas) {
-	            int id = (int) tabla.getValueAt(fila, 0);
-	              
-	            model.cerrarIncidencia(id, idTecnico, "Cierre masivo verificado por responsable.");
-	            exitos++;
+	        	int id = (int) tabla.getValueAt(fila, 0);
+	            model.cerrarIncidencia(id, idTecnico, "Cierre verificado por el responsable. Coste imputado al presupuesto.");
 	        }
-	            
-	        SwingUtil.showSuccessMessage(view, exitos + " incidencia(s) cerrada(s) con éxito.");
+	        
+	        SwingUtil.showSuccessMessage(view, filas.length + " incidencia(s) cerrada(s) con éxito.\nSu coste ha sido imputado al presupuesto de activo de la tipología.");
 	        listarIncidencias();
-	    }
-	}
-    
+	        
+        }
+	}   
 }

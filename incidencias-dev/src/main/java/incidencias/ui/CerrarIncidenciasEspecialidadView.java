@@ -31,9 +31,10 @@ public class CerrarIncidenciasEspecialidadView extends JFrame{
 	public CerrarIncidenciasEspecialidadView() {
 		setUndecorated(true);
         initComponents();
-        setLocationRelativeTo(null);
-
+        
+        this.pack();
         this.setSize(900, 700); 
+        setLocationRelativeTo(null);
 	}
 
 	private void initComponents() {
@@ -72,7 +73,7 @@ public class CerrarIncidenciasEspecialidadView extends JFrame{
         GridBagConstraints gbcTitle = new GridBagConstraints();
         gbcTitle.gridx = 0;
         gbcTitle.gridy = 0;
-        gbcTitle.insets = new Insets(5, 5, 10, 5);
+        gbcTitle.insets = new Insets(5, 5, 5, 5);
         gbcTitle.fill = GridBagConstraints.HORIZONTAL;
         mainPanel.add(lblTitle, gbcTitle);
 
@@ -86,7 +87,7 @@ public class CerrarIncidenciasEspecialidadView extends JFrame{
         GridBagConstraints gbcPnlAcciones = new GridBagConstraints();
         gbcPnlAcciones.gridx = 0;
         gbcPnlAcciones.gridy = 2;
-        gbcPnlAcciones.insets = new Insets(5, 5, 10, 5);
+        gbcPnlAcciones.insets = new Insets(5, 5, 0, 5);
         gbcPnlAcciones.fill = GridBagConstraints.CENTER;
         mainPanel.add(accionesPanel, gbcPnlAcciones);
         

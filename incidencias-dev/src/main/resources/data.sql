@@ -4,6 +4,7 @@ DELETE FROM tipoIncidenciaTecnico;
 DELETE FROM incidencia;
 DELETE FROM historia;
 DELETE FROM trabajo;
+DELETE FROM presupuesto;
 
 -- ============================
 -- INSERTAR PARAMETROS
@@ -220,3 +221,12 @@ INSERT INTO equipoTecnicos (idTecnico, idHistoria) VALUES
 
 INSERT INTO trabajo (idIncidencia, fecha, descripcion) VALUES
 (8, '2026-01-13 14:00:00', 'lorem ipsum');
+
+-- ===============================
+-- INSERTAR PRESUPUESTOS
+-- ===============================
+
+INSERT INTO presupuesto (idTipoIncidencia, importe, concepto) 
+VALUES (5, 200.0, 'Señalización y calzada');
+UPDATE incidencia SET costeTotal = 150.0 WHERE id = 13;
+UPDATE incidencia SET costeTotal = 100.0 WHERE id = 17;
