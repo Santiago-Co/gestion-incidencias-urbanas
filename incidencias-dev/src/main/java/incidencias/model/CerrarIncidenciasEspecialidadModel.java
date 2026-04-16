@@ -30,6 +30,11 @@ public class CerrarIncidenciasEspecialidadModel {
 	    private static final String SQL_INSERT_EQUIPO_TECNICO = 
 	        "INSERT INTO equipoTecnicos (idTecnico, idHistoria) VALUES (?, ?)";
 	    
+	    private static final String SQL_GET_NOMBRE_ESPECIALIDAD =
+	    	"SELECT ti.nombre FROM tipoIncidencia ti " +
+		    "JOIN tipoIncidenciaTecnico tit ON ti.id = tit.idTipo " +
+		    "WHERE tit.idTecnico = ? LIMIT 1";
+	    
 	    public List<IncidenciaDTO> getIncidenciasResueltasEspecialidad(int idTecnicoResponsable) {
 	        return db.executeQueryPojo(IncidenciaDTO.class, SQL_LISTAR_RESUELTAS, idTecnicoResponsable);
 	    }
@@ -42,10 +47,7 @@ public class CerrarIncidenciasEspecialidadModel {
 	    }
 
 		public String getNombreEspecialidad(int idTecnico) {
-			String sql = "SELECT ti.nombre FROM tipoIncidencia ti " +
-	                 "JOIN tipoIncidenciaTecnico tit ON ti.id = tit.idTipo " +
-	                 "WHERE tit.idTecnico = ? LIMIT 1";
-			List<Object[]> res = db.executeQueryArray(sql, idTecnico);
+			List<Object[]> res = db.executeQueryArray(SQL_GET_NOMBRE_ESPECIALIDAD, idTecnico);
 			if (res.isEmpty()) return "General";
 			return res.get(0)[0].toString();
 		}

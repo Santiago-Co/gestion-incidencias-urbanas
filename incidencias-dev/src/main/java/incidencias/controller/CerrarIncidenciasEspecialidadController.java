@@ -21,6 +21,8 @@ public class CerrarIncidenciasEspecialidadController {
 	private static final String[] TITULOS_TABLA = {"ID", "Tipo", "Localización", "Horas", "Coste (€)", "Trabajo Realizado", "Fecha Res."};
 
 		private static final String[] POJO_FIELDS = {"id", "tipo", "localizacion", "horasReales", "costeTotal", "descripcionFinalTrabajo", "fechaCambio"};
+		private static final int COL_DESCRIPCION = 5;
+		private static final int COL_ID = 0;
 	
 	public CerrarIncidenciasEspecialidadController(CerrarIncidenciasEspecialidadView view, CerrarIncidenciasEspecialidadModel model, DashboardView viewDsb, int idTecnico) {
 		this.view = view;
@@ -46,7 +48,7 @@ public class CerrarIncidenciasEspecialidadController {
         
         JTable tabla = view.getTablaIncidencias();
         SwingUtil.setTableStyle(tabla, null, TITULOS_TABLA);
-        SwingUtil.setDescriptionColumnStyle(tabla, 5, 230);
+        SwingUtil.setDescriptionColumnStyle(tabla, COL_DESCRIPCION, 230);
         SwingUtil.autoAdjustColumns(tabla, view.getScrollTabla());
 	}
 
@@ -64,25 +66,23 @@ public class CerrarIncidenciasEspecialidadController {
 		
 		String mensaje;
 	    if (filas.length == 1) {
-	        int idIncidencia = (int) tabla.getValueAt(filas[0], 0);
+	        int idIncidencia = (int) tabla.getValueAt(filas[0], COL_ID);
 	        mensaje = "¿Está seguro de que desea cerrar la incidencia " + idIncidencia + "?";
 	    } else {
 	        mensaje = String.format("¿Está seguro de que desea cerrar las %d incidencias seleccionadas?", filas.length);
 	    }
 
 	    if (SwingUtil.showQuestionMessage(view, mensaje)) {
-	        SwingUtil.exceptionWrapper(() -> {
-	            int exitos = 0;
-	            for (int fila : filas) {
-	                int id = (int) tabla.getValueAt(fila, 0);
-	                
-	                model.cerrarIncidencia(id, idTecnico, "Cierre masivo verificado por responsable.");
-	                exitos++;
-	            }
+	        int exitos = 0;
+	        for (int fila : filas) {
+	            int id = (int) tabla.getValueAt(fila, 0);
+	              
+	            model.cerrarIncidencia(id, idTecnico, "Cierre masivo verificado por responsable.");
+	            exitos++;
+	        }
 	            
-	            SwingUtil.showSuccessMessage(view, exitos + " incidencia(s) cerrada(s) con éxito.");
-	            listarIncidencias();
-	        });
+	        SwingUtil.showSuccessMessage(view, exitos + " incidencia(s) cerrada(s) con éxito.");
+	        listarIncidencias();
 	    }
 	}
     
