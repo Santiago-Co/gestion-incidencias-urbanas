@@ -6,6 +6,7 @@ import incidencias.model.ClasificarIncidenciasModel;
 import incidencias.model.ConsultaIncidenciasModel;
 import incidencias.model.CrearIncidenciaModel;
 import incidencias.model.DashboardModel;
+import incidencias.model.ExportarHistorialModel;
 import incidencias.model.HistorialIncidenciaModel;
 import incidencias.model.InformesIncidenciasRegistradasModel;
 import incidencias.model.InformesIncidenciasTecnicosModel;
@@ -20,6 +21,7 @@ import incidencias.ui.ClasificarIncidenciasView;
 import incidencias.ui.ConsultaIncidenciasView;
 import incidencias.ui.CrearIncidenciaView;
 import incidencias.ui.DashboardView;
+import incidencias.ui.ExportarHistorialView;
 import incidencias.ui.HistorialIncidenciaView;
 import incidencias.ui.InformesIncidenciasRegistradasView;
 import incidencias.ui.InformesIncidenciasTecnicosView;
@@ -66,6 +68,7 @@ public class DashboardController {
         // --- Botones de OPERADOR ---
         view.getBtnClasificarIncidencia().addActionListener(e -> abrirValidarIncidencias());
         view.getBtnAsignarIncidencia().addActionListener(e -> abrirAsignarIncidencia());
+        view.getBtnExportarHistorial().addActionListener(e -> abrirExportarHistorial());
         
         // --- Botones de TECNICO ---
         view.getBtnPlanificarIncidencia().addActionListener(e -> abrirPlanificarIncidencias());
@@ -164,6 +167,13 @@ public class DashboardController {
     	CerrarIncidenciasEspecialidadView histView = new CerrarIncidenciasEspecialidadView();
     	CerrarIncidenciasEspecialidadModel histModel = new CerrarIncidenciasEspecialidadModel();
         new CerrarIncidenciasEspecialidadController(histView, histModel, this.view, model.getUsuarioActual().getId());
+        view.setVisible(false);
+    }
+    
+    private void abrirExportarHistorial() {
+    	ExportarHistorialView histView = new ExportarHistorialView();
+    	ExportarHistorialModel histModel = new ExportarHistorialModel();
+        new ExportarHistorialController(histView, histModel, this.view);
         view.setVisible(false);
     }
 }
