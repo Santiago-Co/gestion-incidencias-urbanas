@@ -5,6 +5,7 @@ import incidencias.model.CerrarIncidenciasEspecialidadModel;
 import incidencias.model.ClasificarIncidenciasModel;
 import incidencias.model.ConsultaIncidenciasModel;
 import incidencias.model.CrearIncidenciaModel;
+import incidencias.model.CrearPresupuestosModel;
 import incidencias.model.DashboardModel;
 import incidencias.model.ExportarHistorialModel;
 import incidencias.model.HistorialIncidenciaModel;
@@ -20,6 +21,7 @@ import incidencias.ui.CerrarIncidenciasEspecialidadView;
 import incidencias.ui.ClasificarIncidenciasView;
 import incidencias.ui.ConsultaIncidenciasView;
 import incidencias.ui.CrearIncidenciaView;
+import incidencias.ui.CrearPresupuestosView;
 import incidencias.ui.DashboardView;
 import incidencias.ui.ExportarHistorialView;
 import incidencias.ui.HistorialIncidenciaView;
@@ -64,11 +66,13 @@ public class DashboardController {
         view.getBtnCrearIncidencia().addActionListener(e -> abrirCrearIncidencia());
         view.getBtnConsultarMisIncidencias().addActionListener(e -> abrirConsultarMisIncidencias());
         view.getBtnInformesIncidenciasTecnicos().addActionListener(e -> abrirInformesIncidenciasTecnicos());
+       
 
         // --- Botones de OPERADOR ---
         view.getBtnClasificarIncidencia().addActionListener(e -> abrirValidarIncidencias());
         view.getBtnAsignarIncidencia().addActionListener(e -> abrirAsignarIncidencia());
         view.getBtnExportarHistorial().addActionListener(e -> abrirExportarHistorial());
+        view.getBtnCrearPresupuesto().addActionListener(e -> abrirCrearPresupuestos());
         
         // --- Botones de TECNICO ---
         view.getBtnPlanificarIncidencia().addActionListener(e -> abrirPlanificarIncidencias());
@@ -175,5 +179,12 @@ public class DashboardController {
     	ExportarHistorialModel histModel = new ExportarHistorialModel();
         new ExportarHistorialController(histView, histModel, this.view);
         view.setVisible(false);
+    }
+    
+    private void abrirCrearPresupuestos() {
+    	CrearPresupuestosView histView = new CrearPresupuestosView();
+    	CrearPresupuestosModel histModel = new CrearPresupuestosModel();
+    	new CrearPresupuestosController(histView, histModel, this.view); 
+    	view.setVisible(false);
     }
 }
