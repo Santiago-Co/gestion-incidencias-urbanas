@@ -25,6 +25,7 @@ public class DashboardView extends javax.swing.JFrame {
     private JButton btnRegistrarTrabajosTecnico;
     private JButton btnCerrarIncidenciasEspecialidad;
     private JButton btnExportarHistorial;
+    private JButton btnReabrirIncidenciaCiudadano; 
     
     public DashboardView() {
         setUndecorated(true);
@@ -82,6 +83,9 @@ public class DashboardView extends javax.swing.JFrame {
         
         btnExportarHistorial = new JButton("Exportar historial de incidencias"); 
         StyleUtil.styleMainButton(btnExportarHistorial);
+        
+        btnReabrirIncidenciaCiudadano = new JButton("Reabrir incidencias");
+        StyleUtil.styleMainButton(btnReabrirIncidenciaCiudadano);
         
         btnLogout = new JButton("Cerrar Sesión");
         StyleUtil.styleLogoutButton(btnLogout); 
@@ -156,6 +160,7 @@ public class DashboardView extends javax.swing.JFrame {
             case "Ciudadano":
             	addButtonToPanel(btnCrearIncidencia);
             	addButtonToPanel(btnConsultarMisIncidencias);
+            	addButtonToPanel(btnReabrirIncidenciaCiudadano);
                 break;
             
             case "Operador":
@@ -202,4 +207,5 @@ public class DashboardView extends javax.swing.JFrame {
 	public JButton getBtnRegistrarTrabajosTecnico() { return btnRegistrarTrabajosTecnico; }
 	public JButton getBtnExportarHistorial() { return btnExportarHistorial; }
 	public JButton getBtnCerrarIncidenciasEspecialidad() { return btnCerrarIncidenciasEspecialidad; }
+	public JButton getBtnReabrirIncidenciaCiudadano() { return btnReabrirIncidenciaCiudadano; }
 }
