@@ -30,10 +30,26 @@ public class ReabrirIncidenciaCiudadanoView extends JFrame {
         initModal();
     }
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     private void initComponents() {
         
-        // Inicializacion de componentes
-
         JLabel titleWin = new JLabel("Reabrir incidencias");
         StyleUtil.styleWindowTitle(titleWin);
         
@@ -43,7 +59,7 @@ public class ReabrirIncidenciaCiudadanoView extends JFrame {
         final JLabel lblDesc = new JLabel("Selecciona una incidencia del listado para solicitar su reapertura.");
         StyleUtil.styleLabel(lblDesc, 14, false);
 
-        // Se elimina Fecha/Hora y se añade Localización
+        
         String[] columnas = {"ID", "Tipo", "Descripción", "Localización", "Estado"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
         tablaIncidencias = new JTable(modelo) {
@@ -65,8 +81,6 @@ public class ReabrirIncidenciaCiudadanoView extends JFrame {
 
         btnClose = new JButton();
         StyleUtil.styleCloseButton(btnClose);
-
-        // Creacion de las secciones de la pantalla
         
         JPanel topPanel = StyleUtil.createTopPanel(this, titleWin, btnClose, this.getWidth());
         
@@ -75,7 +89,6 @@ public class ReabrirIncidenciaCiudadanoView extends JFrame {
         
         JPanel mainPanel = StyleUtil.createMainPanel();
 
-        // Colocacion de los componentes de la pantalla
         
         GridBagConstraints gbcTitle = new GridBagConstraints();
         gbcTitle.gridx = 0;
@@ -105,15 +118,11 @@ public class ReabrirIncidenciaCiudadanoView extends JFrame {
         gbcPnlAcciones.fill = GridBagConstraints.HORIZONTAL;
         mainPanel.add(accionesPanel, gbcPnlAcciones);
 
-        // Inicializacion del JFrame
-        
         StyleUtil.setupWindow(this, topPanel, mainPanel, false);
     }
 
     private void initModal() {
         
-        // Inicializacion de componentes del modal
-
         modalReabrir = new JDialog(this, "Reabrir incidencia", true);
         modalReabrir.setUndecorated(true);
         modalReabrir.setSize(520, 420);
@@ -142,8 +151,6 @@ public class ReabrirIncidenciaCiudadanoView extends JFrame {
         btnCancelarReapertura = new JButton("Cancelar");
         StyleUtil.styleSecondaryButton(btnCancelarReapertura);
 
-        // Creacion de las secciones del modal
-
         JPanel topPanelModal = StyleUtil.createTopPanel(null, titleModal, btnCloseModal, 520);
         SwingUtil.enableWindowDrag(modalReabrir, topPanelModal);
 
@@ -151,8 +158,6 @@ public class ReabrirIncidenciaCiudadanoView extends JFrame {
         JPanel accionesPanelModal = StyleUtil.createActionsPanel(btnsModal);
 
         JPanel mainPanelModal = StyleUtil.createMainPanel();
-
-        // Colocacion de los componentes del modal
 
         GridBagConstraints gbcHelp = new GridBagConstraints();
         gbcHelp.gridx = 0; 
@@ -181,8 +186,6 @@ public class ReabrirIncidenciaCiudadanoView extends JFrame {
         gbcAcc.insets = new Insets(5, 5, 10, 5);
         gbcAcc.fill = GridBagConstraints.HORIZONTAL;
         mainPanelModal.add(accionesPanelModal, gbcAcc);
-
-        // Ensamblaje final del modal
 
         modalReabrir.getContentPane().setLayout(new BorderLayout());
         modalReabrir.getContentPane().add(topPanelModal, BorderLayout.NORTH);
