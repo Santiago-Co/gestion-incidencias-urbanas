@@ -1,5 +1,6 @@
 package incidencias.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import incidencias.model.DTOs.IncidenciaDTO;
 import incidencias.model.DTOs.TecnicoDTO;
@@ -10,7 +11,13 @@ import util.database.Database;
 public class AsignacionIncidenciasModel {
 	    
     private Database db = new Database();
-
+    
+    /* 
+     * Esta consulta devuelve todas las incidencias que se encuentren actualmente en estado 'Validada'
+     * en el historial, ordenadas según la fecha en la que fueron registradas originalmente (las más
+     * antiguas primero). De cada incidencia se extrae su ID, tipo, descripción, fecha de creación y
+     * estado actual.
+    */
     private static final String SQL_INCIDENCIAS_VALIDADAS = "SELECT i.id, " +
     													    "ti.nombre AS tipo, " +
     													    "i.descripcion, " +
@@ -31,6 +38,12 @@ public class AsignacionIncidenciasModel {
 														    "WHERE hActual.estado = 'Validada' " +
 														    "ORDER BY hCreacion.fechaCambio";
     
+    /* 
+     * Esta consulta devuelve todos los técnicos del tipo especificado como parámetro, ordenados según el número de 
+     * incidencias que tengan asignadas (los que menos tienen primero). De cada técnico se extrae su ID, nombre y apellidos, 
+     * tipo y número de incidencias asignadas (se considera que una incidencia permanece asignada a un técnico mientras esté
+     * en estado 'Asignada', 'En proceso' o 'Resuelta')
+    */
     private static final String SQL_LISTA_TECNICOS = "SELECT u.id, u.nombre, u.apellidos, " +
     												 "ti.nombre AS tipo, " +
     												 "COUNT(DISTINCT hActual.idIncidencia) AS numAsignadas " +
@@ -79,7 +92,7 @@ public class AsignacionIncidenciasModel {
     	return incidencias;
     }
     
-    public void asignarIncidencia(int idIncidencia, int[] idTecnicos, int idOperador) {
+    public boolean asignarIncidencia(int idIncidencia, int[] idTecnicos, int idOperador) {
     	    	
     	String descripcion = String.format("Incidencia asignada por el operador %d a los técnicos: ", idOperador);
     	
@@ -97,11 +110,20 @@ public class AsignacionIncidenciasModel {
     	db.executeUpdate(SQL_INSERT_HISTORIAL, idIncidencia, idOperador, formatter.toString());
     	
     	List<HistoriaEntity> historias = db.executeQueryPojo(HistoriaEntity.class, SQL_ID_HISTORIAL, idIncidencia);
+    	if(historias.isEmpty()) {
+    		return false;
+    	}
     	int idHistoria = historias.get(0).getId();
     	
+    	List<Object[]> listaParams = new ArrayList<>();
+    	
     	for(int idTec : idTecnicos) {
-        	LogSystem.logFlow("Asignacion incidencia en equipoTecnicos", "ejecución query");
-    		db.executeUpdate(SQL_INSERT_TECNICOS, idTec, idHistoria);
+    		listaParams.add(new Object[] {idTec, idHistoria});
     	}
+    	
+    	LogSystem.logFlow("Asignacion incidencia en equipoTecnicos", "ejecución query");
+		db.executeBatchParams(SQL_INSERT_TECNICOS, listaParams);
+    	
+    	return true;
     }
 }

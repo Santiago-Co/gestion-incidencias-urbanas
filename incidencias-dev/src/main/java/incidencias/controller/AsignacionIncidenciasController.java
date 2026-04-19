@@ -40,7 +40,10 @@ public class AsignacionIncidenciasController {
 	private static final int COLUMNA_NOMBRE = 1;
 	private static final int COLUMNA_APELLIDOS = 2;
 	private static final int COLUMNA_ASIGNADAS = 4;
-
+	
+	//Mensajes de dialogos en pantalla
+	private static final String CONFIRMACION = "¿Desea asignar la incidencia %d a estos técnicos?:";
+	private static final String EXITO = "La incidencia %d se asignó correctamente a los técnicos:";
 	
     public AsignacionIncidenciasController(AsignacionIncidenciasView l, AsignacionIncidenciasModel m, int id, DashboardView viewDsb) {
         this.view = l;
@@ -122,7 +125,7 @@ public class AsignacionIncidenciasController {
     	int idIn  = Integer.parseInt(idIncidencia);
     	int[] idTecnicos = new int[idFilasTecnicos.length];
     	
-    	String mensajeConfirmacion = String.format("¿Desea asignar la incidencia %d a estos técnicos?:", idIn);;
+    	String mensajeConfirmacion = String.format(CONFIRMACION, idIn);;
     	
     	int i = 0;
     	StringBuilder formatter1 = new StringBuilder(mensajeConfirmacion);
@@ -136,13 +139,15 @@ public class AsignacionIncidenciasController {
     	}
     	
     	if(SwingUtil.showQuestionMessage(view, formatter1.toString())) {
-    		model.asignarIncidencia(idIn, idTecnicos, idUsuario);
+    		if(!model.asignarIncidencia(idIn, idTecnicos, idUsuario)) {
+    			SwingUtil.showErrorMessage(view, "Ha ocurrido un error al asignar la incidencia");
+    		}
     		JTable tablaIncidencias = view.getTablaIncidencias();
     		DefaultTableModel modelTabla = (DefaultTableModel) tablaIncidencias.getModel();
     		modelTabla.removeRow(tablaIncidencias.getSelectedRow());
     		view.getTablaTecnicos().setModel(new DefaultTableModel());
     		
-    		String mensajeExito = String.format("La incidencia %d se asignó correctamente a los técnicos:", idIn);
+    		String mensajeExito = String.format(EXITO, idIn);
     		StringBuilder formatter2 = new StringBuilder(mensajeExito);
     		formatter2.append(" ").append(formatter1.toString().split(":")[1]);
     		SwingUtil.showSuccessMessage(view, formatter2.toString());

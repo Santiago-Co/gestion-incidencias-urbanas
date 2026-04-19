@@ -5,6 +5,7 @@ import java.awt.Component;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
+import exceptions.UnexpectedException;
 
 public class TableCellRendererAsignacion extends DefaultTableCellRenderer {
 
@@ -19,8 +20,10 @@ public class TableCellRendererAsignacion extends DefaultTableCellRenderer {
         setHorizontalAlignment(SwingConstants.CENTER);
     }
 
-	private boolean esFilaBloqueada(JTable tabla, int row) {
-    	return (int)tabla.getModel().getValueAt(row, filaAsignadas) >= maxAsignadas;
+	private boolean esFilaBloqueada(JTable tabla, int row) throws UnexpectedException{
+		Object numAsignadas = tabla.getModel().getValueAt(row, filaAsignadas);
+		if(numAsignadas == null) throw new UnexpectedException("Ha ocurrido un error al cargar la tabla de técnicos disponibles");
+    	return (int)numAsignadas >= maxAsignadas;
     }
 	
     @Override
