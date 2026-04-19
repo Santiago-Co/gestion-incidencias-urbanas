@@ -16,17 +16,18 @@ public class ClasificarIncidenciasModel {
 
 	private static final String SQL_TIPO_INCIDENCIA = "SELECT id AS tipo FROM tipoIncidencia " +
 			  										  "WHERE nombre = ?";
-    
+	
     private static final String SQL_LISTA_INCIDENCIAS = "SELECT i.id, " +
-    													"ti.nombre AS tipo, " +
-    													"i.descripcion, h.fechaCambio, h.estado " +
-    													"FROM incidencia i " +
-    													"JOIN tipoIncidencia ti ON i.tipo = ti.id " +
-    													"JOIN historia h ON h.idIncidencia = i.id " +
-    													"WHERE h.estado = 'Nueva' " +
-    													"AND h.id = (SELECT MIN(h1.id) FROM historia h1 WHERE h1.idIncidencia = i.id) " +
-    													"AND h.id = (SELECT MAX(h2.id) FROM historia h2 WHERE h2.idIncidencia = i.id) " +
-    													"ORDER BY h.fechaCambio";
+    	    											"ti.nombre AS tipo, " +
+    	    											"i.descripcion, " +
+    	    											"h.fechaCambio, " +
+    	    											"h.estado " +
+    	    											"FROM incidencia i " +
+    	    											"JOIN tipoIncidencia ti ON i.tipo = ti.id " +
+    	    											"JOIN historia h ON h.idIncidencia = i.id " +
+    	    											"WHERE h.id = (SELECT MAX(h2.id) FROM historia h2 WHERE h2.idIncidencia = i.id) " +
+    	    											"AND h.estado = 'Nueva' " +
+    	    											"ORDER BY h.fechaCambio";
 
     private static final String SQL_ACTUALIZAR_TIPO = "UPDATE incidencia SET tipo = ? WHERE id = ?";
     

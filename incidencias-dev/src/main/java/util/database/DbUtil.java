@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -182,6 +183,26 @@ public abstract class DbUtil {
 			for (String sql : sqls)
 				stmt.addBatch(sql);
 			stmt.executeBatch();
+		} catch (SQLException e) {
+			// Importante:  no dejar pasar las excepciones 
+			// (no limitarse a dejar el codigo autogenerado por Eclipse con printStackTrace)
+			throw new UnexpectedException(e);
+		}
+	}
+	
+	/**
+	 * Ejecuta un conjunto de sentencias sql de actualizacion con parámetros en un unico batch
+	 */
+	public void executeBatchParams(String sql, List<Object[]> params) {
+		LogSystem.logFlow("BATCH EXEC", "Procesando batch de tamaño: " + params.size());
+		try (Connection cn = DriverManager.getConnection(getUrl()); PreparedStatement pstmt = cn.prepareStatement(sql)) {
+			for (Object[] rowParams : params) {
+	            for (int i=0; i<rowParams.length; i++) {
+	                pstmt.setObject(i + 1, rowParams[i]);
+	            }
+	            pstmt.addBatch();
+	        }
+			pstmt.executeBatch();
 		} catch (SQLException e) {
 			// Importante:  no dejar pasar las excepciones 
 			// (no limitarse a dejar el codigo autogenerado por Eclipse con printStackTrace)

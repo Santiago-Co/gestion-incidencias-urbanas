@@ -111,71 +111,71 @@ INSERT INTO historia (idIncidencia, idOperador, fechaCambio, estado, descripcion
 
 (5, NULL, '2026-02-09 09:40:00', 'Nueva',    'Incidencia registrada por el ciudadano 2'),
 (5, 3, 	  '2026-02-09 17:20:00', 'Validada', 'Incidencia validada por el operador 3'),
-(5, 3, 	  '2026-02-10 15:00:00', 'Asignada', 'Incidencia asignada por el operador 3 al tecnico 4'),
+(5, 3, 	  '2026-02-10 15:00:00', 'Asignada', 'Incidencia asignada por el operador 3 a los técnicos: 4'),
 
 (6, NULL, '2025-12-23 09:50:00', 'Nueva',    'Incidencia registrada por el ciudadano 1'),
 (6, 3, 	  '2026-01-08 12:30:00', 'Validada', 'Incidencia validada por el operador 3'),
 
 (7, NULL, '2025-11-26 10:00:00', 'Nueva', 	   'Incidencia registrada por el ciudadano 1'),
 (7, 3, 	  '2025-11-27 17:40:00', 'Validada',   'Incidencia validada por el operador 3'),
-(7, 3,	  '2025-12-03 16:10:00', 'Asignada',   'Incidencia asignada por el operador 3 al tecnico 8'),
+(7, 3,	  '2025-12-03 16:10:00', 'Asignada',   'Incidencia asignada por el operador 3 a los técnicos: 8,13'),
 (7, NULL, '2025-12-18 12:00:00', 'En proceso', 'Incidencia en proceso de reparacion'),
 
 (8, NULL, '2026-01-20 10:10:00', 'Nueva', 	   'Incidencia registrada por el ciudadano 2'),
 (8, 3,    '2026-01-21 09:50:00', 'Validada',   'Incidencia validada por el operador 3'),
-(8, 3,    '2026-02-03 11:20:00', 'Asignada',   'Incidencia asignada por el operador 3 al tecnico 7'),
+(8, 3,    '2026-02-03 11:20:00', 'Asignada',   'Incidencia asignada por el operador 3 a los técnicos: 7,12'),
 (8, NULL, '2026-02-10 12:10:00', 'En proceso', 'Incidencia en proceso de reparacion'),
 (8, NULL, '2026-02-17 14:00:00', 'Resuelta',   'Incidencia resuelta. Trabajos realizados: lorem ipsum'),
 
 (9, NULL, '2025-12-07 10:20:00', 'Nueva',    'Incidencia registrada por el ciudadano 2'),
 (9, 3,    '2025-12-08 11:00:00', 'Validada', 'Incidencia validada por el operador 3'),
-(9, 3,    '2025-12-13 11:30:00', 'Asignada', 'Incidencia asignada por el operador 3 al tecnico 6'),
+(9, 3,    '2025-12-13 11:30:00', 'Asignada', 'Incidencia asignada por el operador 3 aa los técnicos: 6'),
 
 -- Incidencias marzo 2026
 (10, NULL, '2026-03-02 09:10:00', 'Nueva', 	    'Incidencia registrada por el ciudadano 1'),
 (10, 3,    '2026-03-02 12:00:00', 'Validada',   'Incidencia validada por el operador 3'),
-(10, 3,    '2026-03-03 10:00:00', 'Asignada',   'Incidencia asignada por el operador 3 al tecnico 4'),
+(10, 3,    '2026-03-03 10:00:00', 'Asignada',   'Incidencia asignada por el operador 3 a los técnicos: 4,9'),
 (10, NULL, '2026-03-04 15:00:00', 'En proceso', 'Incidencia en proceso de reparacion'),
 (10, NULL, '2026-03-05 17:00:00', 'Resuelta',   'Incidencia resuelta. Trabajos realizados: lorem ipsum'),
 (10, NULL, '2026-03-06 09:00:00', 'Cerrada',    'Incidencia cerrada'),
 
 (11, NULL, '2026-03-10 08:30:00', 'Nueva', 	    'Incidencia registrada por el ciudadano 2'),
 (11, 3,    '2026-03-10 11:00:00', 'Validada',   'Incidencia validada por el operador 3'),
-(11, 3,    '2026-03-11 09:00:00', 'Asignada',   'Incidencia asignada por el operador 3 al tecnico 5'),
+(11, 3,    '2026-03-11 09:00:00', 'Asignada',   'Incidencia asignada por el operador 3 a los técnicos: 5'),
 (11, NULL, '2026-03-12 14:00:00', 'En proceso', 'Incidencia en proceso de reparacion'),
 
 (12, NULL, '2026-03-15 10:00:00', 'Nueva',    'Incidencia registrada por el ciudadano 1'),
 (12, 3,    '2026-03-15 12:00:00', 'Validada', 'Incidencia validada por el operador 3'),
-(12, 3,    '2026-03-16 09:30:00', 'Asignada', 'Incidencia asignada por el operador 3 al tecnico 7'),
+(12, 3,    '2026-03-16 09:30:00', 'Asignada', 'Incidencia asignada por el operador 3 a los técnicos: 7'),
 
 (13, NULL, '2026-03-20 08:00:00', 'Nueva',      'Incidencia registrada por el ciudadano 2'),
 (13, 3,    '2026-03-20 10:00:00', 'Validada',   'Incidencia validada por el operador 3'),
-(13, 3,    '2026-03-21 11:00:00', 'Asignada',   'Incidencia asignada por el operador 3 al tecnico 8'),
+(13, 3,    '2026-03-21 11:00:00', 'Asignada',   'Incidencia asignada por el operador 3 a los técnicos: 8,13'),
 (13, NULL, '2026-03-22 16:00:00', 'En proceso', 'Incidencia en proceso de reparacion'),
 (13, NULL, '2026-03-26 19:00:00', 'Resuelta',   'Incidencia resuelta. Trabajos realizados: lorem ipsum'),
 
 -- Incidencias abril 2026
 (14, NULL, '2026-04-03 09:00:00', 'Nueva', 	    'Incidencia registrada por el ciudadano 1'),
 (14, 3,    '2026-04-03 12:00:00', 'Validada',   'Incidencia validada por el operador 3'),
-(14, 3,    '2026-04-04 10:00:00', 'Asignada',   'Incidencia asignada por el operador 3 al tecnico 6'),
+(14, 3,    '2026-04-04 10:00:00', 'Asignada',   'Incidencia asignada por el operador 3 aa los técnicos: 6,11'),
 (14, NULL, '2026-04-05 15:00:00', 'En proceso', 'Incidencia en proceso de reparacion'),
 (14, NULL, '2026-04-06 17:00:00', 'Resuelta',   'Incidencia resuelta. Trabajos realizados: lorem ipsum'),
 (14, NULL, '2026-04-07 09:00:00', 'Cerrada',    'Incidencia cerrada'),
 
 (15, NULL, '2026-04-10 08:00:00', 'Nueva',    'Incidencia registrada por el ciudadano 2'),
 (15, 3,    '2026-04-10 11:00:00', 'Validada', 'Incidencia validada por el operador 3'),
-(15, 3,    '2026-04-11 09:00:00', 'Asignada', 'Incidencia asignada por el operador 3 al tecnico 7'),
+(15, 3,    '2026-04-11 09:00:00', 'Asignada', 'Incidencia asignada por el operador 3 a los técnicos: 7'),
 
 (16, NULL, '2026-04-15 10:00:00', 'Nueva', 	    'Incidencia registrada por el ciudadano 1'),
 (16, 3,    '2026-04-15 12:00:00', 'Validada',   'Incidencia validada por el operador 3'),
-(16, 3,    '2026-04-16 09:00:00', 'Asignada',   'Incidencia asignada por el operador 3 al tecnico 4'),
+(16, 3,    '2026-04-16 09:00:00', 'Asignada',   'Incidencia asignada por el operador 3 a los técnicos: 4'),
 (16, NULL, '2026-04-17 14:00:00', 'En proceso', 'Incidencia en proceso de reparacion'),
 
-(17, NULL, '2026-04-20 09:00:00', 'Nueva',      'Incidencia registrada por el ciudadano 2'),
-(17, 3,    '2026-04-20 11:00:00', 'Validada',   'Incidencia validada por el operador 3'),
-(17, 3,    '2026-04-21 10:00:00', 'Asignada',   'Incidencia asignada por el operador 3 al tecnico 8'),
-(17, NULL, '2026-04-22 16:00:00', 'En proceso', 'Incidencia en proceso de reparacion'),
-(17, NULL, '2026-04-23 18:00:00', 'Resuelta',   'Incidencia resuelta. Trabajos realizados: lorem ipsum');
+(17, NULL, '2026-04-17 09:00:00', 'Nueva',      'Incidencia registrada por el ciudadano 2'),
+(17, 3,    '2026-04-17 11:00:00', 'Validada',   'Incidencia validada por el operador 3'),
+(17, 3,    '2026-04-18 10:00:00', 'Asignada',   'Incidencia asignada por el operador 3 a los técnicos: 8'),
+(17, NULL, '2026-04-29 16:00:00', 'En proceso', 'Incidencia en proceso de reparacion'),
+(17, NULL, '2026-04-20 18:00:00', 'Resuelta',   'Incidencia resuelta. Trabajos realizados: lorem ipsum');
 
 -- =====================================
 -- INSERTAR GRUPOS DE TECNICOS ASIGNADOS
@@ -208,7 +208,7 @@ INSERT INTO equipoTecnicos (idTecnico, idHistoria) VALUES
 (6, 45),
 (6, 46),
 (6, 47),
-(7, 48),
+(7, 50),
 (4, 53),
 (4, 54),
 (8, 57),

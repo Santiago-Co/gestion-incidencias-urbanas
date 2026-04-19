@@ -13,6 +13,7 @@ import incidencias.model.InformesIncidenciasRegistradasModel;
 import incidencias.model.InformesIncidenciasTecnicosModel;
 import incidencias.model.LogInModel;
 import incidencias.model.PlanificacionIncidenciasModel;
+import incidencias.model.ReabrirIncidenciaCiudadanoModel;
 import incidencias.model.RegistrarTrabajosTecnicoModel;
 import incidencias.model.ResolverIncidenciasModel;
 import incidencias.model.DTOs.UsuarioDTO;
@@ -29,6 +30,7 @@ import incidencias.ui.InformesIncidenciasRegistradasView;
 import incidencias.ui.InformesIncidenciasTecnicosView;
 import incidencias.ui.LogInView;
 import incidencias.ui.PlanificacionIncidenciasView;
+import incidencias.ui.ReabrirIncidenciaCiudadanoView;
 import incidencias.ui.RegistrarTrabajosTecnicoView;
 import incidencias.ui.ResolverIncidenciasView;
 import util.Util;
@@ -66,7 +68,8 @@ public class DashboardController {
         view.getBtnCrearIncidencia().addActionListener(e -> abrirCrearIncidencia());
         view.getBtnConsultarMisIncidencias().addActionListener(e -> abrirConsultarMisIncidencias());
         view.getBtnInformesIncidenciasTecnicos().addActionListener(e -> abrirInformesIncidenciasTecnicos());
-       
+        view.getBtnReabrirIncidenciaCiudadano().addActionListener(e -> abrirReabrirIncidenciaCiudadanoModel());
+
 
         // --- Botones de OPERADOR ---
         view.getBtnClasificarIncidencia().addActionListener(e -> abrirValidarIncidencias());
@@ -181,10 +184,19 @@ public class DashboardController {
         view.setVisible(false);
     }
     
+
     private void abrirCrearPresupuestos() {
     	CrearPresupuestosView histView = new CrearPresupuestosView();
     	CrearPresupuestosModel histModel = new CrearPresupuestosModel();
     	new CrearPresupuestosController(histView, histModel, this.view); 
     	view.setVisible(false);
     }
+
+    private void abrirReabrirIncidenciaCiudadanoModel() {
+    	ReabrirIncidenciaCiudadanoView histView = new ReabrirIncidenciaCiudadanoView();
+    	ReabrirIncidenciaCiudadanoModel histModel =  new ReabrirIncidenciaCiudadanoModel();
+    	new ReabrirIncidenciaCiudadanoController(histView, histModel, model.getUsuarioActual().getId(),this.view);
+    	view.setVisible(false);
+    }    
+
 }
