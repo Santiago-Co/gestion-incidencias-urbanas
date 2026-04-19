@@ -4,6 +4,7 @@ DELETE FROM tipoIncidenciaTecnico;
 DELETE FROM incidencia;
 DELETE FROM historia;
 DELETE FROM trabajo;
+DELETE FROM presupuesto;
 
 -- ============================
 -- INSERTAR PARAMETROS
@@ -31,7 +32,9 @@ INSERT INTO usuario (nombre, apellidos, dni, correo, rol) VALUES
 ('Maria',   'Garcia Marquez', '11223344H', 'tecnico7@email.com',  'Tecnico'),
 ('Jose',    'Suarez Suarez',  '11223344I', 'tecnico8@email.com',  'Tecnico'),
 ('Alba',    'Menendez Gil',   '11223344J', 'tecnico9@email.com',  'Tecnico'),
-('Antonio', 'Perez Perez',    '11223344K', 'tecnico10@email.com', 'Tecnico');
+('Antonio', 'Perez Perez',    '11223344K', 'tecnico10@email.com', 'Tecnico'),
+-- Tecnicos responsables
+('Pedro', 'Alvarez Suarez', '44332211A', 'tecnicoresp1@email.com', 'Tecnico responsable');
 
 -- =============================
 -- INSERTAR TIPOS DE INCIDENCIAS
@@ -58,7 +61,8 @@ INSERT INTO tipoIncidenciaTecnico (idTipo, idTecnico) VALUES
 (2, 10),
 (3, 11),
 (4, 12),
-(5, 13);
+(5, 13),
+(5, 14);
 
 -- ============================
 -- INSERTAR INCIDENCIAS
@@ -217,3 +221,12 @@ INSERT INTO equipoTecnicos (idTecnico, idHistoria) VALUES
 
 INSERT INTO trabajo (idIncidencia, fecha, descripcion) VALUES
 (8, '2026-01-13 14:00:00', 'lorem ipsum');
+
+-- ===============================
+-- INSERTAR PRESUPUESTOS
+-- ===============================
+
+INSERT INTO presupuesto (idTipoIncidencia, importe, concepto) 
+VALUES (5, 200.0, 'Señalización y calzada');
+UPDATE incidencia SET costeTotal = 150.0 WHERE id = 13;
+UPDATE incidencia SET costeTotal = 100.0 WHERE id = 17;

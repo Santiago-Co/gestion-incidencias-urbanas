@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS tipoIncidenciaTecnico;
 DROP TABLE IF EXISTS tipoIncidencia;
 DROP TABLE IF EXISTS usuario;
 DROP TABLE IF EXISTS parametros;
+DROP TABLE IF EXISTS presupuesto;
 
 CREATE TABLE parametros (
     clave TEXT PRIMARY KEY,
@@ -45,8 +46,8 @@ CREATE TABLE incidencia (
     horasReales INTEGER NULL,
     descripcionPreviaTrabajo TEXT NULL,
     descripcionFinalTrabajo TEXT NULL,
-    costeMateriales DECIMAL NULL,
-    costeTotal DECIMAL NULL,
+    costeMateriales DECIMAL(10, 2) NULL,
+    costeTotal DECIMAL(10, 2) NULL,
     CHECK (localizacion IN ('Centro', 'Norte', 'Sur', 'Este', 'Oeste', 'Parque Central', 'Zona Universitaria', 'Poligono Industrial', 'Estacion', 'Hospital')),
     FOREIGN KEY (tipo) REFERENCES tipoIncidencia(id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (idCiudadano) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE
@@ -78,4 +79,13 @@ CREATE TABLE trabajo (
 	fecha DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	descripcion TEXT NOT NULL,
 	FOREIGN KEY (idIncidencia) REFERENCES incidencia(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE presupuesto (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	idTipoIncidencia INTEGER NOT NULL,
+	importe DECIMAL(10, 2) NOT NULL,
+	concepto TEXT NOT NULL,
+	vigencia DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY (idTipoIncidencia) REFERENCES tipoIncidencia(id) ON DELETE CASCADE ON UPDATE CASCADE
 );

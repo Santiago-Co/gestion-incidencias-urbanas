@@ -1,5 +1,6 @@
 package util.swing;
 
+import java.awt.BorderLayout;
 import java.awt.Point;
 import java.awt.Window;
 import java.awt.event.MouseAdapter;
@@ -17,13 +18,17 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
+
 import org.apache.commons.beanutils.PropertyUtils;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
@@ -94,16 +99,43 @@ public class SwingUtil {
 	}
 	
 	public static String showInputMessage(JFrame window, String message) {
+	    JTextArea textArea = new JTextArea(10, 40);
+	    textArea.setLineWrap(true);
+	    textArea.setWrapStyleWord(true);
+	    
+	    JScrollPane scrollPane = new JScrollPane(textArea);
+
+	    JPanel panel = new JPanel(new BorderLayout(5, 5));
+	    panel.add(new JLabel(message), BorderLayout.NORTH);
+	    panel.add(scrollPane, BorderLayout.CENTER);
+
 	    String input;
 	    do {
-	        input = JOptionPane.showInputDialog(
+	        int result = JOptionPane.showConfirmDialog(
 	            window,
-	            message,
+	            panel,
 	            "Ingrese información",
+	            JOptionPane.OK_CANCEL_OPTION,
 	            JOptionPane.QUESTION_MESSAGE
 	        );
-	        if (input == null) return null; 
+
+	        if (result != JOptionPane.OK_OPTION) {
+	            return null; 
+	        }
+
+	        input = textArea.getText();
+
+	        if (input.isBlank()) {
+	            JOptionPane.showMessageDialog(
+	                window, 
+	                "El texto no puede estar vacío.", 
+	                "Entrada requerida", 
+	                JOptionPane.WARNING_MESSAGE
+	            );
+	        }
+	        
 	    } while (input.isBlank());
+
 	    return input;
 	}
 	

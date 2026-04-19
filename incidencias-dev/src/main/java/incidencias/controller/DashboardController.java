@@ -1,10 +1,12 @@
 package incidencias.controller;
 
 import incidencias.model.AsignacionIncidenciasModel;
+import incidencias.model.CerrarIncidenciasEspecialidadModel;
 import incidencias.model.ClasificarIncidenciasModel;
 import incidencias.model.ConsultaIncidenciasModel;
 import incidencias.model.CrearIncidenciaModel;
 import incidencias.model.DashboardModel;
+import incidencias.model.ExportarHistorialModel;
 import incidencias.model.HistorialIncidenciaModel;
 import incidencias.model.InformesIncidenciasRegistradasModel;
 import incidencias.model.InformesIncidenciasTecnicosModel;
@@ -14,10 +16,12 @@ import incidencias.model.RegistrarTrabajosTecnicoModel;
 import incidencias.model.ResolverIncidenciasModel;
 import incidencias.model.DTOs.UsuarioDTO;
 import incidencias.ui.AsignacionIncidenciasView;
+import incidencias.ui.CerrarIncidenciasEspecialidadView;
 import incidencias.ui.ClasificarIncidenciasView;
 import incidencias.ui.ConsultaIncidenciasView;
 import incidencias.ui.CrearIncidenciaView;
 import incidencias.ui.DashboardView;
+import incidencias.ui.ExportarHistorialView;
 import incidencias.ui.HistorialIncidenciaView;
 import incidencias.ui.InformesIncidenciasRegistradasView;
 import incidencias.ui.InformesIncidenciasTecnicosView;
@@ -64,11 +68,15 @@ public class DashboardController {
         // --- Botones de OPERADOR ---
         view.getBtnClasificarIncidencia().addActionListener(e -> abrirValidarIncidencias());
         view.getBtnAsignarIncidencia().addActionListener(e -> abrirAsignarIncidencia());
+        view.getBtnExportarHistorial().addActionListener(e -> abrirExportarHistorial());
         
         // --- Botones de TECNICO ---
         view.getBtnPlanificarIncidencia().addActionListener(e -> abrirPlanificarIncidencias());
         view.getBtnResolverIncidencia().addActionListener(e -> abrirResolverIncidencia());
         view.getBtnRegistrarTrabajosTecnico().addActionListener(e -> abrirRegistrarTrabajosTecnico());
+        
+        // --- Botones de TECNICO RESPONSABLE
+        view.getBtnCerrarIncidenciasEspecialidad().addActionListener(e -> abrirCerrarIncidenciasEspecialidad());
         
         // --- Botones de OPERADOR Y TECNICO ---
         view.getBtnHistorialIncidencia().addActionListener(e -> abrirHistorialIncidencia());
@@ -152,6 +160,20 @@ public class DashboardController {
     	RegistrarTrabajosTecnicoView histView = new RegistrarTrabajosTecnicoView();
     	RegistrarTrabajosTecnicoModel histModel = new RegistrarTrabajosTecnicoModel();
         new RegistrarTrabajosTecnicoController(histView, histModel, this.view, model.getUsuarioActual().getId());
+        view.setVisible(false);
+    }
+    
+    private void abrirCerrarIncidenciasEspecialidad() {
+    	CerrarIncidenciasEspecialidadView histView = new CerrarIncidenciasEspecialidadView();
+    	CerrarIncidenciasEspecialidadModel histModel = new CerrarIncidenciasEspecialidadModel();
+        new CerrarIncidenciasEspecialidadController(histView, histModel, this.view, model.getUsuarioActual().getId());
+        view.setVisible(false);
+    }
+    
+    private void abrirExportarHistorial() {
+    	ExportarHistorialView histView = new ExportarHistorialView();
+    	ExportarHistorialModel histModel = new ExportarHistorialModel();
+        new ExportarHistorialController(histView, histModel, this.view);
         view.setVisible(false);
     }
 }
