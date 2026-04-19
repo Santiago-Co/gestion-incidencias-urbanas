@@ -49,8 +49,9 @@ public class AsignacionIncidenciasView extends JFrame {
         
         tablaTecnicos = new JTable();
         StyleUtil.styleTable(tablaTecnicos);
+        tablaTecnicos.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         scrollTecnicos = new JScrollPane(tablaTecnicos);
-        scrollTecnicos.setPreferredSize(new Dimension(450, 300));
+        scrollTecnicos.setPreferredSize(new Dimension(630, 300));
         scrollTecnicos.setBorder(BorderFactory.createLineBorder(TABLE_BORDER, 2));
         
         btnAsignar = new JButton("Asignar");
