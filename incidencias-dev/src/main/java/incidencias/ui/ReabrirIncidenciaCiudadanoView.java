@@ -27,27 +27,9 @@ public class ReabrirIncidenciaCiudadanoView extends JFrame {
         initComponents();
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20));
         setLocationRelativeTo(null);
-        initModal();
+        
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     private void initComponents() {
         
         JLabel titleWin = new JLabel("Reabrir incidencias");
@@ -121,76 +103,7 @@ public class ReabrirIncidenciaCiudadanoView extends JFrame {
         StyleUtil.setupWindow(this, topPanel, mainPanel, false);
     }
 
-    private void initModal() {
-        
-        modalReabrir = new JDialog(this, "Reabrir incidencia", true);
-        modalReabrir.setUndecorated(true);
-        modalReabrir.setSize(520, 420);
-        modalReabrir.setShape(new RoundRectangle2D.Double(0, 0, 520, 420, 15, 15));
-        modalReabrir.setLocationRelativeTo(this);
-
-        JLabel titleModal = new JLabel("Reabrir incidencia");
-        StyleUtil.styleWindowTitle(titleModal);
-
-        btnCloseModal = new JButton();
-        StyleUtil.styleCloseButton(btnCloseModal);
-
-        JLabel lblHelp = new JLabel("Por favor, detalla el motivo por el que solicitas reabrir esta incidencia. El estado volverá a cambiar a 'Nueva'.");
-        StyleUtil.styleLabel(lblHelp, 14, false);
-
-        JLabel lblMotivo = new JLabel("Motivo de la reapertura *");
-        StyleUtil.styleLabel(lblMotivo, 14, true);
-
-        txtMotivo = new JTextArea();
-        JScrollPane scrollMotivo = new JScrollPane(txtMotivo);
-        StyleUtil.styleTextArea(txtMotivo, scrollMotivo, 440, 120);
-
-        btnConfirmarReapertura = new JButton("Confirmar");
-        StyleUtil.styleSecondaryButton(btnConfirmarReapertura);
-
-        btnCancelarReapertura = new JButton("Cancelar");
-        StyleUtil.styleSecondaryButton(btnCancelarReapertura);
-
-        JPanel topPanelModal = StyleUtil.createTopPanel(null, titleModal, btnCloseModal, 520);
-        SwingUtil.enableWindowDrag(modalReabrir, topPanelModal);
-
-        JButton[] btnsModal = {btnCancelarReapertura, btnConfirmarReapertura};
-        JPanel accionesPanelModal = StyleUtil.createActionsPanel(btnsModal);
-
-        JPanel mainPanelModal = StyleUtil.createMainPanel();
-
-        GridBagConstraints gbcHelp = new GridBagConstraints();
-        gbcHelp.gridx = 0; 
-        gbcHelp.gridy = 0;
-        gbcHelp.insets = new Insets(5, 5, 15, 5);
-        gbcHelp.fill = GridBagConstraints.HORIZONTAL;
-        mainPanelModal.add(lblHelp, gbcHelp);
-
-        GridBagConstraints gbcLbl = new GridBagConstraints();
-        gbcLbl.gridx = 0; 
-        gbcLbl.gridy = 1;
-        gbcLbl.insets = new Insets(5, 5, 5, 5);
-        gbcLbl.fill = GridBagConstraints.HORIZONTAL;
-        mainPanelModal.add(lblMotivo, gbcLbl);
-
-        GridBagConstraints gbcTxt = new GridBagConstraints();
-        gbcTxt.gridx = 0; 
-        gbcTxt.gridy = 2;
-        gbcTxt.insets = new Insets(5, 5, 20, 5);
-        gbcTxt.fill = GridBagConstraints.BOTH;
-        mainPanelModal.add(scrollMotivo, gbcTxt);
-
-        GridBagConstraints gbcAcc = new GridBagConstraints();
-        gbcAcc.gridx = 0; 
-        gbcAcc.gridy = 3;
-        gbcAcc.insets = new Insets(5, 5, 10, 5);
-        gbcAcc.fill = GridBagConstraints.HORIZONTAL;
-        mainPanelModal.add(accionesPanelModal, gbcAcc);
-
-        modalReabrir.getContentPane().setLayout(new BorderLayout());
-        modalReabrir.getContentPane().add(topPanelModal, BorderLayout.NORTH);
-        modalReabrir.getContentPane().add(mainPanelModal, BorderLayout.CENTER);
-    }
+    
 
     public JScrollPane getScrollTabla() { return this.scrollTabla; }
     public JTable getTablaIncidencias() { return this.tablaIncidencias; }

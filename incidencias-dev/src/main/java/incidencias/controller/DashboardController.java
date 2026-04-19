@@ -185,9 +185,5 @@ public class DashboardController {
     	ReabrirIncidenciaCiudadanoModel histModel =  new ReabrirIncidenciaCiudadanoModel();
     	new ReabrirIncidenciaCiudadanoController(histView, histModel, model.getUsuarioActual().getId(),this.view);
     	view.setVisible(false);
-    }
-    
-    
-    
-    
+    }    
 }
