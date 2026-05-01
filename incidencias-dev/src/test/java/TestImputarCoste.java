@@ -4,6 +4,8 @@ import incidencias.model.CerrarIncidenciasEspecialidadModel;
 import util.database.Database;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+
 
 public class TestImputarCoste {
 
@@ -28,7 +30,7 @@ public class TestImputarCoste {
             "VALUES ('Maria', 'Fernandez Gomez', '22222222B', 'operador@mail.com', 'Operador')",
             
             
-            // Tipologías
+            // Tipologias
             "INSERT INTO tipoIncidencia (id, nombre) VALUES (1, 'Alumbrado')",
             "INSERT INTO tipoIncidencia (id, nombre) VALUES (2, 'Limpieza')",
             "INSERT INTO tipoIncidencia (id, nombre) VALUES (3, 'Otro')",
@@ -37,23 +39,23 @@ public class TestImputarCoste {
             "INSERT INTO tipoIncidencia (id, nombre) VALUES (6, 'Señalizacion y calzada')",
             
             
-            // Presupuesto Activo para Alumbrado: 1000€ (Vigente en 2026)
+            // Presupuesto activo para Alumbrado: 1000€ (vigente en 2026)
             "INSERT INTO presupuesto (idTipoIncidencia, importe, concepto, vigencia) " +
             "VALUES (1, 1000.00, 'Fondo Alumbrado', '01/01/2026 - 31/12/2026')", 
             
-            // Presupuesto Activo para Otro: 2000€ (Vigente en 2026)
+            // Presupuesto activo para Otro: 2000€ (vigente en 2026)
             "INSERT INTO presupuesto (idTipoIncidencia, importe, concepto, vigencia) " +
             "VALUES (3, 2000.00, 'Fondo Otro', '01/01/2026 - 31/12/2026')",
             
-            // Presupuesto Activo para Zonas verdes: 500€ (Vigente en 2026)
+            // Presupuesto activo para Zonas verdes: 500€ (vigente en 2026)
             "INSERT INTO presupuesto (idTipoIncidencia, importe, concepto, vigencia) " +
             "VALUES (4, 500.00, 'Fondo Zonas verdes', '01/01/2026 - 31/12/2026')", 
             
-            // Presupuesto NO Activo para Mobiliario urbano: 1000€ (Vigente en 2025)
+            // Presupuesto NO activo para Mobiliario urbano: 1000€ (vigente en 2025)
             "INSERT INTO presupuesto (idTipoIncidencia, importe, concepto, vigencia) " +
             "VALUES (5, 1000.00, 'Fondo Mobiliario urbano', '01/01/2025 - 31/12/2025')",
             
-            // Presupuesto NO Activo para Señalizacion y calzada: 1000€ (Vigente en 2027)
+            // Presupuesto NO activo para Señalizacion y calzada: 1000€ (vigente en 2027)
             "INSERT INTO presupuesto (idTipoIncidencia, importe, concepto, vigencia) " +
             "VALUES (6, 1000.00, 'Fondo Señalizacion y calzada', '01/01/2027 - 31/12/2027')",
             
@@ -96,86 +98,194 @@ public class TestImputarCoste {
     }
 
     @Test
-    @DisplayName("CE Válidas: Imputar coste cierra incidencia si hay fondos y estado es válido")
+    @DisplayName("CE Validas: Imputar coste cierra incidencia si hay fondos y estado es valido")
     public void testImputarCosteExito() {
+    	
     	CerrarIncidenciasEspecialidadModel model = new CerrarIncidenciasEspecialidadModel();
 
-        // Ejecución (asumiendo que internamente el método lee la incidencia 100 y ve que pertenece al tipo 1)
-        // Nota: Adaptar si tu método recibe el ID de la incidencia en lugar del idTipo.
-        assertDoesNotThrow(() -> {
-            model.getPresupuestoRestante(1);
-        });
+    	assertAll(
+            () -> {
+            	// Ejecucion el metodo con condiciones validas (CEV7 - CEV11)
+                assertDoesNotThrow(() -> {
+                    model.getPresupuestoRestante(1);
+                });
+            },
+            
+            // Verificacion de que todo se actualizo correctamente (CEV12)
 
-        // Verificamos estado posterior (Dependerá de cómo guardes el consumo. 
-        // Si tienes un registro de consumo o actualizas el presupuesto restante:)
-        // Ejemplo asumiendo que la BD actualiza algún campo o retorna el valor restante:
-        double restante = model.getPresupuestoRestante(1);
-        assertEquals(800.00, restante, "El presupuesto debe haberse reducido en 200€");
+            () -> {
+                // Comprobacion de que el metodo devuelve el resultado correcto (CEI20)
+                double restante = model.getPresupuestoRestante(1);
+                assertEquals(800.00, restante, "El presupuesto debe haberse reducido en 200€");
+            },
+            
+            () -> {
+                // Comprobacion de que la BBDD fue actualizada (CEI21)
+                List<Object[]> bdEstado = db.executeQueryArray("SELECT * FROM presupuesto WHERE idTipoIncidencia = 1");
+                assertEquals(800.00, bdEstado.get(0)[2], "El presupuesto restante para Alumbrado debe ser 800€ en BBDD");
+            }
+        );
     }
     
     @Test
-    @DisplayName("Error al imputar si la tipología de incidencia no existe en el sistema")
+    @DisplayName("Error al imputar si la tipologia de incidencia no existe en el sistema")
     public void testImputarTipologiaInvalida() {
+    	
     	CerrarIncidenciasEspecialidadModel model = new CerrarIncidenciasEspecialidadModel();
         
-        assertThrows(ApplicationException.class,
-        		() -> {model.getPresupuestoRestante(10);}, // No hay tipologia con ID=10
-        		"Debe producirse una excepción"
+    	// Ejecucion con tipologia invalida (CEI14 + CEV13)
+
+    	assertAll(
+            () -> {
+            	// Comprobacion de que se lanza la excepcion esperada (CEI22)
+                assertThrows(ApplicationException.class,
+                		() -> {model.getPresupuestoRestante(10);}, // No hay tipologia con ID=10
+                		"Debe producirse una excepcion"
+                );
+            },
+            
+            () -> {
+                // Comprobamos que la BBDD NO fue alterada (CEI23)
+                List<Object[]> bdEstado = db.executeQueryArray("SELECT * FROM presupuesto");
+                assertAll("Verificacion de insercion en BBDD",
+                    () -> assertEquals(800.00,  bdEstado.get(0)[2], "El presupuesto restante para Alumbrado debe ser 800€ en BBDD"),
+                    () -> assertEquals(2000.00, bdEstado.get(1)[2], "El presupuesto restante para Otro debe ser 2000€ en BBDD"),
+                    () -> assertEquals(500.00,  bdEstado.get(2)[2], "El presupuesto restante para Zonas verdes debe ser 500€ en BBDD"),
+                    () -> assertEquals(1000.00, bdEstado.get(3)[2], "El presupuesto restante para Mobiliario urbano debe ser 1000€ en BBDD"),
+                    () -> assertEquals(1000.00, bdEstado.get(4)[2], "El presupuesto restante para Señalizacion y calzada debe ser 1000€ en BBDD")
+                );
+            }
         );
     }
     
     @Test
-    @DisplayName("Error al imputar si la incidencia no está cerrada")
+    @DisplayName("Error al imputar si la incidencia no esta cerrada")
     public void testImputarIncidenciaAbierta() {
+    	
     	CerrarIncidenciasEspecialidadModel model = new CerrarIncidenciasEspecialidadModel();
         
-        assertThrows(ApplicationException.class,
-        		() -> {model.getPresupuestoRestante(3);}, // La incidencia de tipo Otro (103) no esta cerrada
-        		"Debe producirse una excepción"
+    	// Ejecucion con incidencia abierta (CEI15 + CEV13)
+    	
+    	assertAll(
+            () -> {
+            	// Comprobacion de que se lanza la excepcion esperada (CEI22)
+                assertThrows(ApplicationException.class,
+                		() -> {model.getPresupuestoRestante(3);}, // La incidencia de tipo Otro (103) no esta cerrada
+                		"Debe producirse una excepcion"
+                );
+            },
+            
+            () -> {
+                // Comprobamos que la BBDD NO fue alterada (CEI23)
+                List<Object[]> bdEstado = db.executeQueryArray("SELECT * FROM presupuesto WHERE idTipoIncidencia = 3");
+                assertEquals(2000.00, bdEstado.get(0)[2], "El presupuesto restante para Otro debe ser 2000€ en BBDD");
+            }
         );
     }
 
     @Test
-    @DisplayName("Error al imputar si no existe presupuesto para la tipología")
+    @DisplayName("Error al imputar si no existe presupuesto para la tipologia")
     public void testImputarSinPresupuesto() {
+    	
     	CerrarIncidenciasEspecialidadModel model = new CerrarIncidenciasEspecialidadModel();
         
-        assertThrows(ApplicationException.class,
-        		() -> {model.getPresupuestoRestante(2);}, // Limpieza no tiene inserción en tabla presupuesto
-        		"Debe producirse una excepción"
+    	// Ejecucion sin presupuesto valido (CEI16 + CEV13)
+    	
+    	assertAll(
+            () -> {
+            	// Comprobacion de que se lanza la excepcion esperada (CEI22)
+                assertThrows(ApplicationException.class,
+                		() -> {model.getPresupuestoRestante(2);}, // Limpieza no tiene inserción en tabla presupuesto
+                		"Debe producirse una excepcion"
+                );
+            },
+            
+            () -> {
+                // Comprobamos que la BBDD NO fue alterada (CEI23)
+                List<Object[]> bdEstado = db.executeQueryArray("SELECT * FROM presupuesto");
+                assertAll("Verificacion de insercion en BBDD",
+                    () -> assertEquals(800.00,  bdEstado.get(0)[2], "El presupuesto restante para Alumbrado debe ser 800€ en BBDD"),
+                    () -> assertEquals(2000.00, bdEstado.get(1)[2], "El presupuesto restante para Otro debe ser 2000€ en BBDD"),
+                    () -> assertEquals(500.00,  bdEstado.get(2)[2], "El presupuesto restante para Zonas verdes debe ser 500€ en BBDD"),
+                    () -> assertEquals(1000.00, bdEstado.get(3)[2], "El presupuesto restante para Mobiliario urbano debe ser 1000€ en BBDD"),
+                    () -> assertEquals(1000.00, bdEstado.get(4)[2], "El presupuesto restante para Señalizacion y calzada debe ser 1000€ en BBDD")
+                );
+            }
         );
     }
     
     @Test
     @DisplayName("Error si el periodo de vigencia del presupuesto no ha comenzado")
     public void testImputarPresupuestoNoActivo1() {
+    	
     	CerrarIncidenciasEspecialidadModel model = new CerrarIncidenciasEspecialidadModel();
 
-        assertThrows(ApplicationException.class,
-        		() -> {model.getPresupuestoRestante(5);}, // El periodo de vigencia era 2025
-        		"Debe producirse una excepción"
+    	// Ejecucion con periodo de vigencia expirado (CEI17 + CEV13)
+    	
+    	assertAll(
+            () -> {
+            	// Comprobacion de que se lanza la excepcion esperada (CEI22)
+                assertThrows(ApplicationException.class,
+                		() -> {model.getPresupuestoRestante(5);}, // El periodo de vigencia era 2025
+                		"Debe producirse una excepcion"
+                );
+            },
+            
+            () -> {
+                // Comprobamos que la BBDD NO fue alterada (CEI23)
+                List<Object[]> bdEstado = db.executeQueryArray("SELECT * FROM presupuesto WHERE idTipoIncidencia = 5");
+                assertEquals(1000.00, bdEstado.get(0)[2], "El presupuesto restante para Mobiliario urbano debe ser 1000€ en BBDD");
+            }
         );
     }
     
     @Test
     @DisplayName("Error si el periodo de vigencia del presupuesto ya ha finalizado")
     public void testImputarPresupuestoNoActivo2() {
+    	
     	CerrarIncidenciasEspecialidadModel model = new CerrarIncidenciasEspecialidadModel();
 
-        assertThrows(ApplicationException.class,
-        		() -> {model.getPresupuestoRestante(6);}, // El periodo de vigencia sera 2027
-        		"Debe producirse una excepción"
+    	// Ejecucion con periodo de vigencia aun no alcanzado (CEI18 + CEV13)
+    	
+    	assertAll(
+            () -> {
+            	// Comprobacion de que se lanza la excepcion esperada (CEI22)
+                assertThrows(ApplicationException.class,
+                		() -> {model.getPresupuestoRestante(6);}, // El periodo de vigencia sera 2027
+                		"Debe producirse una excepcion"
+                );
+            },
+            
+            () -> {
+                // Comprobamos que la BBDD NO fue alterada (CEI23)
+                List<Object[]> bdEstado = db.executeQueryArray("SELECT * FROM presupuesto WHERE idTipoIncidencia = 6");
+                assertEquals(1000.00, bdEstado.get(0)[2], "El presupuesto restante para Señalizacion y calzada debe ser 1000€ en BBDD");
+            }
         );
     }
 
     @Test
     @DisplayName("Error si el coste supera los fondos disponibles")
     public void testImputarFondosInsuficientes() {
+    	
     	CerrarIncidenciasEspecialidadModel model = new CerrarIncidenciasEspecialidadModel();
 
-        assertThrows(ApplicationException.class,
-        		() -> {model.getPresupuestoRestante(4);}, // El coste es 1500€, el presupuesto es 500€
-        		"Debe producirse una excepción"
+    	// Ejecucion con fondos insuficientes (CEI19 + CEV13)
+    	
+    	assertAll(
+            () -> {
+            	// Comprobacion de que se lanza la excepcion esperada (CEI22)
+                assertThrows(ApplicationException.class,
+                		() -> {model.getPresupuestoRestante(4);}, // El coste es 1500€, el presupuesto es 500€
+                		"Debe producirse una excepcion"
+                );
+            },
+            
+            () -> {
+                // Comprobamos que la BBDD NO fue alterada (CEI23)
+                List<Object[]> bdEstado = db.executeQueryArray("SELECT * FROM presupuesto WHERE idTipoIncidencia = 4");
+                assertEquals(500.00, bdEstado.get(0)[2], "El presupuesto restante para Zonas verdes debe ser 500€ en BBDD");
+            }
         );
     }
 }
