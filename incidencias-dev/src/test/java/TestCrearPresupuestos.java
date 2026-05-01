@@ -49,7 +49,7 @@ public class TestCrearPresupuestos {
     }
 
     @ParameterizedTest
-    @CsvSource({
+    @CsvSource(value = {
         // CEI1: Tipo de incidencia no existe (99)
         "99, 1000.0, 'Concepto válido', '01/06/2026 - 31/12/2026', 'El tipo de incidencia no existe'",
         
@@ -59,14 +59,14 @@ public class TestCrearPresupuestos {
         
         // CEI4 y CEI5: Concepto vacio o nulo
         "1, 1000.0, '',   '01/06/2026 - 31/12/2026', 'El concepto es obligatorio'",
-        "1, 1000.0, null, '01/06/2026 - 31/12/2026', 'El concepto es obligatorio'",
+        "1, 1000.0, NULL, '01/06/2026 - 31/12/2026', 'El concepto es obligatorio'",
         
         // CEI6 - CEI9: Logica de fechas invalida
         "1, 1000.0, 'Concepto válido', '01/06/2026 - 31/12/2026', 'El periodo de vigencia no tiene el formato adecuado'",
-        "1, 1000.0, 'Concepto válido', null,                      'El periodo de vigencia no puede ser nulo'",
+        "1, 1000.0, 'Concepto válido', NULL,                      'El periodo de vigencia no puede ser nulo'",
         "1, 1000.0, 'Concepto válido', '01/07/2026 - 30/06/2026', 'La fecha de inicio debe ser anterior a la de fin'",
         "1, 1000.0, 'Concepto válido', '01/06/2025 - 31/12/2026', 'La fecha de inicio debe ser posterior a la fecha actual'"
-    })
+    }, nullValues = "NULL")
     @DisplayName("CE Invalidas: Se producen excepciones y no se actualiza la BBDD")
     public void testRegistrarPresupuestosInvalidos(int idTipo, double importe, String concepto, String vigencia, String mensajeEsperado) {
     	
