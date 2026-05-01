@@ -116,13 +116,13 @@ public class TestImputarCoste {
             () -> {
                 // Comprobacion de que el metodo devuelve el resultado correcto (CEI20)
                 double restante = model.getPresupuestoRestante(1);
-                assertEquals(800.00, restante, "El presupuesto debe haberse reducido en 200€");
+                assertEquals(800, restante, "El presupuesto debe haberse reducido en 200€");
             },
             
             () -> {
                 // Comprobacion de que la BBDD fue actualizada (CEI21)
                 List<Object[]> bdEstado = db.executeQueryArray("SELECT * FROM presupuesto WHERE idTipoIncidencia = 1");
-                assertEquals(800.00, bdEstado.get(0)[2], "El presupuesto restante para Alumbrado debe ser 800€ en BBDD");
+                assertEquals(800, bdEstado.get(0)[2], "El presupuesto restante para Alumbrado debe ser 800€ en BBDD");
             }
         );
     }
@@ -148,11 +148,11 @@ public class TestImputarCoste {
                 // Comprobamos que la BBDD NO fue alterada (CEI23)
                 List<Object[]> bdEstado = db.executeQueryArray("SELECT * FROM presupuesto");
                 assertAll("Verificacion de insercion en BBDD",
-                    () -> assertEquals(800.00,  bdEstado.get(0)[2], "El presupuesto restante para Alumbrado debe ser 800€ en BBDD"),
-                    () -> assertEquals(2000.00, bdEstado.get(1)[2], "El presupuesto restante para Otro debe ser 2000€ en BBDD"),
-                    () -> assertEquals(500.00,  bdEstado.get(2)[2], "El presupuesto restante para Zonas verdes debe ser 500€ en BBDD"),
-                    () -> assertEquals(1000.00, bdEstado.get(3)[2], "El presupuesto restante para Mobiliario urbano debe ser 1000€ en BBDD"),
-                    () -> assertEquals(1000.00, bdEstado.get(4)[2], "El presupuesto restante para Señalizacion y calzada debe ser 1000€ en BBDD")
+                    () -> assertEquals(800,  bdEstado.get(0)[2], "El presupuesto restante para Alumbrado debe ser 800€ en BBDD"),
+                    () -> assertEquals(2000, bdEstado.get(1)[2], "El presupuesto restante para Otro debe ser 2000€ en BBDD"),
+                    () -> assertEquals(500,  bdEstado.get(2)[2], "El presupuesto restante para Zonas verdes debe ser 500€ en BBDD"),
+                    () -> assertEquals(1000, bdEstado.get(3)[2], "El presupuesto restante para Mobiliario urbano debe ser 1000€ en BBDD"),
+                    () -> assertEquals(1000, bdEstado.get(4)[2], "El presupuesto restante para Señalizacion y calzada debe ser 1000€ en BBDD")
                 );
             }
         );
@@ -178,7 +178,7 @@ public class TestImputarCoste {
             () -> {
                 // Comprobamos que la BBDD NO fue alterada (CEI23)
                 List<Object[]> bdEstado = db.executeQueryArray("SELECT * FROM presupuesto WHERE idTipoIncidencia = 3");
-                assertEquals(2000.00, bdEstado.get(0)[2], "El presupuesto restante para Otro debe ser 2000€ en BBDD");
+                assertEquals(2000, bdEstado.get(0)[2], "El presupuesto restante para Otro debe ser 2000€ en BBDD");
             }
         );
     }
@@ -204,11 +204,11 @@ public class TestImputarCoste {
                 // Comprobamos que la BBDD NO fue alterada (CEI23)
                 List<Object[]> bdEstado = db.executeQueryArray("SELECT * FROM presupuesto");
                 assertAll("Verificacion de insercion en BBDD",
-                    () -> assertEquals(800.00,  bdEstado.get(0)[2], "El presupuesto restante para Alumbrado debe ser 800€ en BBDD"),
-                    () -> assertEquals(2000.00, bdEstado.get(1)[2], "El presupuesto restante para Otro debe ser 2000€ en BBDD"),
-                    () -> assertEquals(500.00,  bdEstado.get(2)[2], "El presupuesto restante para Zonas verdes debe ser 500€ en BBDD"),
-                    () -> assertEquals(1000.00, bdEstado.get(3)[2], "El presupuesto restante para Mobiliario urbano debe ser 1000€ en BBDD"),
-                    () -> assertEquals(1000.00, bdEstado.get(4)[2], "El presupuesto restante para Señalizacion y calzada debe ser 1000€ en BBDD")
+                    () -> assertEquals(800,  bdEstado.get(0)[2], "El presupuesto restante para Alumbrado debe ser 800€ en BBDD"),
+                    () -> assertEquals(2000, bdEstado.get(1)[2], "El presupuesto restante para Otro debe ser 2000€ en BBDD"),
+                    () -> assertEquals(500,  bdEstado.get(2)[2], "El presupuesto restante para Zonas verdes debe ser 500€ en BBDD"),
+                    () -> assertEquals(1000, bdEstado.get(3)[2], "El presupuesto restante para Mobiliario urbano debe ser 1000€ en BBDD"),
+                    () -> assertEquals(1000, bdEstado.get(4)[2], "El presupuesto restante para Señalizacion y calzada debe ser 1000€ en BBDD")
                 );
             }
         );
@@ -234,7 +234,7 @@ public class TestImputarCoste {
             () -> {
                 // Comprobamos que la BBDD NO fue alterada (CEI23)
                 List<Object[]> bdEstado = db.executeQueryArray("SELECT * FROM presupuesto WHERE idTipoIncidencia = 5");
-                assertEquals(1000.00, bdEstado.get(0)[2], "El presupuesto restante para Mobiliario urbano debe ser 1000€ en BBDD");
+                assertEquals(1000, bdEstado.get(0)[2], "El presupuesto restante para Mobiliario urbano debe ser 1000€ en BBDD");
             }
         );
     }
@@ -259,7 +259,7 @@ public class TestImputarCoste {
             () -> {
                 // Comprobamos que la BBDD NO fue alterada (CEI23)
                 List<Object[]> bdEstado = db.executeQueryArray("SELECT * FROM presupuesto WHERE idTipoIncidencia = 6");
-                assertEquals(1000.00, bdEstado.get(0)[2], "El presupuesto restante para Señalizacion y calzada debe ser 1000€ en BBDD");
+                assertEquals(1000, bdEstado.get(0)[2], "El presupuesto restante para Señalizacion y calzada debe ser 1000€ en BBDD");
             }
         );
     }
@@ -284,7 +284,7 @@ public class TestImputarCoste {
             () -> {
                 // Comprobamos que la BBDD NO fue alterada (CEI23)
                 List<Object[]> bdEstado = db.executeQueryArray("SELECT * FROM presupuesto WHERE idTipoIncidencia = 4");
-                assertEquals(500.00, bdEstado.get(0)[2], "El presupuesto restante para Zonas verdes debe ser 500€ en BBDD");
+                assertEquals(500, bdEstado.get(0)[2], "El presupuesto restante para Zonas verdes debe ser 500€ en BBDD");
             }
         );
     }
